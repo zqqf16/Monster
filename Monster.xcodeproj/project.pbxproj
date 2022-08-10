@@ -1,0 +1,581 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
+		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
+		F4FFF28A28A38361003B75F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF28928A38361003B75F9 /* Assets.xcassets */; };
+		F4FFF28D28A38361003B75F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF28C28A38361003B75F9 /* Preview Assets.xcassets */; };
+		F4FFF29828A38361003B75F9 /* MonsterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF29728A38361003B75F9 /* MonsterTests.swift */; };
+		F4FFF2A228A38361003B75F9 /* MonsterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */; };
+		F4FFF2A428A38361003B75F9 /* MonsterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F4FFF29428A38361003B75F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4FFF27A28A38360003B75F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4FFF28128A38360003B75F9;
+			remoteInfo = Monster;
+		};
+		F4FFF29E28A38361003B75F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4FFF27A28A38360003B75F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4FFF28128A38360003B75F9;
+			remoteInfo = Monster;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
+		F4FFF28728A38360003B75F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F4FFF28928A38361003B75F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F4FFF28C28A38361003B75F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F4FFF28E28A38361003B75F9 /* Monster.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Monster.entitlements; sourceTree = "<group>"; };
+		F4FFF29328A38361003B75F9 /* MonsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4FFF29728A38361003B75F9 /* MonsterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterTests.swift; sourceTree = "<group>"; };
+		F4FFF29D28A38361003B75F9 /* MonsterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonsterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterUITests.swift; sourceTree = "<group>"; };
+		F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F4FFF27F28A38360003B75F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FFF29028A38361003B75F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FFF29A28A38361003B75F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F4FFF27928A38360003B75F9 = {
+			isa = PBXGroup;
+			children = (
+				F4FFF28428A38360003B75F9 /* Monster */,
+				F4FFF29628A38361003B75F9 /* MonsterTests */,
+				F4FFF2A028A38361003B75F9 /* MonsterUITests */,
+				F4FFF28328A38360003B75F9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F4FFF28328A38360003B75F9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF28228A38360003B75F9 /* Monster.app */,
+				F4FFF29328A38361003B75F9 /* MonsterTests.xctest */,
+				F4FFF29D28A38361003B75F9 /* MonsterUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F4FFF28428A38360003B75F9 /* Monster */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF28528A38360003B75F9 /* MonsterApp.swift */,
+				F4FFF28728A38360003B75F9 /* ContentView.swift */,
+				F4FFF28928A38361003B75F9 /* Assets.xcassets */,
+				F4FFF28E28A38361003B75F9 /* Monster.entitlements */,
+				F4FFF28B28A38361003B75F9 /* Preview Content */,
+			);
+			path = Monster;
+			sourceTree = "<group>";
+		};
+		F4FFF28B28A38361003B75F9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF28C28A38361003B75F9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F4FFF29628A38361003B75F9 /* MonsterTests */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF29728A38361003B75F9 /* MonsterTests.swift */,
+			);
+			path = MonsterTests;
+			sourceTree = "<group>";
+		};
+		F4FFF2A028A38361003B75F9 /* MonsterUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */,
+				F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */,
+			);
+			path = MonsterUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F4FFF28128A38360003B75F9 /* Monster */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4FFF2A728A38361003B75F9 /* Build configuration list for PBXNativeTarget "Monster" */;
+			buildPhases = (
+				F4FFF27E28A38360003B75F9 /* Sources */,
+				F4FFF27F28A38360003B75F9 /* Frameworks */,
+				F4FFF28028A38360003B75F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Monster;
+			productName = Monster;
+			productReference = F4FFF28228A38360003B75F9 /* Monster.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F4FFF29228A38361003B75F9 /* MonsterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4FFF2AA28A38361003B75F9 /* Build configuration list for PBXNativeTarget "MonsterTests" */;
+			buildPhases = (
+				F4FFF28F28A38361003B75F9 /* Sources */,
+				F4FFF29028A38361003B75F9 /* Frameworks */,
+				F4FFF29128A38361003B75F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4FFF29528A38361003B75F9 /* PBXTargetDependency */,
+			);
+			name = MonsterTests;
+			productName = MonsterTests;
+			productReference = F4FFF29328A38361003B75F9 /* MonsterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F4FFF29C28A38361003B75F9 /* MonsterUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4FFF2AD28A38361003B75F9 /* Build configuration list for PBXNativeTarget "MonsterUITests" */;
+			buildPhases = (
+				F4FFF29928A38361003B75F9 /* Sources */,
+				F4FFF29A28A38361003B75F9 /* Frameworks */,
+				F4FFF29B28A38361003B75F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4FFF29F28A38361003B75F9 /* PBXTargetDependency */,
+			);
+			name = MonsterUITests;
+			productName = MonsterUITests;
+			productReference = F4FFF29D28A38361003B75F9 /* MonsterUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F4FFF27A28A38360003B75F9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					F4FFF28128A38360003B75F9 = {
+						CreatedOnToolsVersion = 14.0;
+					};
+					F4FFF29228A38361003B75F9 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = F4FFF28128A38360003B75F9;
+					};
+					F4FFF29C28A38361003B75F9 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = F4FFF28128A38360003B75F9;
+					};
+				};
+			};
+			buildConfigurationList = F4FFF27D28A38360003B75F9 /* Build configuration list for PBXProject "Monster" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F4FFF27928A38360003B75F9;
+			productRefGroup = F4FFF28328A38360003B75F9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F4FFF28128A38360003B75F9 /* Monster */,
+				F4FFF29228A38361003B75F9 /* MonsterTests */,
+				F4FFF29C28A38361003B75F9 /* MonsterUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F4FFF28028A38360003B75F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4FFF28D28A38361003B75F9 /* Preview Assets.xcassets in Resources */,
+				F4FFF28A28A38361003B75F9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FFF29128A38361003B75F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FFF29B28A38361003B75F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F4FFF27E28A38360003B75F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
+				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FFF28F28A38361003B75F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4FFF29828A38361003B75F9 /* MonsterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4FFF29928A38361003B75F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4FFF2A228A38361003B75F9 /* MonsterUITests.swift in Sources */,
+				F4FFF2A428A38361003B75F9 /* MonsterUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F4FFF29528A38361003B75F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4FFF28128A38360003B75F9 /* Monster */;
+			targetProxy = F4FFF29428A38361003B75F9 /* PBXContainerItemProxy */;
+		};
+		F4FFF29F28A38361003B75F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4FFF28128A38360003B75F9 /* Monster */;
+			targetProxy = F4FFF29E28A38361003B75F9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F4FFF2A528A38361003B75F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F4FFF2A628A38361003B75F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		F4FFF2A828A38361003B75F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Monster/Preview Content\"";
+				DEVELOPMENT_TEAM = BPL95996PK;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = im.zorro.Monster;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F4FFF2A928A38361003B75F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Monster/Preview Content\"";
+				DEVELOPMENT_TEAM = BPL95996PK;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = im.zorro.Monster;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		F4FFF2AB28A38361003B75F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPL95996PK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = im.zorro.MonsterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Monster.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Monster";
+			};
+			name = Debug;
+		};
+		F4FFF2AC28A38361003B75F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPL95996PK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = im.zorro.MonsterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Monster.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Monster";
+			};
+			name = Release;
+		};
+		F4FFF2AE28A38361003B75F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPL95996PK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = im.zorro.MonsterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Monster;
+			};
+			name = Debug;
+		};
+		F4FFF2AF28A38361003B75F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BPL95996PK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = im.zorro.MonsterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Monster;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F4FFF27D28A38360003B75F9 /* Build configuration list for PBXProject "Monster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4FFF2A528A38361003B75F9 /* Debug */,
+				F4FFF2A628A38361003B75F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4FFF2A728A38361003B75F9 /* Build configuration list for PBXNativeTarget "Monster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4FFF2A828A38361003B75F9 /* Debug */,
+				F4FFF2A928A38361003B75F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4FFF2AA28A38361003B75F9 /* Build configuration list for PBXNativeTarget "MonsterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4FFF2AB28A38361003B75F9 /* Debug */,
+				F4FFF2AC28A38361003B75F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4FFF2AD28A38361003B75F9 /* Build configuration list for PBXNativeTarget "MonsterUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4FFF2AE28A38361003B75F9 /* Debug */,
+				F4FFF2AF28A38361003B75F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F4FFF27A28A38360003B75F9 /* Project object */;
+}
