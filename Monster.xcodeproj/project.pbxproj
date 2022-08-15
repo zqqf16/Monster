@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */; };
+		F4D5984228A9EDF300F9958B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5984128A9EDF300F9958B /* Store.swift */; };
+		F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
 		F4FFF28A28A38361003B75F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF28928A38361003B75F9 /* Assets.xcassets */; };
@@ -14,6 +17,9 @@
 		F4FFF29828A38361003B75F9 /* MonsterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF29728A38361003B75F9 /* MonsterTests.swift */; };
 		F4FFF2A228A38361003B75F9 /* MonsterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */; };
 		F4FFF2A428A38361003B75F9 /* MonsterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */; };
+		F4FFF2B228A39B4F003B75F9 /* VirutalMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B128A39B4F003B75F9 /* VirutalMachine.swift */; };
+		F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */; };
+		F4FFF2B828A3F3C6003B75F9 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
+		F4D5984128A9EDF300F9958B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
 		F4FFF28728A38360003B75F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +54,9 @@
 		F4FFF29D28A38361003B75F9 /* MonsterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonsterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterUITests.swift; sourceTree = "<group>"; };
 		F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F4FFF2B128A39B4F003B75F9 /* VirutalMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirutalMachine.swift; sourceTree = "<group>"; };
+		F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
+		F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +84,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F4D5984028A9EDD100F9958B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF28728A38360003B75F9 /* ContentView.swift */,
+				F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */,
+				F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */,
+				F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */,
+				F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F4FFF27928A38360003B75F9 = {
 			isa = PBXGroup;
 			children = (
@@ -95,8 +119,9 @@
 		F4FFF28428A38360003B75F9 /* Monster */ = {
 			isa = PBXGroup;
 			children = (
+				F4FFF2B028A39B1F003B75F9 /* Model */,
+				F4D5984028A9EDD100F9958B /* View */,
 				F4FFF28528A38360003B75F9 /* MonsterApp.swift */,
-				F4FFF28728A38360003B75F9 /* ContentView.swift */,
 				F4FFF28928A38361003B75F9 /* Assets.xcassets */,
 				F4FFF28E28A38361003B75F9 /* Monster.entitlements */,
 				F4FFF28B28A38361003B75F9 /* Preview Content */,
@@ -127,6 +152,15 @@
 				F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */,
 			);
 			path = MonsterUITests;
+			sourceTree = "<group>";
+		};
+		F4FFF2B028A39B1F003B75F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF2B128A39B4F003B75F9 /* VirutalMachine.swift */,
+				F4D5984128A9EDF300F9958B /* Store.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,7 +294,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
+				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
+				F4FFF2B228A39B4F003B75F9 /* VirutalMachine.swift in Sources */,
 				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
+				F4FFF2B828A3F3C6003B75F9 /* Sidebar.swift in Sources */,
+				F4D5984228A9EDF300F9958B /* Store.swift in Sources */,
+				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
+				F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
