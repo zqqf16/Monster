@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct VirtualMachineView: View {
-    @EnvironmentObject private var store: Store
-
+    var vm: VirtualMachine
+    
     var body: some View {
-        Text("Run \(store.selectedVM!.name)")
+        Text("Run \(vm.name)")
             .toolbar {
                 Toolbar()
             }
             .presentedWindowToolbarStyle(.unifiedCompact)
-            .navigationTitle(store.selectedVM!.name)
+            .navigationTitle(vm.name)
     }
 }
 
@@ -56,6 +56,6 @@ private struct Toolbar: ToolbarContent {
 
 struct VirtualMachineView_Previews: PreviewProvider {
     static var previews: some View {
-        VirtualMachineView()
+        VirtualMachineView(vm: VirtualMachine(name: "Demo", os: .macOS, memory: 4, disk: 40, cpu: 3))
     }
 }

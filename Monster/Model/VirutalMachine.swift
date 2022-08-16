@@ -8,8 +8,8 @@
 import Foundation
 import AppKit
 
-class VirtualMachine: Identifiable, Hashable, ObservableObject {
-    enum OS: Int, CaseIterable, Identifiable {
+class VirtualMachine: ObservableObject, Identifiable, Hashable, Codable {
+    enum OS: Int, CaseIterable, Identifiable, Codable {
         var id: Self { self }
         
         case macOS
@@ -63,5 +63,37 @@ class VirtualMachine: Identifiable, Hashable, ObservableObject {
         self.cpu = cpu
         self.iso = iso
         self.path = path
+    }
+    
+    enum CodingKeys: CodingKey {
+        case name
+        case os
+        case memory
+        case disk
+        case cpu
+        case iso
+        case path
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        os = try container.decode(OS.self, forKey: .os)
+        memory = try container.decode(Int.self, forKey: .memory)
+        disk = try container.decode(Int.self, forKey: .disk)
+        cpu = try container.decode(Int.self, forKey: .cpu)
+        iso = try container.decode(String.self, forKey: .iso)
+        path = try container.decode(String.self, forKey: .path)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(os, forKey: .os)
+        try container.encode(memory, forKey: .memory)
+        try container.encode(disk, forKey: .disk)
+        try container.encode(cpu, forKey: .cpu)
+        try container.encode(iso, forKey: .iso)
+        try container.encode(path, forKey: .path)
     }
 }

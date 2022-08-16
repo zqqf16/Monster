@@ -86,7 +86,7 @@ private struct Toolbar: ToolbarContent {
         ToolbarItemGroup(placement: .status) {
             Button {
                 if let selectedVM = store.selectedVM {
-                    openWindow(value: selectedVM.id.uuidString)
+                    openWindow(value: selectedVM)
                 }
             } label: {
                 Label("Run", systemImage: "play.fill")

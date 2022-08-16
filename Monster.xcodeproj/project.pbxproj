@@ -41,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
+		F4D3C45728AB55FE008D49FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F4D5984128A9EDF300F9958B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +120,7 @@
 		F4FFF28428A38360003B75F9 /* Monster */ = {
 			isa = PBXGroup;
 			children = (
+				F4D3C45728AB55FE008D49FC /* Info.plist */,
 				F4FFF2B028A39B1F003B75F9 /* Model */,
 				F4D5984028A9EDD100F9958B /* View */,
 				F4FFF28528A38360003B75F9 /* MonsterApp.swift */,
@@ -464,6 +466,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Monster/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -491,6 +494,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Monster/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
