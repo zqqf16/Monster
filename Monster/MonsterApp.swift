@@ -8,15 +8,19 @@
 import SwiftUI
 import AppKit
 
+
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // disable tabbing
         NSWindow.allowsAutomaticWindowTabbing = false
-        createStatusItem()
-    }
         
+        createStatusItem()
+        
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
     private func createStatusItem() {
         // waitting for MenuBarExtra ...
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -28,18 +32,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func showWindow() {
         debugPrint("show window")
-        if !NSApp.windows.contains(where: { window in
-            /*
-             ▿ 3 elements
-               - 0 : <NSStatusBarWindow: 0x156686b50>
-               ▿ 1 : <SwiftUI.AppKitWindow: 0x156747450>
-               - 2 : <NSMenuWindowManagerWindow: 0x15666dd90>
-             */
-            String(describing: type(of: window)) == "AppKitWindow"
-        }) {
+        if !NSApp.windows.hasSwiftUIWindow {
             debugPrint("Create a new window")
             NSWorkspace.shared.open(URL(string: "monster://main")!)
         }
+        
         NSApp.activate(ignoringOtherApps: true)
     }
 }
@@ -70,11 +67,22 @@ struct MonsterApp: App {
                 VMConfigView(vm: vm)
                     .navigationTitle("Preview")
                     .environmentObject(store)
+                    .task {
+                        try? await Task.sleep(nanoseconds: 1 * 1000)
+                        disableWindowRestoration()
+                    }
             }
         }
         .commands {
             CommandGroup(replacing: CommandGroupPlacement.newItem) { }
         }
         .windowToolbarStyle(.unifiedCompact)
+    }
+    
+    private func disableWindowRestoration() {
+        NSApp.windows.swiftUIWindows.forEach { window in
+            debugPrint("Window:\(window.title) disable restoration")
+            window.isRestorable = false
+        }
     }
 }

@@ -13,6 +13,7 @@
 		F4D90FC428ACE8A000E11588 /* VMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC328ACE8A000E11588 /* VMManager.swift */; };
 		F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC528AE282200E11588 /* VMInstance.swift */; };
 		F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D90FC828AE2A8400E11588 /* Virtualization.framework */; };
+		F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */; };
 		F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
@@ -51,6 +52,7 @@
 		F4D90FC328ACE8A000E11588 /* VMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMManager.swift; sourceTree = "<group>"; };
 		F4D90FC528AE282200E11588 /* VMInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMInstance.swift; sourceTree = "<group>"; };
 		F4D90FC828AE2A8400E11588 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
+		F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+SwiftUI.swift"; sourceTree = "<group>"; };
 		F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
@@ -125,6 +127,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F4D90FCA28AE49FB00E11588 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		F4FFF27928A38360003B75F9 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +159,7 @@
 		F4FFF28428A38360003B75F9 /* Monster */ = {
 			isa = PBXGroup;
 			children = (
+				F4D90FCA28AE49FB00E11588 /* Utils */,
 				F4D90FC028ACE5FC00E11588 /* VirtualMachine */,
 				F4D3C45728AB55FE008D49FC /* Info.plist */,
 				F4FFF2B028A39B1F003B75F9 /* Model */,
@@ -324,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */,
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
 				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
 				F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */,
