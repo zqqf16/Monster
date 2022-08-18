@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject private var store: Store
-    @ObservedObject private var vm = VirtualMachine(name: "New VM", os: .macOS, memory: 4, disk: 30, cpu: 4)
+    @ObservedObject private var vm = VMConfig(name: "New VM", os: .macOS, memory: 4, disk: 30, cpu: 4)
     
     var body: some View {
         VStack {

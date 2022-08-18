@@ -26,7 +26,7 @@ struct Sidebar: View {
         .frame(minWidth: 180)
     }
     
-    var selection: Binding<VirtualMachine?> {
+    var selection: Binding<VMConfig?> {
         Binding {
             store.selectedVM
         } set: { value in

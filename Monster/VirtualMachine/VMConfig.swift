@@ -8,7 +8,7 @@
 import Foundation
 import AppKit
 
-class VirtualMachine: ObservableObject, Identifiable, Hashable, Codable {
+class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     enum OS: Int, CaseIterable, Identifiable, Codable {
         var id: Self { self }
         
@@ -37,7 +37,7 @@ class VirtualMachine: ObservableObject, Identifiable, Hashable, Codable {
         hasher.combine(id)
     }
     
-    static func == (lhs: VirtualMachine, rhs: VirtualMachine) -> Bool {
+    static func == (lhs: VMConfig, rhs: VMConfig) -> Bool {
         return lhs.id == rhs.id
     }
     

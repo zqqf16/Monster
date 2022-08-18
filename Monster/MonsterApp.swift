@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSWindow.allowsAutomaticWindowTabbing = false
         createStatusItem()
     }
-    
+        
     private func createStatusItem() {
         // waitting for MenuBarExtra ...
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -65,9 +65,9 @@ struct MonsterApp: App {
         }
         
         // Preview
-        WindowGroup(for: VirtualMachine.self) { $vm in
+        WindowGroup(for: VMConfig.self) { $vm in
             if let vm = $vm.wrappedValue {
-                VirtualMachineView(vm: vm)
+                VMConfigView(vm: vm)
                     .navigationTitle("Preview")
                     .environmentObject(store)
             }

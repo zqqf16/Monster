@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConfigView: View {
     
-    @ObservedObject var vm: VirtualMachine
+    @ObservedObject var vm: VMConfig
 
     var editable: Bool = true
         
@@ -29,7 +29,7 @@ struct ConfigView: View {
                 }
                 BaseLine(title: "Operating System") {
                     Picker("", selection: $vm.os) {
-                        ForEach(VirtualMachine.OS.allCases) { os in
+                        ForEach(VMConfig.OS.allCases) { os in
                             Text(os.name).tag(os.rawValue)
                         }
                     }.labelsHidden()
@@ -123,7 +123,7 @@ private struct PathLine : View {
 
 struct ConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        let vm = VirtualMachine(name: "New VM", os: .macOS, memory: 4, disk: 30, cpu: 4)
+        let vm = VMConfig(name: "New VM", os: .macOS, memory: 4, disk: 30, cpu: 4)
         ConfigView(vm: vm)
     }
 }

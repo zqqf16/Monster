@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */; };
 		F4D5984228A9EDF300F9958B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5984128A9EDF300F9958B /* Store.swift */; };
+		F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC128ACE73D00E11588 /* VMPlayer.swift */; };
+		F4D90FC428ACE8A000E11588 /* VMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC328ACE8A000E11588 /* VMManager.swift */; };
+		F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC528AE282200E11588 /* VMInstance.swift */; };
+		F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D90FC828AE2A8400E11588 /* Virtualization.framework */; };
 		F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
@@ -17,7 +21,7 @@
 		F4FFF29828A38361003B75F9 /* MonsterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF29728A38361003B75F9 /* MonsterTests.swift */; };
 		F4FFF2A228A38361003B75F9 /* MonsterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */; };
 		F4FFF2A428A38361003B75F9 /* MonsterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */; };
-		F4FFF2B228A39B4F003B75F9 /* VirutalMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B128A39B4F003B75F9 /* VirutalMachine.swift */; };
+		F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B128A39B4F003B75F9 /* VMConfig.swift */; };
 		F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */; };
 		F4FFF2B828A3F3C6003B75F9 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */; };
 /* End PBXBuildFile section */
@@ -43,6 +47,10 @@
 		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
 		F4D3C45728AB55FE008D49FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F4D5984128A9EDF300F9958B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		F4D90FC128ACE73D00E11588 /* VMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMPlayer.swift; sourceTree = "<group>"; };
+		F4D90FC328ACE8A000E11588 /* VMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMManager.swift; sourceTree = "<group>"; };
+		F4D90FC528AE282200E11588 /* VMInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMInstance.swift; sourceTree = "<group>"; };
+		F4D90FC828AE2A8400E11588 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
 		F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
@@ -55,7 +63,7 @@
 		F4FFF29D28A38361003B75F9 /* MonsterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonsterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF2A128A38361003B75F9 /* MonsterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterUITests.swift; sourceTree = "<group>"; };
 		F4FFF2A328A38361003B75F9 /* MonsterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		F4FFF2B128A39B4F003B75F9 /* VirutalMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirutalMachine.swift; sourceTree = "<group>"; };
+		F4FFF2B128A39B4F003B75F9 /* VMConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMConfig.swift; sourceTree = "<group>"; };
 		F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
 		F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +106,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		F4D90FC028ACE5FC00E11588 /* VirtualMachine */ = {
+			isa = PBXGroup;
+			children = (
+				F4FFF2B128A39B4F003B75F9 /* VMConfig.swift */,
+				F4D90FC328ACE8A000E11588 /* VMManager.swift */,
+				F4D90FC128ACE73D00E11588 /* VMPlayer.swift */,
+				F4D90FC528AE282200E11588 /* VMInstance.swift */,
+			);
+			path = VirtualMachine;
+			sourceTree = "<group>";
+		};
+		F4D90FC728AE2A8400E11588 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4D90FC828AE2A8400E11588 /* Virtualization.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F4FFF27928A38360003B75F9 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +132,7 @@
 				F4FFF29628A38361003B75F9 /* MonsterTests */,
 				F4FFF2A028A38361003B75F9 /* MonsterUITests */,
 				F4FFF28328A38360003B75F9 /* Products */,
+				F4D90FC728AE2A8400E11588 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -120,6 +149,7 @@
 		F4FFF28428A38360003B75F9 /* Monster */ = {
 			isa = PBXGroup;
 			children = (
+				F4D90FC028ACE5FC00E11588 /* VirtualMachine */,
 				F4D3C45728AB55FE008D49FC /* Info.plist */,
 				F4FFF2B028A39B1F003B75F9 /* Model */,
 				F4D5984028A9EDD100F9958B /* View */,
@@ -159,7 +189,6 @@
 		F4FFF2B028A39B1F003B75F9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F4FFF2B128A39B4F003B75F9 /* VirutalMachine.swift */,
 				F4D5984128A9EDF300F9958B /* Store.swift */,
 			);
 			path = Model;
@@ -297,10 +326,13 @@
 			files = (
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
 				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
-				F4FFF2B228A39B4F003B75F9 /* VirutalMachine.swift in Sources */,
+				F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */,
 				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
+				F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */,
+				F4D90FC428ACE8A000E11588 /* VMManager.swift in Sources */,
 				F4FFF2B828A3F3C6003B75F9 /* Sidebar.swift in Sources */,
 				F4D5984228A9EDF300F9958B /* Store.swift in Sources */,
+				F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */,
 				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
 				F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */,
 			);
@@ -458,6 +490,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -486,6 +519,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

@@ -1,22 +1,18 @@
 //
-//  VirtualMachineView.swift
+//  VMConfigView.swift
 //  Monster
 //
 //  Created by zqqf16 on 2022/8/12.
 //
 
 import SwiftUI
+import Virtualization
 
-struct VirtualMachineView: View {
-    var vm: VirtualMachine
+struct VMConfigView: View {
+    var vm: VMConfig
     
     var body: some View {
-        Text("Run \(vm.name)")
-            .toolbar {
-                Toolbar()
-            }
-            .presentedWindowToolbarStyle(.unifiedCompact)
-            .navigationTitle(vm.name)
+        VMPlayer(vm: VMInstance())
     }
 }
 
@@ -54,8 +50,8 @@ private struct Toolbar: ToolbarContent {
     }
 }
 
-struct VirtualMachineView_Previews: PreviewProvider {
+struct VMConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        VirtualMachineView(vm: VirtualMachine(name: "Demo", os: .macOS, memory: 4, disk: 40, cpu: 3))
+        VMConfigView(vm: VMConfig(name: "Demo", os: .macOS, memory: 4, disk: 40, cpu: 3))
     }
 }
