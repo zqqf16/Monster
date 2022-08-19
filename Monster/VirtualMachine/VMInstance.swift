@@ -13,8 +13,9 @@ let mainDiskImagePath = vmBundlePath + "Disk.img"
 let efiVariableStorePath = vmBundlePath + "NVRAM"
 let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 
-class VMInstance: NSObject, VZVirtualMachineDelegate {
+class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
 
+    var config: VMConfig = VMConfig(name: "Ubuntu", os: .linux, memory: 4, disk: 30, cpu: 4)
     var virtualMachine: VZVirtualMachine!
 
     private var installerISOPath: URL?
@@ -228,7 +229,7 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
 
                 default:
                     print("Virtual machine successfully started.")
-                }
+                 }
             })
     }
     
@@ -272,6 +273,25 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
         } else {
             needsInstall = false
             configureAndStartVirtualMachine()
+        }
+    }
+    
+    func stop() {
+        virtualMachine.stop { error in
+            if let _ = error {
+                print("Virtual machine did stop with error: \(error!.localizedDescription)")
+            }
+        }
+    }
+    
+    func pause() {
+        virtualMachine.pause { result in
+            switch result {
+            case let .failure(error):
+                fatalError("Virtual machine failed to pause with error: \(error)")
+            default:
+                print("Virtual machine successfully paused.")
+            }
         }
     }
 

@@ -64,7 +64,7 @@ struct MonsterApp: App {
         // Preview
         WindowGroup(for: VMConfig.self) { $vm in
             if let vm = $vm.wrappedValue {
-                VMConfigView(vm: vm)
+                VMConfigView(vmInstance: VMInstance())
                     .navigationTitle("Preview")
                     .environmentObject(store)
                     .task {
