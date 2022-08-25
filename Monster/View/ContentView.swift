@@ -18,7 +18,7 @@ struct ContentView: View {
             if let selectedVM = store.selectedVM {
                 ConfigView(vm: selectedVM)
             } else {
-                emptyView
+                EmptyStateView()
             }
         }
         .toolbar {
@@ -31,8 +31,29 @@ struct ContentView: View {
             alert
         }
     }
+
+    var alertTitle: String {
+        let name = store.selectedVM?.name ?? ""
+        return "Delete \(name)?"
+    }
     
-    @ViewBuilder var emptyView: some View {
+    @ViewBuilder var alert: some View {
+        Button("Delete", role: .destructive) {
+            if let selectedVM = store.selectedVM {
+                store.remove(vm: selectedVM)
+            }
+        }
+        Button("Cancel", role: .cancel) {
+            //
+        }
+    }
+}
+
+private struct EmptyStateView: View {
+    @EnvironmentObject private var store: Store
+    @State private var isHovering = false
+
+    var body: some View {
         Button {
             store.showWelcome = true
         } label: {
@@ -58,22 +79,6 @@ struct ContentView: View {
             withAnimation {
                 self.isHovering = isHovering
             }
-        }
-    }
-    
-    var alertTitle: String {
-        let name = store.selectedVM?.name ?? ""
-        return "Delete \(name)?"
-    }
-    
-    @ViewBuilder var alert: some View {
-        Button("Delete", role: .destructive) {
-            if let selectedVM = store.selectedVM {
-                store.remove(vm: selectedVM)
-            }
-        }
-        Button("Cancel", role: .cancel) {
-            //
         }
     }
 }
