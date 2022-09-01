@@ -68,8 +68,9 @@ struct ConfigView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(.background)
     }
-    
 }
 
 private struct BaseLine<Content> : View where Content : View {
