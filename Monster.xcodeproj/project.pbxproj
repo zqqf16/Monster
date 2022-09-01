@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BCF28C0A18800E7B65A /* Entrance.swift */; };
+		F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BD128C0A33400E7B65A /* EntranceItem.swift */; };
 		F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */; };
 		F4D5984228A9EDF300F9958B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5984128A9EDF300F9958B /* Store.swift */; };
 		F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC128ACE73D00E11588 /* VMPlayer.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F4376BCF28C0A18800E7B65A /* Entrance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrance.swift; sourceTree = "<group>"; };
+		F4376BD128C0A33400E7B65A /* EntranceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceItem.swift; sourceTree = "<group>"; };
 		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
 		F4D3C45728AB55FE008D49FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F4D5984128A9EDF300F9958B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 				F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */,
 				F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */,
 				F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */,
+				F4376BD128C0A33400E7B65A /* EntranceItem.swift */,
 				F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */,
 			);
 			path = View;
@@ -201,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				F4D5984128A9EDF300F9958B /* Store.swift */,
+				F4376BCF28C0A18800E7B65A /* Entrance.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -337,6 +343,7 @@
 			files = (
 				F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */,
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
+				F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */,
 				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
 				F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */,
 				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
@@ -344,6 +351,7 @@
 				F4D90FC428ACE8A000E11588 /* VMManager.swift in Sources */,
 				F4FFF2B828A3F3C6003B75F9 /* Sidebar.swift in Sources */,
 				F4D5984228A9EDF300F9958B /* Store.swift in Sources */,
+				F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */,
 				F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */,
 				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
 				F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */,
@@ -502,7 +510,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -531,7 +539,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

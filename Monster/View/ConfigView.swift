@@ -21,7 +21,7 @@ struct ConfigView: View {
     
     var body: some View {
         Form {
-            Section("Basic") {
+            Section("General") {
                 BaseLine(title: "Name") {
                     TextField("", text: $vm.name)
                         .multilineTextAlignment(.trailing)
@@ -38,7 +38,7 @@ struct ConfigView: View {
                 }
             }
             
-            Section("Boot") {
+            Section("Drives") {
                 PathLine(title: vm.os == .macOS ? "IPSW" : "ISO", icon: "opticaldiscdrive", path: $vm.iso)
 
                 BaseLine(title: "Boot from iso", icon: "power") {
