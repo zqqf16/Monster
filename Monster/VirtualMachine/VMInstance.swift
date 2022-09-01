@@ -16,7 +16,8 @@ let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
 
     var config: VMConfig = VMConfig(name: "Ubuntu", os: .linux, memory: 4, disk: 30, cpu: 4)
-    var virtualMachine: VZVirtualMachine!
+    
+    private(set) var virtualMachine: VZVirtualMachine!
 
     private var installerISOPath: URL?
 

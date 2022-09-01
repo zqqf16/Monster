@@ -9,4 +9,7 @@ import Virtualization
 
 class VMManager {
     
+    func createInstance(with config: VMConfig) -> VMInstance? {
+        return nil
+    }
 }
