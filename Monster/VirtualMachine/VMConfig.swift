@@ -7,6 +7,7 @@
 
 import Foundation
 import AppKit
+import Virtualization
 
 class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     enum OS: Int, CaseIterable, Identifiable, Codable {
@@ -95,5 +96,48 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         try container.encode(cpu, forKey: .cpu)
         try container.encode(iso, forKey: .iso)
         try container.encode(path, forKey: .path)
+    }
+}
+
+
+// MARK: System limitation
+extension VMConfig {
+    class var minimumAllowedMemorySize: UInt64 {
+        1024 * 1024 * 1024 // 1G
+    }
+
+    class var maximumAllowedMemorySize: UInt64 {
+        VZVirtualMachineConfiguration.maximumAllowedMemorySize
+    }
+
+    class var minimumAllowedCPUCount: Int {
+        VZVirtualMachineConfiguration.minimumAllowedCPUCount
+    }
+    
+    class var maximumAllowedCPUCount: Int {
+        let totalAvailableCPUs = ProcessInfo.processInfo.processorCount
+
+        var virtualCPUCount = totalAvailableCPUs <= 1 ? 1 : totalAvailableCPUs - 1
+        virtualCPUCount = max(virtualCPUCount, VZVirtualMachineConfiguration.minimumAllowedCPUCount)
+        virtualCPUCount = min(virtualCPUCount, VZVirtualMachineConfiguration.maximumAllowedCPUCount)
+
+        return virtualCPUCount
+    }
+    
+    class var minimumAllowedDiskSize: UInt64 {
+        return 5 * 1024 * 1024 * 1024 // 2.5GB, Ubuntu 20.04
+    }
+    
+    class var maximumAllowedDiskSize: UInt64 {
+        guard let size = FileManager.getFileSize(for: .systemFreeSize) else {
+            return 100 * 1024 * 1024 * 1024 // 100G
+        }
+        
+        let sizeInGB = Double(size) / 1024 / 1024 / 1024
+        if sizeInGB < 1 {
+            return 10 * 1024 * 1024 * 1024 // 10G, must be failed
+        }
+        
+        return UInt64(sizeInGB) * 1024 * 1024 * 1024
     }
 }

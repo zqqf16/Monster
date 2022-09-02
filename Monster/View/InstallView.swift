@@ -12,8 +12,8 @@ struct InstallView: View {
 
     @State private var restoreImagePath: String?
     @State private var name: String = "New Virtual Machine"
-    @State private var memorySize = 8.GB
-    @State private var diskSize = 55.GB
+    @State private var memorySize = 4.GB
+    @State private var diskSize = 20.GB
     @State private var cpuCount = 4.core
     
     @State private var enableKeyboard = true
@@ -97,23 +97,23 @@ struct InstallView: View {
         BaseGridRow("Memory") {
             UnitSlider(
                 value: $memorySize,
-                range: 1.GB...32.GB,
-                step: 2.GB,
-                units: [.megabytes, .gigabytes]
+                range: VMConfig.minimumAllowedMemorySize.B ... VMConfig.maximumAllowedMemorySize.B,
+                step: 1.GB,
+                units: [.mebibytes, .gibibytes]
             )
         }
         BaseGridRow("Disk Size") {
             UnitSlider(
                 value: $diskSize,
-                range: 10.GB...100.GB,
+                range: VMConfig.minimumAllowedDiskSize.B ... VMConfig.maximumAllowedDiskSize.B,
                 step: 10.GB,
-                units: [.megabytes, .gigabytes]
+                units: [.mebibytes, .gibibytes]
             )
         }
         BaseGridRow("CPU Count") {
             UnitSlider(
                 value: $cpuCount,
-                range: 1.core...16.core,
+                range: VMConfig.minimumAllowedCPUCount.core ... VMConfig.maximumAllowedCPUCount.core,
                 step: 1.core,
                 units: []
             )

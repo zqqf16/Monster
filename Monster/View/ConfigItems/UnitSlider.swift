@@ -50,7 +50,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
             }
             .labelsHidden()
             .pickerStyle(.menu)
-            .frame(width: 50, alignment: .trailing)
+            .frame(width: 54, alignment: .trailing)
             .opacity(units.count > 0 ? 1 : 0)
         }
     }

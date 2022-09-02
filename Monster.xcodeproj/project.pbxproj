@@ -11,6 +11,7 @@
 		F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9E28C1DC90006D5671 /* Measurement.swift */; };
 		F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA028C1F6F0006D5671 /* UnitSlider.swift */; };
 		F435FFA328C1F909006D5671 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA228C1F909006D5671 /* Unit.swift */; };
+		F435FFA828C23AC6006D5671 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA728C23AC6006D5671 /* FileManager.swift */; };
 		F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BCF28C0A18800E7B65A /* Entrance.swift */; };
 		F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BD128C0A33400E7B65A /* EntranceItem.swift */; };
 		F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */; };
@@ -56,6 +57,7 @@
 		F435FF9E28C1DC90006D5671 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		F435FFA028C1F6F0006D5671 /* UnitSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSlider.swift; sourceTree = "<group>"; };
 		F435FFA228C1F909006D5671 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		F435FFA728C23AC6006D5671 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		F4376BCF28C0A18800E7B65A /* Entrance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrance.swift; sourceTree = "<group>"; };
 		F4376BD128C0A33400E7B65A /* EntranceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceItem.swift; sourceTree = "<group>"; };
 		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */,
+				F435FFA728C23AC6006D5671 /* FileManager.swift */,
 				F435FF9E28C1DC90006D5671 /* Measurement.swift */,
 				F435FFA228C1F909006D5671 /* Unit.swift */,
 			);
@@ -380,6 +383,7 @@
 				F4D5984228A9EDF300F9958B /* Store.swift in Sources */,
 				F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */,
 				F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */,
+				F435FFA828C23AC6006D5671 /* FileManager.swift in Sources */,
 				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
 				F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */,
 				F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */,
