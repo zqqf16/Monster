@@ -32,9 +32,9 @@ class Store: ObservableObject {
         VMConfig(name: "macOS 12.2", os: .macOS, memory: 8, disk: 40, cpu: 4),
         VMConfig(name: "Ubuntu 22.04 LTS", os: .ubuntu, memory: 4, disk: 30, cpu: 4),
         VMConfig(name: "Debian 11.3", os: .debian, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "RHEL 9", os: .linux, memory: 4, disk: 30, cpu: 4),
+        VMConfig(name: "RHEL 9", os: .redhat, memory: 4, disk: 30, cpu: 4),
         VMConfig(name: "Fedora 36", os: .fedora, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "Arch", os: .linux, memory: 4, disk: 30, cpu: 4),
+        VMConfig(name: "Arch", os: .arch, memory: 4, disk: 30, cpu: 4),
         VMConfig(name: "Oracle Linux 8", os: .linux, memory: 4, disk: 30, cpu: 4),
     ]
 #endif

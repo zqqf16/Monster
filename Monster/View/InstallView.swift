@@ -24,14 +24,13 @@ struct InstallView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ScrollView {
+        VStack {
             Spacer()
             Text("New Virtual Machine")
                 .font(.title)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding()
-            //LazyHGrid(rows: columns) {
             HStack {
                 ForEach(Entrance.allCases) { entrance in
                     EntranceItem(
@@ -39,10 +38,9 @@ struct InstallView: View {
                         entrance: entrance)
                 }
             }
-            Spacer()
+            Spacer(minLength: 20)
             grid
             Spacer()
-            Divider()
             footer
             Spacer()
         }
@@ -59,7 +57,7 @@ struct InstallView: View {
             systemRows
             Divider()
             advancedRows
-            Spacer()
+            Divider()
         }
     }
     
@@ -71,6 +69,7 @@ struct InstallView: View {
                     Text(path)
                         .multilineTextAlignment(.trailing)
                         .lineLimit(1)
+                        .font(.subheadline)
                 }
                 Button {
                     let panel = NSOpenPanel()
@@ -87,6 +86,7 @@ struct InstallView: View {
         
         BaseGridRow("Name") {
             TextField("", text: $name)
+                .font(.subheadline)
                 .frame(minWidth: 240)
         }
 
@@ -156,10 +156,6 @@ struct InstallView: View {
             }
             .keyboardShortcut(.defaultAction)
         }
-    }
-    
-    var columns: [GridItem] {
-        [ GridItem(.adaptive(minimum: 250), alignment: .leading) ]
     }
 }
 

@@ -18,6 +18,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case ubuntu
         case debian
         case fedora
+        case arch
+        case redhat
         
         var name: String {
             switch self {
@@ -26,6 +28,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
             case .fedora: return "Fedora"
             case .ubuntu: return "Ubuntu"
             case .debian: return "Debian"
+            case .arch: return "Arch"
+            case .redhat: return "RedHat"
             }
         }
         

@@ -33,7 +33,7 @@ private struct Label: View {
                 .scaledToFit()
                 .frame(width: 24, height: 24)
                 .font(.title)
-                .foregroundStyle(shapeStyle(Color.accentColor))
+                .foregroundStyle(shapeStyle(Color.primary))
             VStack(alignment: .leading) {
                 Text(entrance.name)
                     .bold()
@@ -41,7 +41,7 @@ private struct Label: View {
             }
         }
         .shadow(radius: selection == entrance ? 4 : 0)
-        .padding(4)
+        .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
         .background {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(selection == entrance ?
