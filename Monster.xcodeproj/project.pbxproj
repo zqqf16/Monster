@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F435FF9B28C1ABEA006D5671 /* OperatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9A28C1ABEA006D5671 /* OperatingSystem.swift */; };
-		F435FF9D28C1AD92006D5671 /* InstallViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9C28C1AD92006D5671 /* InstallViewModels.swift */; };
 		F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9E28C1DC90006D5671 /* Measurement.swift */; };
 		F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA028C1F6F0006D5671 /* UnitSlider.swift */; };
 		F435FFA328C1F909006D5671 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA228C1F909006D5671 /* Unit.swift */; };
@@ -54,7 +53,6 @@
 
 /* Begin PBXFileReference section */
 		F435FF9A28C1ABEA006D5671 /* OperatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatingSystem.swift; sourceTree = "<group>"; };
-		F435FF9C28C1AD92006D5671 /* InstallViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallViewModels.swift; sourceTree = "<group>"; };
 		F435FF9E28C1DC90006D5671 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		F435FFA028C1F6F0006D5671 /* UnitSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSlider.swift; sourceTree = "<group>"; };
 		F435FFA228C1F909006D5671 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 				F4D5984128A9EDF300F9958B /* Store.swift */,
 				F4376BCF28C0A18800E7B65A /* Entrance.swift */,
 				F435FF9A28C1ABEA006D5671 /* OperatingSystem.swift */,
-				F435FF9C28C1AD92006D5671 /* InstallViewModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -375,7 +372,6 @@
 				F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */,
 				F435FF9B28C1ABEA006D5671 /* OperatingSystem.swift in Sources */,
 				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
-				F435FF9D28C1AD92006D5671 /* InstallViewModels.swift in Sources */,
 				F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */,
 				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
 				F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */,
