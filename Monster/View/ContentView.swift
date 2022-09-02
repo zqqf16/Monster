@@ -25,7 +25,7 @@ struct ContentView: View {
             Toolbar()
         }
         .sheet(isPresented: $store.showWelcome) {
-            WelcomeView()
+            InstallView()
         }
         .alert(alertTitle, isPresented: $store.showDeleteAlert) {
             alert
@@ -121,7 +121,7 @@ private struct Toolbar: ToolbarContent {
             } label: {
                 Label("Create a new VM", systemImage: "plus")
             }
-            .keyboardShortcut("+", modifiers: .command)
+            .keyboardShortcut("n", modifiers: .command)
         }
     }
 }

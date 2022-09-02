@@ -18,7 +18,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         createStatusItem()
         
-        NSApp.activate(ignoringOtherApps: true)
+        let preview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"]
+        if preview != "1" {
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 
     private func createStatusItem() {

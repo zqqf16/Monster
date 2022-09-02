@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F435FF9B28C1ABEA006D5671 /* OperatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9A28C1ABEA006D5671 /* OperatingSystem.swift */; };
+		F435FF9D28C1AD92006D5671 /* InstallViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9C28C1AD92006D5671 /* InstallViewModels.swift */; };
+		F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FF9E28C1DC90006D5671 /* Measurement.swift */; };
+		F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA028C1F6F0006D5671 /* UnitSlider.swift */; };
+		F435FFA328C1F909006D5671 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA228C1F909006D5671 /* Unit.swift */; };
 		F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BCF28C0A18800E7B65A /* Entrance.swift */; };
 		F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BD128C0A33400E7B65A /* EntranceItem.swift */; };
 		F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */; };
@@ -17,6 +22,7 @@
 		F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D90FC828AE2A8400E11588 /* Virtualization.framework */; };
 		F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */; };
 		F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */; };
+		F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF824328C1A47D009F5DF6 /* InstallView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
 		F4FFF28A28A38361003B75F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF28928A38361003B75F9 /* Assets.xcassets */; };
@@ -47,6 +53,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F435FF9A28C1ABEA006D5671 /* OperatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatingSystem.swift; sourceTree = "<group>"; };
+		F435FF9C28C1AD92006D5671 /* InstallViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallViewModels.swift; sourceTree = "<group>"; };
+		F435FF9E28C1DC90006D5671 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
+		F435FFA028C1F6F0006D5671 /* UnitSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitSlider.swift; sourceTree = "<group>"; };
+		F435FFA228C1F909006D5671 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		F4376BCF28C0A18800E7B65A /* Entrance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrance.swift; sourceTree = "<group>"; };
 		F4376BD128C0A33400E7B65A /* EntranceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceItem.swift; sourceTree = "<group>"; };
 		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
@@ -58,6 +69,7 @@
 		F4D90FC828AE2A8400E11588 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
 		F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+SwiftUI.swift"; sourceTree = "<group>"; };
 		F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		F4FF824328C1A47D009F5DF6 /* InstallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
 		F4FFF28728A38360003B75F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -100,15 +112,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F435FFA428C20759006D5671 /* ConfigItems */ = {
+			isa = PBXGroup;
+			children = (
+				F435FFA028C1F6F0006D5671 /* UnitSlider.swift */,
+				F4376BD128C0A33400E7B65A /* EntranceItem.swift */,
+			);
+			path = ConfigItems;
+			sourceTree = "<group>";
+		};
 		F4D5984028A9EDD100F9958B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F435FFA428C20759006D5671 /* ConfigItems */,
 				F4FFF28728A38360003B75F9 /* ContentView.swift */,
 				F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */,
-				F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */,
 				F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */,
-				F4376BD128C0A33400E7B65A /* EntranceItem.swift */,
 				F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */,
+				F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */,
+				F4FF824328C1A47D009F5DF6 /* InstallView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -136,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */,
+				F435FF9E28C1DC90006D5671 /* Measurement.swift */,
+				F435FFA228C1F909006D5671 /* Unit.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -166,11 +190,11 @@
 			children = (
 				F4D90FCA28AE49FB00E11588 /* Utils */,
 				F4D90FC028ACE5FC00E11588 /* VirtualMachine */,
-				F4D3C45728AB55FE008D49FC /* Info.plist */,
 				F4FFF2B028A39B1F003B75F9 /* Model */,
 				F4D5984028A9EDD100F9958B /* View */,
 				F4FFF28528A38360003B75F9 /* MonsterApp.swift */,
 				F4FFF28928A38361003B75F9 /* Assets.xcassets */,
+				F4D3C45728AB55FE008D49FC /* Info.plist */,
 				F4FFF28E28A38361003B75F9 /* Monster.entitlements */,
 				F4FFF28B28A38361003B75F9 /* Preview Content */,
 			);
@@ -207,6 +231,8 @@
 			children = (
 				F4D5984128A9EDF300F9958B /* Store.swift */,
 				F4376BCF28C0A18800E7B65A /* Entrance.swift */,
+				F435FF9A28C1ABEA006D5671 /* OperatingSystem.swift */,
+				F435FF9C28C1AD92006D5671 /* InstallViewModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -276,6 +302,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
+				ORGANIZATIONNAME = zqqf16;
 				TargetAttributes = {
 					F4FFF28128A38360003B75F9 = {
 						CreatedOnToolsVersion = 14.0;
@@ -342,9 +369,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */,
+				F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */,
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
+				F435FFA328C1F909006D5671 /* Unit.swift in Sources */,
 				F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */,
+				F435FF9B28C1ABEA006D5671 /* OperatingSystem.swift in Sources */,
 				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
+				F435FF9D28C1AD92006D5671 /* InstallViewModels.swift in Sources */,
 				F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */,
 				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
 				F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */,
@@ -354,7 +385,9 @@
 				F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */,
 				F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */,
 				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
+				F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */,
 				F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */,
+				F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +549,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Monster/Preview Content\"";
 				DEVELOPMENT_TEAM = BPL95996PK;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Monster/Info.plist;
@@ -545,7 +577,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Monster/Preview Content\"";
 				DEVELOPMENT_TEAM = BPL95996PK;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Monster/Info.plist;

@@ -27,32 +27,27 @@ private struct Label: View {
     @State private var isHovering = false
     
     var body: some View {
-        HStack(alignment: .center, spacing: 20) {
+        HStack(alignment: .center, spacing: 8) {
             Image(nsImage: entrance.image)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 36, height: 36)
+                .frame(width: 24, height: 24)
                 .font(.title)
                 .foregroundStyle(shapeStyle(Color.accentColor))
             VStack(alignment: .leading) {
                 Text(entrance.name)
                     .bold()
                     .foregroundStyle(shapeStyle(Color.primary))
-                Text(entrance.description)
-                    .font(.callout)
-                    //.lineLimit(3, reservesSpace: true)
-                    .multilineTextAlignment(.leading)
-                    .foregroundStyle(shapeStyle(Color.secondary))
             }
         }
         .shadow(radius: selection == entrance ? 4 : 0)
-        .padding()
+        .padding(4)
         .background {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(selection == entrance ?
                       AnyShapeStyle(Color.accentColor) :
                         AnyShapeStyle(BackgroundStyle()))
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .stroke(isHovering ? Color.accentColor : .clear)
         }
         .scaleEffect(isHovering ? 1.02 : 1)
