@@ -55,9 +55,14 @@ struct MonsterApp: App {
         // Main window
         WindowGroup("Monster", id: "Main") {
             ContentView()
+                .handlesExternalEvents(preferring: Set(arrayLiteral: "main"), allowing: Set(arrayLiteral: "*"))
+                .onOpenURL { (url) in
+                    if url.isFileURL {
+                        print("Open file: \(url.path)")
+                    }
+                }
                 .environmentObject(store)
         }
-        .handlesExternalEvents(matching: Set(arrayLiteral: "main"))
         .commands {
             SidebarCommands()
             CommandGroup(replacing: CommandGroupPlacement.newItem) {
