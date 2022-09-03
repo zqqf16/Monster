@@ -10,7 +10,7 @@ import AppKit
 import Virtualization
 
 class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
-    var id = UUID()
+    var id = UUID().uuidString
 
     @Published var name: String
     @Published var os: OperatingSystem = .macOS
@@ -26,6 +26,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     @Published var enableNetwork = true
     @Published var enableAudio = true
     @Published var enableConsole = true
+    
+    var machineIdentifierData: Data?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -57,7 +59,9 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         self.bundlePath = bundlePath
     }
     
+    // MARK: Codable
     enum CodingKeys: CodingKey {
+        case id
         case name
         case os
         case memorySize
@@ -65,28 +69,34 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case cpuCount
         case restoreImagePath
         case bundlePath
+        case machineIdentifierData
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         os = try container.decode(OperatingSystem.self, forKey: .os)
-        memorySize = try container.decode(StorageSize.self, forKey: .memorySize)
-        diskSize = try container.decode(StorageSize.self, forKey: .diskSize)
-        cpuCount = try container.decode(CpuCount.self, forKey: .cpuCount)
-        restoreImagePath = try container.decode(String.self, forKey: .restoreImagePath)
-        bundlePath = try container.decode(String.self, forKey: .bundlePath)
+        
+        memorySize = try container.decode(UInt64.self, forKey: .memorySize).B
+        diskSize = try container.decode(UInt64.self, forKey: .diskSize).B
+        cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
+        restoreImagePath = try? container.decodeIfPresent(String.self, forKey: .restoreImagePath)
+        bundlePath = try? container.decodeIfPresent(String.self, forKey: .bundlePath)
+        machineIdentifierData = try? container.decodeIfPresent(Data.self, forKey: .machineIdentifierData)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(os, forKey: .os)
-        try container.encode(memorySize, forKey: .memorySize)
-        try container.encode(diskSize, forKey: .diskSize)
-        try container.encode(cpuCount, forKey: .cpuCount)
-        try container.encode(restoreImagePath, forKey: .restoreImagePath)
-        try container.encode(bundlePath, forKey: .bundlePath)
+        try container.encode(memorySize.bytes, forKey: .memorySize)
+        try container.encode(diskSize.bytes, forKey: .diskSize)
+        try container.encode(cpuCount.count, forKey: .cpuCount)
+        try container.encodeIfPresent(restoreImagePath, forKey: .restoreImagePath)
+        try container.encodeIfPresent(bundlePath, forKey: .bundlePath)
+        try container.encodeIfPresent(machineIdentifierData, forKey: .machineIdentifierData)
     }
 }
 
@@ -131,6 +141,172 @@ extension VMConfig {
         }
         
         return UInt64(sizeInGB) * 1024 * 1024 * 1024
+    }
+}
+
+// MARK: VZVirtualMachineConfiguration
+
+extension VMConfig {
+    
+    private func computeCPUCount() -> Int {
+        var cpuCount = cpuCount.count
+        cpuCount = max(cpuCount, VZVirtualMachineConfiguration.minimumAllowedCPUCount)
+        cpuCount = min(cpuCount, VZVirtualMachineConfiguration.maximumAllowedCPUCount)
+        
+        return cpuCount
+    }
+
+    private func computeMemorySize() -> UInt64 {
+        var memorySize = memorySize.bytes
+        memorySize = max(memorySize, VZVirtualMachineConfiguration.minimumAllowedMemorySize)
+        memorySize = min(memorySize, VZVirtualMachineConfiguration.maximumAllowedMemorySize)
+        
+        return memorySize
+    }
+    
+    private func retrieveMachineIdentifier() -> VZGenericMachineIdentifier {
+        if let machineIdentifierData = machineIdentifierData,
+           let machineIdentifier = VZGenericMachineIdentifier(dataRepresentation: machineIdentifierData) {
+            return machineIdentifier
+        }
+        
+        let machineIdentifier = VZGenericMachineIdentifier()
+        self.machineIdentifierData = machineIdentifier.dataRepresentation
+        return machineIdentifier
+    }
+
+    private func retrieveEFIVariableStore(_ bundle: VMBundle) throws -> VZEFIVariableStore {
+        let efiVariableStoreURL = bundle.efiVariableStoreURL
+        if FileManager.default.fileExists(atPath: efiVariableStoreURL.path) {
+            return VZEFIVariableStore(url: efiVariableStoreURL)
+        }
+        
+        return try VZEFIVariableStore(creatingVariableStoreAt: efiVariableStoreURL)
+    }
+    
+    private func createUSBMassStorageDeviceConfiguration() throws -> VZUSBMassStorageDeviceConfiguration {
+        guard let restoreImagePath = self.restoreImagePath else {
+            throw VMError.restoreImageNotFound
+        }
+        let restoreImageURL = URL(filePath: restoreImagePath)
+        let intallerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
+        return VZUSBMassStorageDeviceConfiguration(attachment: intallerDiskAttachment)
+    }
+    
+    private func createMainDiskImage(_ bundle: VMBundle) throws {
+        let mainDiskImagePath = bundle.diskImageURL.path
+        let diskCreated = FileManager.default.createFile(atPath: mainDiskImagePath, contents: nil, attributes: nil)
+        if !diskCreated {
+            throw VMError.fileCreationFailed(mainDiskImagePath)
+        }
+        
+        let mainDiskFileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: mainDiskImagePath))
+        try mainDiskFileHandle.truncate(atOffset: diskSize.bytes)
+    }
+
+    
+    private func createBlockDeviceConfiguration(_ bundle: VMBundle) throws -> VZVirtioBlockDeviceConfiguration {
+        let path = bundle.diskImageURL.path
+        if !FileManager.default.fileExists(atPath: path) {
+            try createMainDiskImage(bundle)
+        }
+        
+        let mainDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: URL(fileURLWithPath: path), readOnly: false)
+        let mainDisk = VZVirtioBlockDeviceConfiguration(attachment: mainDiskAttachment)
+        return mainDisk
+    }
+    
+    private func createNetworkDeviceConfiguration() -> VZVirtioNetworkDeviceConfiguration {
+        let networkDevice = VZVirtioNetworkDeviceConfiguration()
+        networkDevice.attachment = VZNATNetworkDeviceAttachment()
+
+        return networkDevice
+    }
+
+    private func createGraphicsDeviceConfiguration() -> VZVirtioGraphicsDeviceConfiguration {
+        let graphicsDevice = VZVirtioGraphicsDeviceConfiguration()
+        graphicsDevice.scanouts = [
+            VZVirtioGraphicsScanoutConfiguration(widthInPixels: 1280, heightInPixels: 720)
+        ]
+
+        return graphicsDevice
+    }
+
+    private func createInputAudioDeviceConfiguration() -> VZVirtioSoundDeviceConfiguration {
+        let inputAudioDevice = VZVirtioSoundDeviceConfiguration()
+
+        let inputStream = VZVirtioSoundDeviceInputStreamConfiguration()
+        inputStream.source = VZHostAudioInputStreamSource()
+
+        inputAudioDevice.streams = [inputStream]
+        return inputAudioDevice
+    }
+
+    private func createOutputAudioDeviceConfiguration() -> VZVirtioSoundDeviceConfiguration {
+        let outputAudioDevice = VZVirtioSoundDeviceConfiguration()
+
+        let outputStream = VZVirtioSoundDeviceOutputStreamConfiguration()
+        outputStream.sink = VZHostAudioOutputStreamSink()
+
+        outputAudioDevice.streams = [outputStream]
+        return outputAudioDevice
+    }
+
+    private func createSpiceAgentConsoleDeviceConfiguration() -> VZVirtioConsoleDeviceConfiguration {
+        let consoleDevice = VZVirtioConsoleDeviceConfiguration()
+
+        let spiceAgentPort = VZVirtioConsolePortConfiguration()
+        spiceAgentPort.name = VZSpiceAgentPortAttachment.spiceAgentPortName
+        spiceAgentPort.attachment = VZSpiceAgentPortAttachment()
+        consoleDevice.ports[0] = spiceAgentPort
+
+        return consoleDevice
+    }
+
+    func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {
+        guard let bundlePath = self.bundlePath else {
+            throw VMError.bundleNotFound
+        }
+        
+        let bundle = VMBundle(URL(filePath: bundlePath))
+        let needInstall = bundle.needInstall
+        
+        let virtualMachineConfiguration = VZVirtualMachineConfiguration()
+
+        virtualMachineConfiguration.cpuCount = computeCPUCount()
+        virtualMachineConfiguration.memorySize = computeMemorySize()
+        
+        let platform = VZGenericPlatformConfiguration()
+        platform.machineIdentifier = retrieveMachineIdentifier()
+        
+        let bootloader = VZEFIBootLoader()
+        bootloader.variableStore = try retrieveEFIVariableStore(bundle)
+        
+        let disksArray = NSMutableArray()
+        if needInstall {
+            disksArray.add(try createUSBMassStorageDeviceConfiguration())
+        }
+        disksArray.add(try createBlockDeviceConfiguration(bundle))
+        guard let disks = disksArray as? [VZStorageDeviceConfiguration] else {
+            fatalError("Invalid disksArray.")
+        }
+
+        virtualMachineConfiguration.platform = platform
+        virtualMachineConfiguration.bootLoader = bootloader
+        virtualMachineConfiguration.storageDevices = disks
+
+        virtualMachineConfiguration.networkDevices = [createNetworkDeviceConfiguration()]
+        virtualMachineConfiguration.graphicsDevices = [createGraphicsDeviceConfiguration()]
+        virtualMachineConfiguration.audioDevices = [createInputAudioDeviceConfiguration(), createOutputAudioDeviceConfiguration()]
+
+        virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
+        virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
+        virtualMachineConfiguration.consoleDevices = [createSpiceAgentConsoleDeviceConfiguration()]
+
+        try virtualMachineConfiguration.validate()
+        try bundle.save(config: self)
+
+        return virtualMachineConfiguration
     }
 }
 

@@ -14,6 +14,8 @@
 		F435FFA828C23AC6006D5671 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F435FFA728C23AC6006D5671 /* FileManager.swift */; };
 		F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BCF28C0A18800E7B65A /* Entrance.swift */; };
 		F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4376BD128C0A33400E7B65A /* EntranceItem.swift */; };
+		F4459CA728C3982A004FF431 /* BundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4459CA628C3982A004FF431 /* BundleTests.swift */; };
+		F4459CA928C3A39B004FF431 /* VMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4459CA828C3A39B004FF431 /* VMError.swift */; };
 		F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */; };
 		F4D5984228A9EDF300F9958B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D5984128A9EDF300F9958B /* Store.swift */; };
 		F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC128ACE73D00E11588 /* VMPlayer.swift */; };
@@ -21,6 +23,8 @@
 		F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC528AE282200E11588 /* VMInstance.swift */; };
 		F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D90FC828AE2A8400E11588 /* Virtualization.framework */; };
 		F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */; };
+		F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */; };
+		F4F2AF9128C3943200C3A5A3 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */; };
 		F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF824328C1A47D009F5DF6 /* InstallView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
@@ -59,6 +63,8 @@
 		F435FFA728C23AC6006D5671 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		F4376BCF28C0A18800E7B65A /* Entrance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrance.swift; sourceTree = "<group>"; };
 		F4376BD128C0A33400E7B65A /* EntranceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceItem.swift; sourceTree = "<group>"; };
+		F4459CA628C3982A004FF431 /* BundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleTests.swift; sourceTree = "<group>"; };
+		F4459CA828C3A39B004FF431 /* VMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMError.swift; sourceTree = "<group>"; };
 		F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachineView.swift; sourceTree = "<group>"; };
 		F4D3C45728AB55FE008D49FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F4D5984128A9EDF300F9958B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -67,6 +73,8 @@
 		F4D90FC528AE282200E11588 /* VMInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMInstance.swift; sourceTree = "<group>"; };
 		F4D90FC828AE2A8400E11588 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
 		F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+SwiftUI.swift"; sourceTree = "<group>"; };
+		F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMBundle.swift; sourceTree = "<group>"; };
+		F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
 		F4FF824328C1A47D009F5DF6 /* InstallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
@@ -139,6 +147,8 @@
 				F4D90FC328ACE8A000E11588 /* VMManager.swift */,
 				F4D90FC128ACE73D00E11588 /* VMPlayer.swift */,
 				F4D90FC528AE282200E11588 /* VMInstance.swift */,
+				F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */,
+				F4459CA828C3A39B004FF431 /* VMError.swift */,
 			);
 			path = VirtualMachine;
 			sourceTree = "<group>";
@@ -211,6 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				F4FFF29728A38361003B75F9 /* MonsterTests.swift */,
+				F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */,
+				F4459CA628C3982A004FF431 /* BundleTests.swift */,
 			);
 			path = MonsterTests;
 			sourceTree = "<group>";
@@ -380,9 +392,11 @@
 				F4D5984228A9EDF300F9958B /* Store.swift in Sources */,
 				F4376BD028C0A18800E7B65A /* Entrance.swift in Sources */,
 				F4D90FC228ACE73D00E11588 /* VMPlayer.swift in Sources */,
+				F4459CA928C3A39B004FF431 /* VMError.swift in Sources */,
 				F435FFA828C23AC6006D5671 /* FileManager.swift in Sources */,
 				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
 				F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */,
+				F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */,
 				F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +406,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4FFF29828A38361003B75F9 /* MonsterTests.swift in Sources */,
+				F4459CA728C3982A004FF431 /* BundleTests.swift in Sources */,
+				F4F2AF9128C3943200C3A5A3 /* ConfigTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

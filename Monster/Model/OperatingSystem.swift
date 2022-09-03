@@ -31,4 +31,8 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
     }
     
     var defaultIconName: String { name }
+    
+    var linuxDistributions: [Self] {
+        Self.allCases.filter { $0 != .macOS }
+    }
 }

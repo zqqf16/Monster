@@ -17,7 +17,7 @@ struct VMConfigView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .status) {
                     Button {
-                        vmInstance.run()
+                        try? vmInstance.run()
                     } label: {
                         Label("Run", systemImage: "play.fill")
                     }
@@ -38,6 +38,6 @@ struct VMConfigView: View {
 
 struct VMConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        VMConfigView(vmInstance: VMInstance())
+        VMConfigView(vmInstance: VMInstance(.defaultMacOSConfig))
     }
 }

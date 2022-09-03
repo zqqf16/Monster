@@ -52,6 +52,9 @@ typealias StorageSize = Measurement<UnitInformationStorage>
 typealias CpuCount = Measurement<CpuCoreUnit>
 
 extension StorageSize {
+    var bytes: UInt64 {
+        UInt64(self.converted(to: .bytes).value)
+    }
     var mb: UInt64 {
         UInt64(self.converted(to: .mebibytes).value)
     }
