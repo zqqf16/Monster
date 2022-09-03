@@ -21,7 +21,6 @@
 		F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC528AE282200E11588 /* VMInstance.swift */; };
 		F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D90FC828AE2A8400E11588 /* Virtualization.framework */; };
 		F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */; };
-		F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */; };
 		F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF824328C1A47D009F5DF6 /* InstallView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
@@ -68,7 +67,6 @@
 		F4D90FC528AE282200E11588 /* VMInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMInstance.swift; sourceTree = "<group>"; };
 		F4D90FC828AE2A8400E11588 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
 		F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+SwiftUI.swift"; sourceTree = "<group>"; };
-		F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		F4FF824328C1A47D009F5DF6 /* InstallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				F435FFA428C20759006D5671 /* ConfigItems */,
 				F4FFF28728A38360003B75F9 /* ContentView.swift */,
 				F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */,
-				F4DA81F728A5EF8F009C1F47 /* WelcomeView.swift */,
 				F4BE60A528A67CBC007340AD /* VirtualMachineView.swift */,
 				F4FFF2B528A3E5A5003B75F9 /* ConfigView.swift */,
 				F4FF824328C1A47D009F5DF6 /* InstallView.swift */,
@@ -386,7 +383,6 @@
 				F435FFA828C23AC6006D5671 /* FileManager.swift in Sources */,
 				F4FFF2B628A3E5A5003B75F9 /* ConfigView.swift in Sources */,
 				F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */,
-				F4DA81F828A5EF8F009C1F47 /* WelcomeView.swift in Sources */,
 				F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

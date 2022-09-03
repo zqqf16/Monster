@@ -15,6 +15,8 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
     case debian
     case fedora
     case linux
+    case arch
+    case redhat
     
     var name: String {
         switch self {
@@ -23,6 +25,8 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
         case .fedora: return "Fedora"
         case .ubuntu: return "Ubuntu"
         case .debian: return "Debian"
+        case .arch: return "Arch"
+        case .redhat: return "RedHat"
         }
     }
     

@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let preview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"]
         if preview != "1" {
+            // Do not active app during xcode previewing
             NSApp.activate(ignoringOtherApps: true)
         }
     }

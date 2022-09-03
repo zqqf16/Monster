@@ -8,19 +8,9 @@
 import SwiftUI
 
 struct InstallView: View {
-    @State private var entrance: Entrance? = .macOS
+    @ObservedObject var config = VMConfig("New Virtual Machine", os: .macOS, memorySize: 4.GB, diskSize: 30.GB, cpuCount: 4.core)
 
-    @State private var restoreImagePath: String?
-    @State private var name: String = "New Virtual Machine"
-    @State private var memorySize = 4.GB
-    @State private var diskSize = 20.GB
-    @State private var cpuCount = 4.core
-    
-    @State private var enableKeyboard = true
-    @State private var enableNetwork = true
-    @State private var enableAudio = true
-    @State private var enableConsole = true
-    
+    @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -34,7 +24,7 @@ struct InstallView: View {
             HStack {
                 ForEach(Entrance.allCases) { entrance in
                     EntranceItem(
-                        selection: $entrance,
+                        selection: currentEntrance,
                         entrance: entrance)
                 }
             }
@@ -47,6 +37,28 @@ struct InstallView: View {
         .scenePadding()
         .background(.background)
         .frame(minWidth: 600)
+    }
+    
+    private var currentEntrance: Binding<Entrance?> {
+        Binding(
+            get: {
+                switch config.os {
+                case .macOS: return Entrance.macOS
+                default: return Entrance.linux
+                }
+            },
+            set: {
+                switch $0 {
+                case .macOS: config.os = .macOS
+                case .linux: config.os = .linux
+                case .import:
+                    // do something
+                    break
+                case .none:
+                    break
+                }
+            }
+        )
     }
     
     @ViewBuilder
@@ -65,7 +77,7 @@ struct InstallView: View {
     private var generalRows: some View {
         BaseGridRow("Restore Image") {
             HStack {
-                if let path = restoreImagePath, path.count > 0 {
+                if let path = config.restoreImagePath, path.count > 0 {
                     Text(path)
                         .multilineTextAlignment(.trailing)
                         .lineLimit(1)
@@ -76,7 +88,7 @@ struct InstallView: View {
                     panel.allowsMultipleSelection = false
                     panel.canChooseDirectories = false
                     if panel.runModal() == .OK {
-                        self.restoreImagePath = panel.url?.relativePath
+                        config.restoreImagePath = panel.url?.relativePath
                     }
                 } label: {
                     Image(systemName: "folder.badge.plus")
@@ -85,7 +97,7 @@ struct InstallView: View {
         }
         
         BaseGridRow("Name") {
-            TextField("", text: $name)
+            TextField("", text: $config.name)
                 .font(.subheadline)
                 .frame(minWidth: 240)
         }
@@ -96,7 +108,7 @@ struct InstallView: View {
     private var systemRows: some View {
         BaseGridRow("Memory") {
             UnitSlider(
-                value: $memorySize,
+                value: $config.memorySize,
                 range: VMConfig.minimumAllowedMemorySize.B ... VMConfig.maximumAllowedMemorySize.B,
                 step: 1.GB,
                 units: [.mebibytes, .gibibytes]
@@ -104,7 +116,7 @@ struct InstallView: View {
         }
         BaseGridRow("Disk Size") {
             UnitSlider(
-                value: $diskSize,
+                value: $config.diskSize,
                 range: VMConfig.minimumAllowedDiskSize.B ... VMConfig.maximumAllowedDiskSize.B,
                 step: 10.GB,
                 units: [.mebibytes, .gibibytes]
@@ -112,7 +124,7 @@ struct InstallView: View {
         }
         BaseGridRow("CPU Count") {
             UnitSlider(
-                value: $cpuCount,
+                value: $config.cpuCount,
                 range: VMConfig.minimumAllowedCPUCount.core ... VMConfig.maximumAllowedCPUCount.core,
                 step: 1.core,
                 units: []
@@ -123,19 +135,19 @@ struct InstallView: View {
     @ViewBuilder
     private var advancedRows: some View {
         BaseGridRow("Advanced") {
-            Toggle("Keyboard", isOn: $enableKeyboard).font(.subheadline)
+            Toggle("Keyboard", isOn: $config.enableKeyboard).font(.subheadline)
         }
         GridRow {
             Spacer()
-            Toggle("Audio", isOn: $enableAudio).font(.subheadline)
+            Toggle("Audio", isOn: $config.enableAudio).font(.subheadline)
         }
         GridRow {
             Spacer()
-            Toggle("Network", isOn: $enableNetwork).font(.subheadline)
+            Toggle("Network", isOn: $config.enableNetwork).font(.subheadline)
         }
         GridRow {
             Spacer()
-            Toggle("Console", isOn: $enableConsole).font(.subheadline)
+            Toggle("Console", isOn: $config.enableConsole).font(.subheadline)
         }
     }
     
@@ -150,12 +162,17 @@ struct InstallView: View {
             .keyboardShortcut(.cancelAction)
             Spacer()
             Button {
-                //
+                commit()
             } label: {
                 Text("Next")
             }
             .keyboardShortcut(.defaultAction)
         }
+    }
+    
+    private func commit() {
+        store.append(vm: config)
+        dismiss()
     }
 }
 

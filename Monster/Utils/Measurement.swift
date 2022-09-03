@@ -47,3 +47,21 @@ class CpuCoreUnit: Dimension {
     static let none = CpuCoreUnit(symbol: "", converter: UnitConverterLinear(coefficient: 1.0))
     static let baseUnit = none
 }
+
+typealias StorageSize = Measurement<UnitInformationStorage>
+typealias CpuCount = Measurement<CpuCoreUnit>
+
+extension StorageSize {
+    var mb: UInt64 {
+        UInt64(self.converted(to: .mebibytes).value)
+    }
+    var gb: UInt64 {
+        UInt64(self.converted(to: .gibibytes).value)
+    }
+}
+
+extension CpuCount {
+    var count: Int {
+        Int(self.value)
+    }
+}

@@ -29,13 +29,12 @@ class Store: ObservableObject {
     private func loadVMConfigs() {
 #if DEBUG
     vms = [
-        VMConfig(name: "macOS 12.2", os: .macOS, memory: 8, disk: 40, cpu: 4),
-        VMConfig(name: "Ubuntu 22.04 LTS", os: .ubuntu, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "Debian 11.3", os: .debian, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "RHEL 9", os: .redhat, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "Fedora 36", os: .fedora, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "Arch", os: .arch, memory: 4, disk: 30, cpu: 4),
-        VMConfig(name: "Oracle Linux 8", os: .linux, memory: 4, disk: 30, cpu: 4),
+        VMConfig("macOS 12.2", os: .macOS, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
+        VMConfig("Ubuntu 22.04 LTS", os: .ubuntu, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
+        VMConfig("Debian 11.3", os: .debian, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
+        VMConfig("RHEL 9", os: .redhat, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
+        VMConfig("Fedora 36", os: .fedora, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
+        VMConfig("Arch", os: .arch, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core)
     ]
 #endif
     }

@@ -21,55 +21,73 @@ struct ConfigView: View {
     
     var body: some View {
         Form {
-            Section("General") {
-                BaseLine(title: "Name") {
-                    TextField("", text: $vm.name)
-                        .multilineTextAlignment(.trailing)
-                        .frame(maxWidth: 240)
-                }
-                BaseLine(title: "Operating System") {
-                    Picker("", selection: $vm.os) {
-                        ForEach(VMConfig.OS.allCases) { os in
-                            Text(os.name).tag(os.rawValue)
-                        }
-                    }.labelsHidden()
-                    .pickerStyle(.automatic)
-                    .frame(maxWidth: 100)
-                }
-            }
-            
-            Section("Drives") {
-                PathLine(title: vm.os == .macOS ? "IPSW" : "ISO", icon: "opticaldiscdrive", path: $vm.iso)
-
-                BaseLine(title: "Boot from iso", icon: "power") {
-                    Toggle("", isOn: .constant(false))
-                }
-            }
-
-            Section("System") {
-                BaseLine(title: "Memory", icon: "memorychip") {
-                    Text("\(vm.memory) GB")
-                        .multilineTextAlignment(.trailing)
-                    Stepper("", value: $vm.memory, step: 1).labelsHidden()
-                }
-                BaseLine(title: "Disk", icon: "internaldrive") {
-                    Text("\(vm.disk) GB")
-                        .multilineTextAlignment(.trailing)
-                    Stepper("", value: $vm.disk, step: 1).labelsHidden()
-                }
-                BaseLine(title: "CPUs", icon: "cpu") {
-                    Text("\(vm.cpu)")
-                        .multilineTextAlignment(.trailing)
-                    Stepper("", value: $vm.cpu, step: 1).labelsHidden()
-                }
-            }
-            Section("Advanced") {
-                PathLine(title: "Shared Directory", icon: "folder", path: $vm.iso)
-            }
+            generalSection
+            drivesSection
+            systemSection
+            advanceSection
         }
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .background(.background)
+    }
+    
+    @ViewBuilder
+    private var generalSection: some View {
+        Section("General") {
+            BaseLine(title: "Name") {
+                TextField("", text: $vm.name)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 240)
+            }
+            BaseLine(title: "Operating System") {
+                Picker("", selection: $vm.os) {
+                    ForEach(OperatingSystem.allCases) { os in
+                        Text(os.name).tag(os.rawValue)
+                    }
+                }.labelsHidden()
+                .pickerStyle(.automatic)
+                .frame(maxWidth: 100)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var systemSection: some View {
+        Section("System") {
+            BaseLine(title: "Memory", icon: "memorychip") {
+                Text("\(vm.memorySize.gb) GB")
+                    .multilineTextAlignment(.trailing)
+                Stepper("", value: $vm.memorySize.value, step: 1).labelsHidden()
+            }
+            BaseLine(title: "Disk", icon: "internaldrive") {
+                Text("\(vm.diskSize.gb) GB")
+                    .multilineTextAlignment(.trailing)
+                Stepper("", value: $vm.diskSize.value, step: 1).labelsHidden()
+            }
+            BaseLine(title: "CPUs", icon: "cpu") {
+                Text("\(vm.cpuCount.count)")
+                    .multilineTextAlignment(.trailing)
+                Stepper("", value: $vm.cpuCount.value, step: 1).labelsHidden()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var drivesSection: some View {
+        Section("Drives") {
+            PathLine(title: vm.os == .macOS ? "IPSW" : "ISO", icon: "opticaldiscdrive", path: $vm.restoreImagePath)
+
+            BaseLine(title: "Boot from iso", icon: "power") {
+                Toggle("", isOn: .constant(false))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var advanceSection: some View {
+        Section("Advanced") {
+            PathLine(title: "Shared Directory", icon: "folder", path: $vm.restoreImagePath)
+        }
     }
 }
 
@@ -124,7 +142,6 @@ private struct PathLine : View {
 
 struct ConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        let vm = VMConfig(name: "New VM", os: .macOS, memory: 4, disk: 30, cpu: 4)
-        ConfigView(vm: vm)
+        ConfigView(vm: .defaultMacOSConfig)
     }
 }

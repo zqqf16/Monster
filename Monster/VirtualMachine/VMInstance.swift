@@ -15,7 +15,7 @@ let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 
 class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
 
-    var config: VMConfig = VMConfig(name: "Ubuntu", os: .linux, memory: 4, disk: 30, cpu: 4)
+    var config: VMConfig = VMConfig("Ubuntu 20.04", os: .ubuntu, memorySize: 4.GB, diskSize: 30.GB, cpuCount: 4.core)
     
     private(set) var virtualMachine: VZVirtualMachine!
 
