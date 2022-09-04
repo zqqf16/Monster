@@ -14,7 +14,6 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     
     private(set) var virtualMachine: VZVirtualMachine!
 
-
     init(_ config: VMConfig) {
         self.config = config
     }

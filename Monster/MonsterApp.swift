@@ -8,7 +8,6 @@
 import SwiftUI
 import AppKit
 
-
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
 
@@ -76,22 +75,12 @@ struct MonsterApp: App {
                 VMConfigView(vmInstance: VMInstance(config))
                     .navigationTitle("Preview")
                     .environmentObject(store)
-                    .task {
-                        try? await Task.sleep(nanoseconds: 1 * 1000)
-                        disableWindowRestoration()
-                    }
             }
         }
+        .defaultSize(width: 1280, height: 720)
         .commands {
             CommandGroup(replacing: CommandGroupPlacement.newItem) { }
         }
         .windowToolbarStyle(.unifiedCompact)
-    }
-    
-    private func disableWindowRestoration() {
-        NSApp.windows.swiftUIWindows.forEach { window in
-            debugPrint("Window:\(window.title) disable restoration")
-            window.isRestorable = false
-        }
     }
 }
