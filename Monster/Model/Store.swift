@@ -27,24 +27,17 @@ class Store: ObservableObject {
     }
     
     private func loadVMConfigs() {
-#if DEBUG
-        vms = [
-            VMConfig("macOS 12.2", os: .macOS, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
-            VMConfig("Ubuntu 22.04 LTS", os: .ubuntu, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
-            VMConfig("Debian 11.3", os: .debian, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
-            VMConfig("RHEL 9", os: .redhat, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
-            VMConfig("Fedora 36", os: .fedora, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core),
-            VMConfig("Arch", os: .arch, memorySize: 8.GB, diskSize: 40.GB, cpuCount: 4.core)
-        ]
-        
-        let demoURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Ubuntu 20.04.vm")
-        if FileManager.default.fileExists(atPath: demoURL.path) {
-            let demoBundle = VMBundle(demoURL)
-            if let config = demoBundle.loadConfig() {
-                vms.insert(config, at: 0)
+        let fileManager = FileManager.default
+        let directory = Settings.vmDirectory
+        let files = (try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
+        let bundles = files.filter { $0.pathExtension == "vm" }
+
+        bundles.forEach { url in
+            let bundle = VMBundle(url)
+            if let config = bundle.loadConfig() {
+                vms.append(config)
             }
         }
-#endif
     }
     
     func append(vm: VMConfig, select: Bool = true) {

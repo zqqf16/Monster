@@ -22,4 +22,17 @@ extension FileManager {
             return nil
         }
     }
+    
+    static var documentDirectory: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    }
+    
+    func directoryExists(at url: URL) -> Bool {
+        var isDir: ObjCBool = true
+        if !FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir) {
+            return false
+        }
+
+        return isDir.boolValue
+    }
 }

@@ -193,6 +193,27 @@ extension VMConfig {
         return VZUSBMassStorageDeviceConfiguration(attachment: intallerDiskAttachment)
     }
     
+    private func createBundle() throws -> VMBundle {
+        var bundlePath = self.bundlePath
+        if bundlePath != nil {
+            return VMBundle(URL(filePath: bundlePath!))
+        }
+
+        // create a new Bundle
+        let bundleURL = Settings.vmDirectory.appendingPathComponent(self.name).appendingPathExtension("vm")
+        bundlePath = bundleURL.path
+        if !FileManager.default.directoryExists(at: bundleURL) {
+            print("Create virtual machine bundle at: \(bundleURL.path)")
+            try FileManager.default.createDirectory(at: bundleURL, withIntermediateDirectories: false)
+            DispatchQueue.main.async {
+                // In next runloop to avoid "Modifying state during view update, this will cause undefined behavior."
+                self.bundlePath = bundlePath
+            }
+        }
+
+        return VMBundle(URL(filePath: bundlePath!))
+    }
+    
     private func createMainDiskImage(_ bundle: VMBundle) throws {
         let mainDiskImagePath = bundle.diskImageURL.path
         let diskCreated = FileManager.default.createFile(atPath: mainDiskImagePath, contents: nil, attributes: nil)
@@ -264,11 +285,7 @@ extension VMConfig {
     }
 
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {
-        guard let bundlePath = self.bundlePath else {
-            throw VMError.bundleNotFound
-        }
-        
-        let bundle = VMBundle(URL(filePath: bundlePath))
+        let bundle = try createBundle()
         let needInstall = bundle.needInstall
         
         let virtualMachineConfiguration = VZVirtualMachineConfiguration()

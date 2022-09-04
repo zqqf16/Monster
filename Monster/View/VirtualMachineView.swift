@@ -17,7 +17,7 @@ struct VMConfigView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .status) {
                     Button {
-                        try? vmInstance.run()
+                        run()
                     } label: {
                         Label("Run", systemImage: "play.fill")
                     }
@@ -33,6 +33,14 @@ struct VMConfigView: View {
                     }
                 }
             }
+    }
+    
+    private func run() {
+        do {
+            try vmInstance.run()
+        } catch {
+            print(error)
+        }
     }
 }
 
