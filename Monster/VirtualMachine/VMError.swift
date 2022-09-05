@@ -10,6 +10,5 @@ import Foundation
 
 enum VMError: Error {
     case bundleNotFound
-    case restoreImageNotFound
     case fileCreationFailed(String)
 }

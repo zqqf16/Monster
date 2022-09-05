@@ -48,9 +48,9 @@ struct VMConfigHelper {
         return try VZEFIVariableStore(creatingVariableStoreAt: efiVariableStoreURL)
     }
     
-    private func createUSBMassStorageDeviceConfiguration() throws -> VZUSBMassStorageDeviceConfiguration {
+    private func createUSBMassStorageDeviceConfiguration() throws -> VZUSBMassStorageDeviceConfiguration? {
         guard let restoreImagePath = config.restoreImagePath else {
-            throw VMError.restoreImageNotFound
+            return nil
         }
         let restoreImageURL = URL(filePath: restoreImagePath)
         let intallerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
@@ -58,24 +58,23 @@ struct VMConfigHelper {
     }
     
     private func createBundle() throws -> VMBundle {
-        var bundlePath = config.bundlePath
-        if bundlePath != nil {
-            return VMBundle(URL(filePath: bundlePath!))
+        let bundleURL: URL
+        if let bundlePath = config.bundlePath {
+            bundleURL = URL(filePath: bundlePath)
+        } else {
+            bundleURL = Settings.vmDirectory.appendingPathComponent(config.name).appendingPathExtension("vm")
+            DispatchQueue.main.async {
+                // In next runloop to avoid "Modifying state during view update, this will cause undefined behavior."
+                config.bundlePath = bundleURL.path
+            }
         }
-        
-        // create a new Bundle
-        let bundleURL = Settings.vmDirectory.appendingPathComponent(config.name).appendingPathExtension("vm")
-        bundlePath = bundleURL.path
+
         if !FileManager.default.directoryExists(at: bundleURL) {
             print("Create virtual machine bundle at: \(bundleURL.path)")
             try FileManager.default.createDirectory(at: bundleURL, withIntermediateDirectories: false)
-            DispatchQueue.main.async {
-                // In next runloop to avoid "Modifying state during view update, this will cause undefined behavior."
-                config.bundlePath = bundlePath
-            }
         }
         
-        return VMBundle(URL(filePath: bundlePath!))
+        return VMBundle(bundleURL)
     }
     
     private func createMainDiskImage(_ bundle: VMBundle) throws {
@@ -164,9 +163,15 @@ struct VMConfigHelper {
         bootloader.variableStore = try retrieveEFIVariableStore(bundle)
         
         let disksArray = NSMutableArray()
-        if needInstall {
-            disksArray.add(try createUSBMassStorageDeviceConfiguration())
+        
+        do {
+            if let usbDevice = try createUSBMassStorageDeviceConfiguration() {
+                disksArray.add(usbDevice)
+            }
+        } catch {
+            print("Create USB mass storage device failed: \(error)")
         }
+
         disksArray.add(try createBlockDeviceConfiguration(bundle))
         guard let disks = disksArray as? [VZStorageDeviceConfiguration] else {
             fatalError("Invalid disksArray.")
