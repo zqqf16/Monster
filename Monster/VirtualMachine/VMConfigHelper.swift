@@ -147,9 +147,20 @@ struct VMConfigHelper {
         return consoleDevice
     }
     
+    var needInstall: Bool {
+        guard config.os == .macOS else {
+            return false
+        }
+        
+        guard let bundlePath = config.bundlePath else {
+            return false
+        }
+        
+        return VMBundle(URL(filePath: bundlePath)).diskImageExists
+    }
+    
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {
         let bundle = try createBundle()
-        let needInstall = bundle.needInstall
         
         let virtualMachineConfiguration = VZVirtualMachineConfiguration()
         

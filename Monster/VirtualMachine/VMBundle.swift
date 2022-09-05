@@ -15,7 +15,7 @@ struct VMBundle {
     var efiVariableStoreURL: URL { url.appendingPathComponent("NVRAM") }
     var configURL: URL { url.appendingPathComponent("Info.json") }
     
-    var needInstall: Bool { !FileManager.default.fileExists(atPath: diskImageURL.path) }
+    var diskImageExists: Bool { !FileManager.default.fileExists(atPath: diskImageURL.path) }
     
     init(_ url: URL) {
         self.url = url
