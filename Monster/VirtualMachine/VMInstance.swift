@@ -19,7 +19,8 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     }
     
     func run() throws {
-        let virtualMachineConfiguration = try config.createVirtualMachineConfiguration()
+        let configHelper = VMConfigHelper(config: config)
+        let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration()
         virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
         virtualMachine.delegate = self
         virtualMachine.start(completionHandler: { (result) in
