@@ -109,32 +109,9 @@ struct InstallView: View {
             comment = "Select an ISO image file (.iso)"
         }
 
-        let hasRestoreImage = config.restoreImagePath != nil
         return BaseGridRow(title) {
-            HStack {
-                Button {
-                    let panel = NSOpenPanel()
-                    panel.allowsMultipleSelection = false
-                    panel.canChooseDirectories = false
-                    if panel.runModal() == .OK {
-                        config.restoreImagePath = panel.url?.relativePath
-                    }
-                } label: {
-                    Image(systemName: "folder.badge.plus")
-                }.buttonStyle(.plain)
-                if hasRestoreImage {
-                    Text(config.restoreImagePath!)
-                        .multilineTextAlignment(.trailing)
-                        .lineLimit(1)
-                        .font(.subheadline)
-                } else {
-                    Text(comment)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(1)
-                        .font(.subheadline)
-                        .italic()
-                }
-            }
+            FileButton(comment: comment, path: $config.restoreImagePath)
+                .font(.subheadline)
         }
     }
     

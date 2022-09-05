@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConfigView: View {
     
-    @ObservedObject var vm: VMConfig
+    @ObservedObject var config: VMConfig
 
     var editable: Bool = true
         
@@ -29,7 +29,7 @@ struct ConfigView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .background(.background)
-        .onReceive(vm.objectWillChange) { _ in
+        .onReceive(config.objectWillChange) { _ in
             print("Config changed")
         }
     }
@@ -37,19 +37,29 @@ struct ConfigView: View {
     @ViewBuilder
     private var generalSection: some View {
         Section("General") {
-            BaseLine(title: "Name") {
-                TextField("", text: $vm.name)
+            BaseLine("Name") {
+                TextField("", text: $config.name)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 240)
             }
-            BaseLine(title: "Operating System") {
-                Picker("", selection: $vm.os) {
-                    ForEach(OperatingSystem.allCases) { os in
-                        Text(os.name).tag(os.rawValue)
-                    }
-                }.labelsHidden()
-                .pickerStyle(.automatic)
-                .frame(maxWidth: 100)
+            if config.os != .macOS {
+                BaseLine("Operating System") {
+                    Picker("", selection: $config.os) {
+                        ForEach(OperatingSystem.linuxDistributions) { os in
+                            Text(os.name).tag(os)
+                        }
+                    }.labelsHidden()
+                    .pickerStyle(.automatic)
+                    .frame(maxWidth: 100)
+                }
+            }
+            
+            BaseLine("Path") {
+                FileButton(
+                    readOnly: true,
+                    path: $config.bundlePath
+                )
+                .rightToLeft()
             }
         }
     }
@@ -57,20 +67,20 @@ struct ConfigView: View {
     @ViewBuilder
     private var systemSection: some View {
         Section("System") {
-            BaseLine(title: "Memory", icon: "memorychip") {
-                Text("\(vm.memorySize.gb) GB")
+            BaseLine("Memory", icon: "memorychip") {
+                Text("\(config.memorySize.gb) GB")
                     .multilineTextAlignment(.trailing)
-                Stepper("", value: $vm.memorySize.value, step: 1).labelsHidden()
+                Stepper("", value: $config.memorySize.value, step: 1).labelsHidden()
             }
-            BaseLine(title: "Disk", icon: "internaldrive") {
-                Text("\(vm.diskSize.gb) GB")
+            BaseLine("Disk", icon: "internaldrive") {
+                Text("\(config.diskSize.gb) GB")
                     .multilineTextAlignment(.trailing)
-                Stepper("", value: $vm.diskSize.value, step: 1).labelsHidden()
+                Stepper("", value: $config.diskSize.value, step: 1).labelsHidden()
             }
-            BaseLine(title: "CPUs", icon: "cpu") {
-                Text("\(vm.cpuCount.count)")
+            BaseLine("CPUs", icon: "cpu") {
+                Text("\(config.cpuCount.count)")
                     .multilineTextAlignment(.trailing)
-                Stepper("", value: $vm.cpuCount.value, step: 1).labelsHidden()
+                Stepper("", value: $config.cpuCount.value, step: 1).labelsHidden()
             }
         }
     }
@@ -78,9 +88,11 @@ struct ConfigView: View {
     @ViewBuilder
     private var drivesSection: some View {
         Section("Drives") {
-            PathLine(title: vm.os == .macOS ? "IPSW" : "ISO", icon: "opticaldiscdrive", path: $vm.restoreImagePath)
-
-            BaseLine(title: "Boot from iso", icon: "power") {
+            BaseLine(config.os.restoreImageTitle, icon: "externaldrive") {
+                FileButton(path: $config.restoreImagePath)
+                    .rightToLeft()
+            }
+            BaseLine("Boot from iso", icon: "power") {
                 Toggle("", isOn: .constant(false))
             }
         }
@@ -89,16 +101,25 @@ struct ConfigView: View {
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
-            PathLine(title: "Shared Directory", icon: "folder", path: $vm.restoreImagePath)
+            BaseLine("Shared Directory", icon: "folder") {
+                FileButton(path: $config.restoreImagePath)
+                    .rightToLeft()
+            }
         }
     }
 }
 
-private struct BaseLine<Content> : View where Content : View {
-    var title: String = ""
+private struct BaseLine<Content>: View where Content: View {
+    var title: String
     var icon: String?
     
     @ViewBuilder var contentBilder: () -> Content
+    
+    init(_ title: String = "", icon: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
+        self.title = title
+        self.icon = icon
+        self.contentBilder = contentBilder
+    }
     
     var body: some View {
         HStack {
@@ -114,37 +135,8 @@ private struct BaseLine<Content> : View where Content : View {
     }
 }
 
-private struct PathLine : View {
-    var title: String = ""
-    var icon: String?
-    
-    @Binding var path: String?
-    
-    var body: some View {
-        HStack {
-            if let icon = icon {
-                Image(systemName: icon).foregroundColor(.accentColor)
-            }
-            Text(title)
-            Spacer()
-            Text(path ?? "")
-                .multilineTextAlignment(.trailing)
-            Button {
-                let panel = NSOpenPanel()
-                panel.allowsMultipleSelection = false
-                panel.canChooseDirectories = false
-                if panel.runModal() == .OK {
-                    self.path = panel.url?.relativePath
-                }
-            } label: {
-                Image(systemName: "folder.badge.plus")
-            }.buttonStyle(.plain)
-        }
-    }
-}
-
 struct ConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfigView(vm: .defaultMacOSConfig)
+        ConfigView(config: .defaultMacOSConfig)
     }
 }

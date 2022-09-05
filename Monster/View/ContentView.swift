@@ -16,7 +16,7 @@ struct ContentView: View {
             Sidebar()
         } detail: {
             if let selectedVM = store.selectedVM {
-                ConfigView(vm: selectedVM)
+                ConfigView(config: selectedVM)
             } else {
                 EmptyStateView()
             }
