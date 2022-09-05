@@ -217,7 +217,7 @@ struct InstallView: View {
     }
     
     private func commit() {
-        store.append(vm: config)
+        store.createVirtualMachine(with: config)
         dismiss()
     }
 }

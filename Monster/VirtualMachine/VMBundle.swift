@@ -27,10 +27,27 @@ struct VMBundle {
         if let bundlePath = config.bundlePath {
             bundleURL = URL(filePath: bundlePath)
         } else {
-            bundleURL = Settings.vmDirectory.appendingPathComponent(config.name).appendingPathExtension("vm")
+            let name = Self.generateDirectoryName(for: config)
+            bundleURL = Self.directoryURL(with: name)
         }
         
         self.url = bundleURL
+    }
+    
+    private static func directoryURL(with name: String) -> URL {
+        Settings.vmDirectory.appendingPathComponent(name).appendingPathExtension("vm")
+    }
+    
+    private static func generateDirectoryName(for config: VMConfig) -> String {
+        let fileManager = FileManager.default
+        var counter = 0
+        var name = config.name
+        while fileManager.directoryExists(at: directoryURL(with: name)) {
+            counter += 1
+            name = "\(config.name) \(counter)"
+        }
+        
+        return name
     }
     
     func prepareBundleDirectory() throws {

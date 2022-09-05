@@ -40,8 +40,12 @@ class Store: ObservableObject {
         }
     }
     
-    func append(vm: VMConfig, select: Bool = true) {
-        vms.append(vm)
+    func createVirtualMachine(with config: VMConfig, select: Bool = true) {
+        let bundle = VMBundle(config)
+        try? bundle.prepareBundleDirectory()
+        try? bundle.save(config: config)
+
+        vms.append(config)
         selectedVM = vms.last
         columnVisibility = .all
     }
