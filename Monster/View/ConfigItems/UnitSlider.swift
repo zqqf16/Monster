@@ -35,7 +35,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
     }
 
     var body: some View {
-        HStack {
+        HStack(spacing: 4) {
             Slider(value: floatValue, in: floatRange, step: floatStep)
             
             TextField("", text: stringValue)
@@ -43,15 +43,22 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
                 .textFieldStyle(.plain)
                 .multilineTextAlignment(.trailing).padding(0)
                 .font(.subheadline)
+            Stepper("", value: floatValue, step: 1)
+                .labelsHidden()
+                .padding(0)
             
-            Picker("", selection: $currentUnit) {
+            Menu {
                 ForEach(units) { unit in
-                    Text(unit.symbol).tag(unit)
+                    Button(unit.symbol) {
+                        currentUnit = unit
+                    }.font(.subheadline)
                 }
+            } label: {
+                Text(currentUnit.symbol).font(.subheadline)
             }
-            .labelsHidden()
-            .pickerStyle(.menu)
-            .frame(width: 54, alignment: .trailing)
+            .padding(0)
+            .menuStyle(.borderlessButton)
+            .frame(width: 36, alignment: .trailing)
             .opacity(units.count > 0 ? 1 : 0)
         }
     }
@@ -62,7 +69,10 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
                 self.value.converted(to: currentUnit).value
             },
             set: {
-                self.value = Measurement(value: $0, unit: currentUnit)
+                var value = Measurement(value: $0, unit: currentUnit)
+                value = min(value, range.upperBound)
+                value = max(value, range.lowerBound)
+                self.value = value
             }
         )
     }
@@ -98,7 +108,7 @@ struct UnitSlider_Previews: PreviewProvider {
                 value: .constant(100000.MB),
                 range: 1.MB...1000.MB,
                 step: 100.MB,
-                units: [.megabytes, .gigabytes]
+                units: [.mebibytes, .gibibytes]
             )
             UnitSlider<UnitInformationStorage>(
                 value: .constant(10.GB),
