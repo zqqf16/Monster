@@ -14,9 +14,9 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
     case ubuntu
     case debian
     case fedora
-    case linux
     case arch
     case redhat
+    case linux
     
     var name: String {
         switch self {
@@ -32,7 +32,7 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
     
     var defaultIconName: String { name }
     
-    var linuxDistributions: [Self] {
+    static var linuxDistributions: [Self] {
         Self.allCases.filter { $0 != .macOS }
     }
 }

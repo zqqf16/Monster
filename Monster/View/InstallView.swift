@@ -13,6 +13,8 @@ struct InstallView: View {
     @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
 
+    @State var linuxDictribution: OperatingSystem?
+    
     var body: some View {
         VStack {
             Spacer()
@@ -28,6 +30,7 @@ struct InstallView: View {
                         entrance: entrance)
                 }
             }
+            
             Spacer(minLength: 20)
             grid
             Spacer()
@@ -47,15 +50,19 @@ struct InstallView: View {
                 default: return Entrance.linux
                 }
             },
-            set: {
-                switch $0 {
-                case .macOS: config.os = .macOS
-                case .linux: config.os = .linux
-                case .import:
-                    // do something
-                    break
-                case .none:
-                    break
+            set: { value in
+                withAnimation {
+                    switch value {
+                    case .macOS:
+                        linuxDictribution = config.os
+                        config.os = .macOS
+                    case .linux: config.os = linuxDictribution ?? .linux
+                    case .import:
+                        // do something
+                        break
+                    case .none:
+                        break
+                    }
                 }
             }
         )
@@ -73,16 +80,38 @@ struct InstallView: View {
         }
     }
     
-    @ViewBuilder
-    private var generalRows: some View {
-        BaseGridRow("Restore Image") {
+    private var distributionRow: some View {
+        BaseGridRow("Linux Distribution") {
             HStack {
-                if let path = config.restoreImagePath, path.count > 0 {
-                    Text(path)
-                        .multilineTextAlignment(.trailing)
-                        .lineLimit(1)
-                        .font(.subheadline)
+                Picker("", selection: $config.os) {
+                    ForEach(OperatingSystem.linuxDistributions) { os in
+                        Text(os.name).font(.subheadline).tag(os)
+                    }
                 }
+                .labelsHidden()
+                .frame(width: 80)
+                Image(config.os.name)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
+            }
+        }
+    }
+    
+    private var restoreImageRow: some View {
+        let comment: String
+        let title: String
+        if config.os == .macOS {
+            title = "Restore Image"
+            comment = "Select a restore image file (.ipsw)"
+        } else {
+            title = "ISO Image"
+            comment = "Select an ISO image file (.iso)"
+        }
+
+        let hasRestoreImage = config.restoreImagePath != nil
+        return BaseGridRow(title) {
+            HStack {
                 Button {
                     let panel = NSOpenPanel()
                     panel.allowsMultipleSelection = false
@@ -93,15 +122,34 @@ struct InstallView: View {
                 } label: {
                     Image(systemName: "folder.badge.plus")
                 }.buttonStyle(.plain)
+                if hasRestoreImage {
+                    Text(config.restoreImagePath!)
+                        .multilineTextAlignment(.trailing)
+                        .lineLimit(1)
+                        .font(.subheadline)
+                } else {
+                    Text(comment)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .font(.subheadline)
+                        .italic()
+                }
             }
         }
-        
+    }
+    
+    @ViewBuilder
+    private var generalRows: some View {
+        if currentEntrance.wrappedValue == .linux {
+            distributionRow
+        }
+        restoreImageRow
         BaseGridRow("Name") {
             TextField("", text: $config.name)
                 .font(.subheadline)
                 .frame(minWidth: 240)
+                .textFieldStyle(.roundedBorder)
         }
-
     }
     
     @ViewBuilder
@@ -193,7 +241,7 @@ private struct BaseGridRow<Content> : View where Content : View {
                 .gridColumnAlignment(.leading)
             contentBilder()
                 .gridColumnAlignment(.leading)
-        }
+        }.frame(minHeight: 20)
     }
 }
 
