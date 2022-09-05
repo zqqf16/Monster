@@ -58,42 +58,22 @@ struct VMConfigHelper {
     }
     
     private func createBundle() throws -> VMBundle {
-        let bundleURL: URL
-        if let bundlePath = config.bundlePath {
-            bundleURL = URL(filePath: bundlePath)
-        } else {
-            bundleURL = Settings.vmDirectory.appendingPathComponent(config.name).appendingPathExtension("vm")
+        let bundle = VMBundle(config)
+        try bundle.prepareBundleDirectory()
+        
+        if config.bundlePath == nil {
             DispatchQueue.main.async {
                 // In next runloop to avoid "Modifying state during view update, this will cause undefined behavior."
-                config.bundlePath = bundleURL.path
+                config.bundlePath = bundle.url.path
             }
         }
-
-        if !FileManager.default.directoryExists(at: bundleURL) {
-            print("Create virtual machine bundle at: \(bundleURL.path)")
-            try FileManager.default.createDirectory(at: bundleURL, withIntermediateDirectories: false)
-        }
-        
-        return VMBundle(bundleURL)
+                
+        return bundle
     }
-    
-    private func createMainDiskImage(_ bundle: VMBundle) throws {
-        let mainDiskImagePath = bundle.diskImageURL.path
-        let diskCreated = FileManager.default.createFile(atPath: mainDiskImagePath, contents: nil, attributes: nil)
-        if !diskCreated {
-            throw VMError.fileCreationFailed(mainDiskImagePath)
-        }
-        
-        let mainDiskFileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: mainDiskImagePath))
-        try mainDiskFileHandle.truncate(atOffset: config.diskSize.bytes)
-    }
-    
     
     private func createBlockDeviceConfiguration(_ bundle: VMBundle) throws -> VZVirtioBlockDeviceConfiguration {
         let path = bundle.diskImageURL.path
-        if !FileManager.default.fileExists(atPath: path) {
-            try createMainDiskImage(bundle)
-        }
+        try bundle.prepareDiskImage(with: config.diskSize)
         
         let mainDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: URL(fileURLWithPath: path), readOnly: false)
         let mainDisk = VZVirtioBlockDeviceConfiguration(attachment: mainDiskAttachment)
@@ -152,11 +132,8 @@ struct VMConfigHelper {
             return false
         }
         
-        guard let bundlePath = config.bundlePath else {
-            return false
-        }
-        
-        return VMBundle(URL(filePath: bundlePath)).diskImageExists
+        let bundle = VMBundle(config)
+        return !bundle.diskImageExists
     }
     
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {

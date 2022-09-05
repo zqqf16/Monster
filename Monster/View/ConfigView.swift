@@ -29,6 +29,9 @@ struct ConfigView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .background(.background)
+        .onReceive(vm.objectWillChange) { _ in
+            print("Config changed")
+        }
     }
     
     @ViewBuilder

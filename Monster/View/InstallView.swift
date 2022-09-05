@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InstallView: View {
-    @ObservedObject var config = VMConfig("New Virtual Machine", os: .macOS, memorySize: 4.GB, diskSize: 30.GB, cpuCount: 4.core)
+    @ObservedObject var config = VMConfig("Ubuntu 20.04", os: .ubuntu, memorySize: 8.GB, diskSize: 30.GB, cpuCount: 4.core)
 
     @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
