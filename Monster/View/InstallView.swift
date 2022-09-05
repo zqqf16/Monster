@@ -185,17 +185,15 @@ struct InstallView: View {
         BaseGridRow("Advanced") {
             Toggle("Keyboard", isOn: $config.enableKeyboard).font(.subheadline)
         }
+        toggleRow("Audio", isOn: $config.enableAudio)
+        toggleRow("Network", isOn: $config.enableNetwork)
+        toggleRow("Console", isOn: $config.enableConsole)
+    }
+    
+    func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
         GridRow {
             Spacer()
-            Toggle("Audio", isOn: $config.enableAudio).font(.subheadline)
-        }
-        GridRow {
-            Spacer()
-            Toggle("Network", isOn: $config.enableNetwork).font(.subheadline)
-        }
-        GridRow {
-            Spacer()
-            Toggle("Console", isOn: $config.enableConsole).font(.subheadline)
+            Toggle(title, isOn: isOn).font(.subheadline)
         }
     }
     
