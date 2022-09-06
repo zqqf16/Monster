@@ -104,43 +104,55 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
 // MARK: System limitation
 
 extension VMConfig {
-    class var minimumAllowedMemorySize: UInt64 {
-        1024 * 1024 * 1024 // 1G
+    class var minimumAllowedMemorySize: StorageSize {
+        1.GB
     }
     
-    class var maximumAllowedMemorySize: UInt64 {
-        VZVirtualMachineConfiguration.maximumAllowedMemorySize
+    class var maximumAllowedMemorySize: StorageSize {
+        VZVirtualMachineConfiguration.maximumAllowedMemorySize.B
     }
     
-    class var minimumAllowedCPUCount: Int {
-        VZVirtualMachineConfiguration.minimumAllowedCPUCount
+    class var memorySizeRange: ClosedRange<StorageSize> {
+        minimumAllowedMemorySize ... maximumAllowedMemorySize
     }
     
-    class var maximumAllowedCPUCount: Int {
+    class var minimumAllowedCPUCount: CpuCount {
+        VZVirtualMachineConfiguration.minimumAllowedCPUCount.core
+    }
+    
+    class var maximumAllowedCPUCount: CpuCount {
         let totalAvailableCPUs = ProcessInfo.processInfo.processorCount
         
         var virtualCPUCount = totalAvailableCPUs <= 1 ? 1 : totalAvailableCPUs - 1
         virtualCPUCount = max(virtualCPUCount, VZVirtualMachineConfiguration.minimumAllowedCPUCount)
         virtualCPUCount = min(virtualCPUCount, VZVirtualMachineConfiguration.maximumAllowedCPUCount)
         
-        return virtualCPUCount
+        return virtualCPUCount.core
     }
     
-    class var minimumAllowedDiskSize: UInt64 {
-        return 5 * 1024 * 1024 * 1024 // 2.5GB, Ubuntu 20.04
+    class var cpuCountRnage: ClosedRange<CpuCount> {
+        minimumAllowedCPUCount ... maximumAllowedCPUCount
     }
     
-    class var maximumAllowedDiskSize: UInt64 {
+    class var minimumAllowedDiskSize: StorageSize {
+        return 5.GB // 2.5GB, Ubuntu 20.04
+    }
+    
+    class var maximumAllowedDiskSize: StorageSize {
         guard let size = FileManager.getFileSize(for: .systemFreeSize) else {
-            return 100 * 1024 * 1024 * 1024 // 100G
+            return 100.GB
         }
         
         let sizeInGB = Double(size) / 1024 / 1024 / 1024
         if sizeInGB < 1 {
-            return 10 * 1024 * 1024 * 1024 // 10G, must be failed
+            return 10.GB // 10G, must be failed
         }
         
-        return UInt64(sizeInGB) * 1024 * 1024 * 1024
+        return UInt64(sizeInGB).GB
+    }
+    
+    class var diskSizeRange: ClosedRange<StorageSize> {
+        minimumAllowedDiskSize ... maximumAllowedDiskSize
     }
 }
 

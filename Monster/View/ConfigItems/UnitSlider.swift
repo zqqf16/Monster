@@ -14,6 +14,8 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
     var range: ClosedRange<Measurement<UnitType>>
     var step: Measurement<UnitType>
     var units: [UnitType]
+    
+    var showSlider = true
 
     @State var currentUnit: UnitType
     
@@ -21,7 +23,8 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
         value: Binding<Measurement<UnitType>>,
         range: ClosedRange<Measurement<UnitType>>,
         step: Measurement<UnitType>? = nil,
-        units: [UnitType]
+        units: [UnitType],
+        defaultUnit: UnitType? = nil
     ) {
         self._value = value
         self.range = range
@@ -31,15 +34,18 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
             self.step = (range.upperBound - range.lowerBound)/10
         }
         self.units = units
-        self._currentUnit = State(initialValue: value.wrappedValue.unit)
+        self._currentUnit = State(initialValue: defaultUnit ?? value.wrappedValue.unit)
     }
 
     var body: some View {
-        HStack(spacing: 4) {
-            Slider(value: floatValue, in: floatRange, step: floatStep)
+        HStack(alignment: .center, spacing: 4) {
+            if showSlider {
+                Slider(value: floatValue, in: floatRange, step: floatStep)
+                    .layoutPriority(1000)
+            }
             
             TextField("", text: stringValue)
-                .frame(width: 46, alignment: .trailing)
+                .frame(minWidth: 46, alignment: .trailing)
                 .textFieldStyle(.plain)
                 .multilineTextAlignment(.trailing).padding(0)
                 .font(.subheadline)
@@ -61,6 +67,12 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
             .frame(width: 36, alignment: .trailing)
             .opacity(units.count > 0 ? 1 : 0)
         }
+    }
+    
+    func hideSlider() -> Self {
+        var newValue = self
+        newValue.showSlider = false
+        return newValue
     }
     
     private var floatValue: Binding<Double> {

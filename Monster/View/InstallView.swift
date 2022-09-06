@@ -134,7 +134,7 @@ struct InstallView: View {
         BaseGridRow("Memory") {
             UnitSlider(
                 value: $config.memorySize,
-                range: VMConfig.minimumAllowedMemorySize.B ... VMConfig.maximumAllowedMemorySize.B,
+                range: VMConfig.memorySizeRange,
                 step: 1.GB,
                 units: [.mebibytes, .gibibytes]
             )
@@ -142,7 +142,7 @@ struct InstallView: View {
         BaseGridRow("Disk Size") {
             UnitSlider(
                 value: $config.diskSize,
-                range: VMConfig.minimumAllowedDiskSize.B ... VMConfig.maximumAllowedDiskSize.B,
+                range: VMConfig.diskSizeRange,
                 step: 10.GB,
                 units: [.mebibytes, .gibibytes]
             )
@@ -150,7 +150,7 @@ struct InstallView: View {
         BaseGridRow("CPU Count") {
             UnitSlider(
                 value: $config.cpuCount,
-                range: VMConfig.minimumAllowedCPUCount.core ... VMConfig.maximumAllowedCPUCount.core,
+                range: VMConfig.cpuCountRnage,
                 step: 1.core,
                 units: []
             )

@@ -68,19 +68,30 @@ struct ConfigView: View {
     private var systemSection: some View {
         Section("System") {
             BaseLine("Memory", icon: "memorychip") {
-                Text("\(config.memorySize.gb) GB")
-                    .multilineTextAlignment(.trailing)
-                Stepper("", value: $config.memorySize.value, step: 1).labelsHidden()
+                UnitSlider(
+                    value: $config.memorySize,
+                    range: VMConfig.memorySizeRange,
+                    step: 1.GB,
+                    units: [.mebibytes, .gibibytes],
+                    defaultUnit: .mebibytes
+                ).hideSlider()
             }
             BaseLine("Disk", icon: "internaldrive") {
-                Text("\(config.diskSize.gb) GB")
-                    .multilineTextAlignment(.trailing)
-                Stepper("", value: $config.diskSize.value, step: 1).labelsHidden()
+                UnitSlider(
+                    value: $config.diskSize,
+                    range: VMConfig.diskSizeRange,
+                    step: 10.GB,
+                    units: [.mebibytes, .gibibytes],
+                    defaultUnit: .mebibytes
+                ).hideSlider()
             }
             BaseLine("CPUs", icon: "cpu") {
-                Text("\(config.cpuCount.count)")
-                    .multilineTextAlignment(.trailing)
-                Stepper("", value: $config.cpuCount.value, step: 1).labelsHidden()
+                UnitSlider(
+                    value: $config.cpuCount,
+                    range: VMConfig.cpuCountRnage,
+                    step: 1.core,
+                    units: []
+                ).hideSlider()
             }
         }
     }
