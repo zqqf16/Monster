@@ -16,7 +16,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
     var units: [UnitType]
     
     var showSlider = true
-
+    var textFont: Font? = nil
     @State var currentUnit: UnitType
     
     init(
@@ -48,7 +48,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
                 .frame(minWidth: 46, alignment: .trailing)
                 .textFieldStyle(.plain)
                 .multilineTextAlignment(.trailing).padding(0)
-                .font(.subheadline)
+                .font(textFont)
             Stepper("", value: floatValue, step: 1)
                 .labelsHidden()
                 .padding(0)
@@ -57,10 +57,10 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
                 ForEach(units) { unit in
                     Button(unit.symbol) {
                         currentUnit = unit
-                    }.font(.subheadline)
+                    }.font(textFont)
                 }
             } label: {
-                Text(currentUnit.symbol).font(.subheadline)
+                Text(currentUnit.symbol).font(textFont)
             }
             .padding(0)
             .menuStyle(.borderlessButton)
@@ -72,6 +72,12 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
     func hideSlider() -> Self {
         var newValue = self
         newValue.showSlider = false
+        return newValue
+    }
+    
+    func font(_ font: Font?) -> Self {
+        var newValue = self
+        newValue.textFont = font
         return newValue
     }
     

@@ -73,7 +73,7 @@ struct ConfigView: View {
                     range: VMConfig.memorySizeRange,
                     step: 1.GB,
                     units: [.mebibytes, .gibibytes],
-                    defaultUnit: .mebibytes
+                    defaultUnit: .gibibytes
                 ).hideSlider()
             }
             BaseLine("Disk", icon: "internaldrive") {
@@ -82,7 +82,7 @@ struct ConfigView: View {
                     range: VMConfig.diskSizeRange,
                     step: 10.GB,
                     units: [.mebibytes, .gibibytes],
-                    defaultUnit: .mebibytes
+                    defaultUnit: .gibibytes
                 ).hideSlider()
             }
             BaseLine("CPUs", icon: "cpu") {

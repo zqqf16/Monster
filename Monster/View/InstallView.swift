@@ -138,6 +138,7 @@ struct InstallView: View {
                 step: 1.GB,
                 units: [.mebibytes, .gibibytes]
             )
+            .font(.subheadline)
         }
         BaseGridRow("Disk Size") {
             UnitSlider(
@@ -146,6 +147,7 @@ struct InstallView: View {
                 step: 10.GB,
                 units: [.mebibytes, .gibibytes]
             )
+            .font(.subheadline)
         }
         BaseGridRow("CPU Count") {
             UnitSlider(
@@ -154,6 +156,7 @@ struct InstallView: View {
                 step: 1.core,
                 units: []
             )
+            .font(.subheadline)
         }
     }
     
