@@ -44,6 +44,7 @@ class Store: ObservableObject {
         let bundle = VMBundle(config)
         try? bundle.prepareBundleDirectory()
         try? bundle.save(config: config)
+        config.bundlePath = bundle.url.path
 
         vms.append(config)
         selectedVM = vms.last
@@ -62,7 +63,7 @@ class Store: ObservableObject {
         }
         
         if vms.count > 0 {
-            let index = min(index, vms.count)
+            let index = min(index, vms.count-1)
             selectedVM = vms[index]
         } else {
             selectedVM = nil

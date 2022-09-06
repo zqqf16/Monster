@@ -13,7 +13,7 @@ struct FileButton: View {
     
     var systemImageName: String = "folder.badge.plus"
     var readOnlySystemImageName: String = "rectangle.and.text.magnifyingglass"
-    var deleteSystemImageName: String = "minus.circle.fill"
+    var deleteSystemImageName: String = "xmark.circle.fill"
 
     var layoutDirection: LayoutDirection = .leftToRight
     var comment: String? = nil
@@ -24,7 +24,7 @@ struct FileButton: View {
     @Binding var path: String?
     
     var body: some View {
-        HStack {
+        HStack(spacing: 4) {
             if layoutDirection == .leftToRight {
                 button
                 text
@@ -83,6 +83,8 @@ struct FileButton: View {
             self.path = nil
         } label: {
             Image(systemName: deleteSystemImageName)
+                .resizable()
+                .frame(width: 12, height: 12)
                 .foregroundColor(Color("ControlColor"))
         }
         .buttonStyle(.plain)

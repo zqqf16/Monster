@@ -43,12 +43,13 @@ struct ConfigView: View {
                     .frame(maxWidth: 240)
             }
             if config.os != .macOS {
-                BaseLine("Operating System") {
+                BaseLine("Linux Distribution") {
                     Picker("", selection: $config.os) {
                         ForEach(OperatingSystem.linuxDistributions) { os in
                             Text(os.name).tag(os)
                         }
-                    }.labelsHidden()
+                    }
+                    .labelsHidden()
                     .pickerStyle(.automatic)
                     .frame(maxWidth: 100)
                 }
@@ -67,7 +68,7 @@ struct ConfigView: View {
     @ViewBuilder
     private var systemSection: some View {
         Section("System") {
-            BaseLine("Memory", icon: "memorychip") {
+            BaseLine("Memory Size", icon: "memorychip") {
                 UnitSlider(
                     value: $config.memorySize,
                     range: VMConfig.memorySizeRange,
@@ -76,7 +77,7 @@ struct ConfigView: View {
                     defaultUnit: .gibibytes
                 ).hideSlider()
             }
-            BaseLine("Disk", icon: "internaldrive") {
+            BaseLine("Disk Size", icon: "internaldrive") {
                 UnitSlider(
                     value: $config.diskSize,
                     range: VMConfig.diskSizeRange,
@@ -85,7 +86,7 @@ struct ConfigView: View {
                     defaultUnit: .gibibytes
                 ).hideSlider()
             }
-            BaseLine("CPUs", icon: "cpu") {
+            BaseLine("CPU Count", icon: "cpu") {
                 UnitSlider(
                     value: $config.cpuCount,
                     range: VMConfig.cpuCountRnage,
