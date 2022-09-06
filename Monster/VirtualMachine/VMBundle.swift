@@ -35,7 +35,7 @@ struct VMBundle {
     }
     
     private static func directoryURL(with name: String) -> URL {
-        Settings.vmDirectory.appendingPathComponent(name).appendingPathExtension("vm")
+        AppSettings.vmDirectory.appendingPathComponent(name).appendingPathExtension("vm")
     }
     
     private static func generateDirectoryName(for config: VMConfig) -> String {
@@ -89,5 +89,9 @@ struct VMBundle {
     func save(config: VMConfig) throws {
         let jsonData = try JSONEncoder().encode(config)
         try jsonData.write(to: configURL, options: [.atomicWrite])
+    }
+    
+    func remove() throws {
+        try FileManager.default.removeItem(at: url)
     }
 }

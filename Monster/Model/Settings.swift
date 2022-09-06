@@ -1,5 +1,5 @@
 //
-//  Settings.swift
+//  AppSettings.swift
 //  Monster
 //
 //  Created by zqqf16 on 2022/9/4.
@@ -9,9 +9,11 @@
 import Foundation
 import SwiftUI
 
-struct Settings {
+struct AppSettings {
     
     @AppStorage("vmDirectory")
     static var vmDirectory = FileManager.documentDirectory
     
+    @AppStorage("deleteVMFiles")
+    static var deleteVMFiles = true
 }

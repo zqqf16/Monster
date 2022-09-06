@@ -28,7 +28,7 @@ class Store: ObservableObject {
     
     private func loadVMConfigs() {
         let fileManager = FileManager.default
-        let directory = Settings.vmDirectory
+        let directory = AppSettings.vmDirectory
         let files = (try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
         let bundles = files.filter { $0.pathExtension == "vm" }
 
@@ -50,11 +50,16 @@ class Store: ObservableObject {
         columnVisibility = .all
     }
     
-    func remove(vm: VMConfig) {
-        guard let index = vms.firstIndex(of: vm) else {
+    func remove(config: VMConfig, deleteFiles: Bool = true) {
+        guard let index = vms.firstIndex(of: config) else {
             return
         }
+        
         vms.remove(at: index)
+        if deleteFiles {
+            let bundle = VMBundle(config)
+            try? bundle.remove()
+        }
         
         if vms.count > 0 {
             let index = min(index, vms.count)

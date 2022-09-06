@@ -34,13 +34,13 @@ struct ContentView: View {
 
     var alertTitle: String {
         let name = store.selectedVM?.name ?? ""
-        return "Delete \(name)?"
+        return "Are you sure to delete \(name)?"
     }
     
     @ViewBuilder var alert: some View {
         Button("Delete", role: .destructive) {
             if let selectedVM = store.selectedVM {
-                store.remove(vm: selectedVM)
+                store.remove(config: selectedVM, deleteFiles: AppSettings.deleteVMFiles)
             }
         }
         Button("Cancel", role: .cancel) {
@@ -100,11 +100,10 @@ private struct Toolbar: ToolbarContent {
             .keyboardShortcut("r", modifiers: .command)
 
             Button {
-                store.showDeleteAlert = true
+                //
             } label: {
                 Label("Pause", systemImage: "pause.fill")
             }
-            .keyboardShortcut(.delete)
 
             Button {
                 //
@@ -115,7 +114,15 @@ private struct Toolbar: ToolbarContent {
         ToolbarItem() {
             Spacer()
         }
-        ToolbarItem(placement: .primaryAction) {
+        ToolbarItemGroup(placement: .primaryAction) {
+            if store.selectedVM != nil {
+                Button {
+                    store.showDeleteAlert = true
+                } label: {
+                    Label("Remove this VM", systemImage: "trash")
+                }
+                .keyboardShortcut(.delete)
+            }
             Button {
                 store.showWelcome = true
             } label: {
