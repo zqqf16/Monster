@@ -82,7 +82,8 @@ struct FileButton: View {
         Button {
             self.path = nil
         } label: {
-            Image(systemName: deleteSystemImageName).foregroundColor(.secondary)
+            Image(systemName: deleteSystemImageName)
+                .foregroundColor(Color("ControlColor"))
         }
         .buttonStyle(.plain)
     }
