@@ -11,28 +11,45 @@ import Virtualization
 struct VMConfigView: View {
     @ObservedObject var vmInstance: VMInstance
 
+    @State var showBanner: Bool = false
+    
     var body: some View {
         VMPlayer(vm: vmInstance)
             .navigationTitle(vmInstance.config.name)
             .toolbar {
-                ToolbarItemGroup(placement: .status) {
-                    Button {
-                        run()
-                    } label: {
-                        Label("Run", systemImage: "play.fill")
-                    }
-                    Button {
-                        vmInstance.pause()
-                    } label: {
-                        Label("Pause", systemImage: "pause.fill")
-                    }
-                    Button {
-                        vmInstance.stop()
-                    } label: {
-                        Label("Stop", systemImage: "stop.fill")
-                    }
-                }
+                toolbar
             }
+            .banner(isPresented: $showBanner) {
+                Text("This is a banner")
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now()+4, execute: {
+                    withAnimation {
+                        self.showBanner = true
+                    }
+                })
+            }
+    }
+    
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItemGroup(placement: .status) {
+            Button {
+                run()
+            } label: {
+                Label("Run", systemImage: "play.fill")
+            }
+            Button {
+                vmInstance.pause()
+            } label: {
+                Label("Pause", systemImage: "pause.fill")
+            }
+            Button {
+                vmInstance.stop()
+            } label: {
+                Label("Stop", systemImage: "stop.fill")
+            }
+        }
     }
     
     private func run() {

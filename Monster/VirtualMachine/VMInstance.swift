@@ -13,15 +13,25 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     var config: VMConfig
     
     private(set) var virtualMachine: VZVirtualMachine!
+    private var observeToken: NSKeyValueObservation?
 
     init(_ config: VMConfig) {
         self.config = config
+    }
+    
+    deinit {
+        observeToken?.invalidate()
     }
     
     func run() throws {
         let configHelper = VMConfigHelper(config: config)
         let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration()
         virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
+        
+        observeToken = virtualMachine.observe(\.state) { vm, change in
+            print("Virtual machine state: \(vm.state)")
+        }
+        
         virtualMachine.delegate = self
         virtualMachine.start(completionHandler: { (result) in
             switch result {
@@ -35,7 +45,7 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     }
     
     func stop() {
-        virtualMachine.stop { error in
+        virtualMachine?.stop { error in
             if let _ = error {
                 print("Virtual machine did stop with error: \(error!.localizedDescription)")
             }
@@ -43,7 +53,7 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     }
     
     func pause() {
-        virtualMachine.pause { result in
+        virtualMachine?.pause { result in
             switch result {
             case let .failure(error):
                 fatalError("Virtual machine failed to pause with error: \(error)")

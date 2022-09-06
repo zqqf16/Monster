@@ -15,7 +15,7 @@ struct VMPlayer: NSViewRepresentable {
     func makeNSView(context: Context) -> some NSView {
         let view = VZVirtualMachineView()
         do {
-            try vm.run()
+            //try vm.run()
         } catch {
             print(error)
         }
