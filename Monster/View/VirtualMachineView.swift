@@ -9,26 +9,68 @@ import SwiftUI
 import Virtualization
 
 struct VMConfigView: View {
-    @ObservedObject var vmInstance: VMInstance
+    @ObservedObject var instance: VMInstance
 
     @State var showBanner: Bool = false
     
     var body: some View {
-        VMPlayer(vm: vmInstance)
-            .navigationTitle(vmInstance.config.name)
+        VMPlayer(instance: instance)
+            .navigationTitle(instance.config.name)
             .toolbar {
                 toolbar
             }
-            .banner(isPresented: $showBanner) {
-                Text("This is a banner")
-            }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now()+4, execute: {
-                    withAnimation {
-                        self.showBanner = true
-                    }
-                })
+                //
             }
+            .onReceive(instance.$state, perform: { state in
+                withAnimation {
+                    showBanner = state != .running
+                }
+            })
+            .banner(isPresented: $showBanner) {
+                if instance.state == .installing {
+                    progressBanner
+                } else {
+                    textBanner
+                }
+            }
+        }
+
+    @ViewBuilder
+    private var progressBanner: some View {
+        HStack {
+            ProgressView("Installing...", value: instance.installingProgress)
+        }
+    }
+    
+    @ViewBuilder
+    private var textBanner: some View {
+        HStack {
+            if instance.state == .error {
+                Image(systemName: "xmark.octagon.fill")
+                    .resizable()
+                    .foregroundColor(.red)
+                    .frame(width: 20, height: 20)
+            }
+            Text(bannerMessage)
+                .fontWeight(.bold)
+            Spacer()
+            Button {
+                run()
+            } label: {
+                Image(systemName: "arrow.clockwise")
+            }
+            .buttonStyle(.plain)
+        }
+    }
+    
+    private var bannerMessage: String {
+        switch instance.state {
+        case .error:
+            return instance.currentError != nil ? instance.currentError!.localizedDescription : "Unknow Error!"
+        default:
+            return "Virtual Machine is \(instance.state)"
+        }
     }
     
     @ToolbarContentBuilder
@@ -40,21 +82,21 @@ struct VMConfigView: View {
                 Label("Run", systemImage: "play.fill")
             }
             Button {
-                vmInstance.pause()
+                instance.pause()
             } label: {
                 Label("Pause", systemImage: "pause.fill")
             }
             Button {
-                vmInstance.stop()
+                instance.stop()
             } label: {
                 Label("Stop", systemImage: "stop.fill")
             }
         }
     }
-    
+
     private func run() {
         do {
-            try vmInstance.run()
+            try instance.run()
         } catch {
             print(error)
         }
@@ -63,6 +105,6 @@ struct VMConfigView: View {
 
 struct VMConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        VMConfigView(vmInstance: VMInstance(.defaultMacOSConfig))
+        VMConfigView(instance: VMInstance(.defaultMacOSConfig))
     }
 }

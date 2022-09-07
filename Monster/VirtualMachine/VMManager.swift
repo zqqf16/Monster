@@ -9,7 +9,16 @@ import Virtualization
 
 class VMManager {
     
-    func createInstance(with config: VMConfig) -> VMInstance? {
-        return nil
+    static let shared = VMManager()
+    
+    var allInstances: [VMConfig: VMInstance] = [:]
+    
+    func getInstance(with config: VMConfig) -> VMInstance {
+        if let instance = allInstances[config] {
+            return instance
+        }
+        let instance = VMInstance(config)
+        allInstances[config] = instance
+        return instance
     }
 }

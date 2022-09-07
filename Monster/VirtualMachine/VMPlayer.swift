@@ -8,22 +8,19 @@
 import SwiftUI
 import Virtualization
 
-struct VMPlayer: NSViewRepresentable {
 
-    var vm: VMInstance!
-    
-    func makeNSView(context: Context) -> some NSView {
+struct VMPlayer: NSViewRepresentable {
+    typealias NSViewType = VZVirtualMachineView
+
+    @ObservedObject var instance: VMInstance
+
+    func makeNSView(context: Context) -> VZVirtualMachineView {
         let view = VZVirtualMachineView()
-        do {
-            //try vm.run()
-        } catch {
-            print(error)
-        }
-        view.virtualMachine = vm.virtualMachine
+        view.virtualMachine = instance.virtualMachine
         return view
     }
     
-    func updateNSView(_ nsView: NSViewType, context: Context) {
-        //
+    func updateNSView(_ nsView: VZVirtualMachineView, context: Context) {
+        nsView.virtualMachine = instance.virtualMachine
     }
 }

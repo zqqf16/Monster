@@ -13,13 +13,18 @@ struct BannerView<Content> : View where Content : View {
     @ViewBuilder var contentBilder: () -> Content
 
     var body: some View {
-        contentBilder()
-        .padding(EdgeInsets(top: 12, leading: 8, bottom: 12, trailing: 8))
-        .cornerRadius(4)
-        .background {
-            RoundedRectangle(cornerRadius: 4, style: .continuous)
-                .fill(.white)
-                .shadow(color: .white, radius: 2)
+        HStack {
+            Spacer(minLength: 40)
+            contentBilder()
+                .frame(maxWidth: 320)
+                .padding()
+                .cornerRadius(8)
+                .background {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(.white)
+                        .shadow(color: .white, radius: 2)
+                }
+            Spacer(minLength: 40)
         }
     }
 }
@@ -42,7 +47,7 @@ struct BannerModifier<ContentView> : ViewModifier where ContentView : View {
 }
 
 extension View {
-    func banner<Content>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View where Content : View {
+    func banner<Content>(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View where Content : View {
         self.modifier(BannerModifier(contentBilder: content, isPresented: isPresented))
     }
 }
