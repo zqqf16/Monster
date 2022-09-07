@@ -21,6 +21,8 @@ struct VMPlayer: NSViewRepresentable {
     }
     
     func updateNSView(_ nsView: VZVirtualMachineView, context: Context) {
-        nsView.virtualMachine = instance.virtualMachine
+        if let virtualMachine = instance.virtualMachine {
+            nsView.virtualMachine = virtualMachine
+        }
     }
 }
