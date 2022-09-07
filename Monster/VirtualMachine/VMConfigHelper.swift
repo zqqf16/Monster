@@ -11,7 +11,14 @@ import Virtualization
 
 struct VMConfigHelper {
     let config: VMConfig
+    var bundle: VMBundle
     
+    init(config: VMConfig) {
+        self.config = config
+        self.bundle = VMBundle(config)
+    }
+
+    // MARK: CPU & Memory
     private func computeCPUCount() -> Int {
         var cpuCount = config.cpuCount.count
         cpuCount = max(cpuCount, VZVirtualMachineConfiguration.minimumAllowedCPUCount)
@@ -28,18 +35,8 @@ struct VMConfigHelper {
         return memorySize
     }
     
-    private func retrieveMachineIdentifier() -> VZGenericMachineIdentifier {
-        if let machineIdentifierData = config.machineIdentifierData,
-           let machineIdentifier = VZGenericMachineIdentifier(dataRepresentation: machineIdentifierData) {
-            return machineIdentifier
-        }
-        
-        let machineIdentifier = VZGenericMachineIdentifier()
-        config.machineIdentifierData = machineIdentifier.dataRepresentation
-        return machineIdentifier
-    }
-    
-    private func retrieveEFIVariableStore(_ bundle: VMBundle) throws -> VZEFIVariableStore {
+    // MARK: BootLoader
+    private func retrieveOrCreateEFIVariableStore() throws -> VZEFIVariableStore {
         let efiVariableStoreURL = bundle.efiVariableStoreURL
         if FileManager.default.fileExists(atPath: efiVariableStoreURL.path) {
             return VZEFIVariableStore(url: efiVariableStoreURL)
@@ -48,38 +45,108 @@ struct VMConfigHelper {
         return try VZEFIVariableStore(creatingVariableStoreAt: efiVariableStoreURL)
     }
     
+    private func createBootLoader() throws -> VZBootLoader {
+        if config.os == .macOS {
+            return VZMacOSBootLoader()
+        }
+        
+        let bootloader = VZEFIBootLoader()
+        bootloader.variableStore = try retrieveOrCreateEFIVariableStore()
+        return bootloader
+    }
+    
+    // MARK: Platform
+    private func retrieveOrCreateMacMachineIdentifier() throws -> VZMacMachineIdentifier {
+        do {
+            if bundle.machineIdentifierExists {
+                let machineIdentifierData = try Data(contentsOf: bundle.machineIdentifierURL)
+                if let machineIdentifier = VZMacMachineIdentifier(dataRepresentation: machineIdentifierData) {
+                    return machineIdentifier
+                }
+            }
+            let machineIdentifier = VZMacMachineIdentifier()
+            try bundle.save(machineIdentifier: machineIdentifier.dataRepresentation)
+            return machineIdentifier
+        } catch {
+            throw Failure("Failed to retrieve machine identifier: \(error.localizedDescription)")
+        }
+    }
+    
+    private func retrieveOrCreateMachineIdentifier() throws -> VZGenericMachineIdentifier {
+        do {
+            if bundle.machineIdentifierExists {
+                let machineIdentifierData = try Data(contentsOf: bundle.machineIdentifierURL)
+                if let machineIdentifier = VZGenericMachineIdentifier(dataRepresentation: machineIdentifierData) {
+                    return machineIdentifier
+                }
+            }
+            let machineIdentifier = VZGenericMachineIdentifier()
+            try bundle.save(machineIdentifier: machineIdentifier.dataRepresentation)
+            return machineIdentifier
+        } catch {
+            throw Failure("Failed to retrieve machine identifier: \(error.localizedDescription)")
+        }
+    }
+    
+    private func retriveHardwareModel() throws -> VZMacHardwareModel {
+        guard let hardwareModelData = try? Data(contentsOf: bundle.hardwareModelURL),
+              let hardwareModel = VZMacHardwareModel(dataRepresentation: hardwareModelData) else {
+            throw Failure("Failed to retrieve hardware model")
+        }
+        
+        if !hardwareModel.isSupported {
+            throw Failure("Hardware model is not supported by the host")
+        }
+        
+        return hardwareModel
+    }
+
+    private func createMacPlaform() throws -> VZMacPlatformConfiguration {
+        let macPlatform = VZMacPlatformConfiguration()
+        macPlatform.auxiliaryStorage = VZMacAuxiliaryStorage(contentsOf: bundle.auxiliaryStorageURL)
+        macPlatform.hardwareModel = try retriveHardwareModel()
+        macPlatform.machineIdentifier = try retrieveOrCreateMacMachineIdentifier()
+        return macPlatform
+    }
+    
+    private func createPlatform() throws -> VZPlatformConfiguration {
+        if config.os == .macOS {
+            return try createMacPlaform()
+        }
+        let platform = VZGenericPlatformConfiguration()
+        platform.machineIdentifier = try retrieveOrCreateMachineIdentifier()
+        return platform
+    }
+    
+    // MARK: Storage
     private func createUSBMassStorageDeviceConfiguration() throws -> VZUSBMassStorageDeviceConfiguration? {
-        guard let restoreImagePath = config.restoreImagePath else {
+        guard config.os != .macOS,
+              let restoreImagePath = config.restoreImagePath else {
             return nil
         }
-        let restoreImageURL = URL(filePath: restoreImagePath)
-        let intallerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
-        return VZUSBMassStorageDeviceConfiguration(attachment: intallerDiskAttachment)
-    }
-    
-    private func createBundle() throws -> VMBundle {
-        let bundle = VMBundle(config)
-        try bundle.prepareBundleDirectory()
-        
-        if config.bundlePath == nil {
-            DispatchQueue.main.async {
-                // In next runloop to avoid "Modifying state during view update, this will cause undefined behavior."
-                config.bundlePath = bundle.url.path
-            }
+        do {
+            let restoreImageURL = URL(filePath: restoreImagePath)
+            let intallerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
+            return VZUSBMassStorageDeviceConfiguration(attachment: intallerDiskAttachment)
+        } catch {
+            throw Failure("Failed to create USB mass storage device: \(error.localizedDescription)")
         }
-                
-        return bundle
     }
     
-    private func createBlockDeviceConfiguration(_ bundle: VMBundle) throws -> VZVirtioBlockDeviceConfiguration {
-        let path = bundle.diskImageURL.path
-        try bundle.prepareDiskImage(with: config.diskSize)
-        
-        let mainDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: URL(fileURLWithPath: path), readOnly: false)
-        let mainDisk = VZVirtioBlockDeviceConfiguration(attachment: mainDiskAttachment)
-        return mainDisk
+    private func createBlockDeviceConfiguration() throws -> VZVirtioBlockDeviceConfiguration {
+        do {
+            let path = bundle.diskImageURL.path
+            try bundle.prepareDiskImage(with: config.diskSize)
+            
+            let mainDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: URL(fileURLWithPath: path), readOnly: false)
+            let mainDisk = VZVirtioBlockDeviceConfiguration(attachment: mainDiskAttachment)
+            return mainDisk
+        } catch {
+            throw Failure("Failed to create block device: \(error.localizedDescription)")
+        }
     }
     
+    // MARK: Networks & Other Devices
     private func createNetworkDeviceConfiguration() -> VZVirtioNetworkDeviceConfiguration {
         let networkDevice = VZVirtioNetworkDeviceConfiguration()
         networkDevice.attachment = VZNATNetworkDeviceAttachment()
@@ -87,33 +154,33 @@ struct VMConfigHelper {
         return networkDevice
     }
     
-    private func createGraphicsDeviceConfiguration() -> VZVirtioGraphicsDeviceConfiguration {
-        let graphicsDevice = VZVirtioGraphicsDeviceConfiguration()
-        graphicsDevice.scanouts = [
-            VZVirtioGraphicsScanoutConfiguration(widthInPixels: 1280, heightInPixels: 720)
-        ]
-        
-        return graphicsDevice
+    private func createGraphicsDeviceConfiguration() -> VZGraphicsDeviceConfiguration {
+        if config.os == .macOS {
+            let graphicsConfiguration = VZMacGraphicsDeviceConfiguration()
+            graphicsConfiguration.displays = [
+                VZMacGraphicsDisplayConfiguration(widthInPixels: 1920, heightInPixels: 1080, pixelsPerInch: 144)
+            ]
+            return graphicsConfiguration
+        } else {
+            let graphicsConfiguration = VZVirtioGraphicsDeviceConfiguration()
+            graphicsConfiguration.scanouts = [
+                VZVirtioGraphicsScanoutConfiguration(widthInPixels: 1280, heightInPixels: 720)
+            ]
+            return graphicsConfiguration
+        }
     }
     
-    private func createInputAudioDeviceConfiguration() -> VZVirtioSoundDeviceConfiguration {
-        let inputAudioDevice = VZVirtioSoundDeviceConfiguration()
-        
+    private func createAudioDeviceConfiguration() -> VZVirtioSoundDeviceConfiguration {
+        let audioConfiguration = VZVirtioSoundDeviceConfiguration()
+
         let inputStream = VZVirtioSoundDeviceInputStreamConfiguration()
         inputStream.source = VZHostAudioInputStreamSource()
-        
-        inputAudioDevice.streams = [inputStream]
-        return inputAudioDevice
-    }
-    
-    private func createOutputAudioDeviceConfiguration() -> VZVirtioSoundDeviceConfiguration {
-        let outputAudioDevice = VZVirtioSoundDeviceConfiguration()
-        
+
         let outputStream = VZVirtioSoundDeviceOutputStreamConfiguration()
         outputStream.sink = VZHostAudioOutputStreamSink()
-        
-        outputAudioDevice.streams = [outputStream]
-        return outputAudioDevice
+
+        audioConfiguration.streams = [inputStream, outputStream]
+        return audioConfiguration
     }
     
     private func createSpiceAgentConsoleDeviceConfiguration() -> VZVirtioConsoleDeviceConfiguration {
@@ -132,23 +199,16 @@ struct VMConfigHelper {
             return false
         }
         
-        let bundle = VMBundle(config)
         return !bundle.diskImageExists
     }
     
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {
-        let bundle = try createBundle()
-        
+        try bundle.prepareBundleDirectory()
+
         let virtualMachineConfiguration = VZVirtualMachineConfiguration()
         
         virtualMachineConfiguration.cpuCount = computeCPUCount()
         virtualMachineConfiguration.memorySize = computeMemorySize()
-        
-        let platform = VZGenericPlatformConfiguration()
-        platform.machineIdentifier = retrieveMachineIdentifier()
-        
-        let bootloader = VZEFIBootLoader()
-        bootloader.variableStore = try retrieveEFIVariableStore(bundle)
         
         let disksArray = NSMutableArray()
         
@@ -157,29 +217,96 @@ struct VMConfigHelper {
                 disksArray.add(usbDevice)
             }
         } catch {
-            print("Create USB mass storage device failed: \(error)")
+            print("Create USB mass storage device failed: \(error.localizedDescription)")
         }
 
-        disksArray.add(try createBlockDeviceConfiguration(bundle))
+        disksArray.add(try createBlockDeviceConfiguration())
         guard let disks = disksArray as? [VZStorageDeviceConfiguration] else {
             fatalError("Invalid disksArray.")
         }
         
-        virtualMachineConfiguration.platform = platform
-        virtualMachineConfiguration.bootLoader = bootloader
+        virtualMachineConfiguration.platform = try createPlatform()
+        virtualMachineConfiguration.bootLoader = try createBootLoader()
         virtualMachineConfiguration.storageDevices = disks
         
         virtualMachineConfiguration.networkDevices = [createNetworkDeviceConfiguration()]
         virtualMachineConfiguration.graphicsDevices = [createGraphicsDeviceConfiguration()]
-        virtualMachineConfiguration.audioDevices = [createInputAudioDeviceConfiguration(), createOutputAudioDeviceConfiguration()]
-        
+        virtualMachineConfiguration.audioDevices = [createAudioDeviceConfiguration()]
         virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
         virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
         virtualMachineConfiguration.consoleDevices = [createSpiceAgentConsoleDeviceConfiguration()]
         
-        try virtualMachineConfiguration.validate()
-        try bundle.save(config: config)
+        do {
+            try virtualMachineConfiguration.validate()
+        } catch {
+            throw Failure("Virtual machine configuration is invalid: \(error.localizedDescription)")
+        }
         
+        try? bundle.save(config: config)
+        
+        return virtualMachineConfiguration
+    }
+    
+    // MARK: MacOS Installation
+
+    private func retrieveOrCreateAuxiliaryStorage(macOSConfiguration: VZMacOSConfigurationRequirements) throws -> VZMacAuxiliaryStorage {
+        if bundle.auxiliaryStorageExists {
+            return VZMacAuxiliaryStorage(contentsOf: bundle.auxiliaryStorageURL)
+        }
+        do {
+            return try VZMacAuxiliaryStorage(creatingStorageAt: bundle.auxiliaryStorageURL,
+                                             hardwareModel: macOSConfiguration.hardwareModel,
+                                                   options: [])
+        } catch {
+            throw Failure("Failed to create auxiliary storage", reason: error)
+        }
+    }
+    
+    private func createMacPlatformConfiguration(macOSConfiguration: VZMacOSConfigurationRequirements) throws -> VZMacPlatformConfiguration {
+        let macPlatformConfiguration = VZMacPlatformConfiguration()
+        
+        macPlatformConfiguration.auxiliaryStorage = try retrieveOrCreateAuxiliaryStorage(macOSConfiguration: macOSConfiguration)
+        macPlatformConfiguration.hardwareModel = macOSConfiguration.hardwareModel
+        macPlatformConfiguration.machineIdentifier = VZMacMachineIdentifier()
+        
+        try bundle.save(hardware: macOSConfiguration.hardwareModel.dataRepresentation)
+        try bundle.save(machineIdentifier: macPlatformConfiguration.machineIdentifier.dataRepresentation)
+        
+        return macPlatformConfiguration
+    }
+
+    func createMacOSVirtualMachineConfiguration(restoreImage: VZMacOSRestoreImage) throws -> VZVirtualMachineConfiguration {
+        guard let macOSConfiguration = restoreImage.mostFeaturefulSupportedConfiguration else {
+            throw Failure("Failed to obtain configuration from restore image")
+        }
+
+        if !macOSConfiguration.hardwareModel.isSupported {
+            throw Failure("The hardware model isn't supported on the current host")
+        }
+
+        try bundle.prepareBundleDirectory()
+        try bundle.prepareDiskImage(with: config.diskSize)
+        
+        let virtualMachineConfiguration = VZVirtualMachineConfiguration()
+
+        virtualMachineConfiguration.platform = try createMacPlatformConfiguration(macOSConfiguration: macOSConfiguration)
+        virtualMachineConfiguration.cpuCount = computeCPUCount()
+        virtualMachineConfiguration.memorySize = computeMemorySize()
+
+        virtualMachineConfiguration.bootLoader = try createBootLoader()
+        //virtualMachineConfiguration.graphicsDevices = [createGraphicsDeviceConfiguration()]
+        virtualMachineConfiguration.storageDevices = [try createBlockDeviceConfiguration()]
+        virtualMachineConfiguration.networkDevices = [createNetworkDeviceConfiguration()]
+        virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
+        //virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
+        //virtualMachineConfiguration.audioDevices = [createAudioDeviceConfiguration()]
+
+        do {
+            try virtualMachineConfiguration.validate()
+        } catch {
+            throw Failure("Virtual machine configuration is invalid: \(error.localizedDescription)")
+        }
+
         return virtualMachineConfiguration
     }
 }

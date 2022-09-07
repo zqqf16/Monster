@@ -8,7 +8,12 @@
 
 import Foundation
 
-enum VMError: Error {
-    case bundleNotFound
-    case fileCreationFailed(String)
+public struct Failure: LocalizedError {
+    public var errorDescription: String?
+    public var reason: Error?
+
+    public init(_ message: String, reason: Error? = nil) {
+        self.errorDescription = message
+        self.reason = reason
+    }
 }

@@ -15,14 +15,10 @@ struct VMPlayer: NSViewRepresentable {
     @ObservedObject var instance: VMInstance
 
     func makeNSView(context: Context) -> VZVirtualMachineView {
-        let view = VZVirtualMachineView()
-        view.virtualMachine = instance.virtualMachine
-        return view
+        return instance.virtualMachineView
     }
     
     func updateNSView(_ nsView: VZVirtualMachineView, context: Context) {
-        if let virtualMachine = instance.virtualMachine {
-            nsView.virtualMachine = virtualMachine
-        }
+
     }
 }

@@ -13,11 +13,18 @@ struct VMBundle {
     
     var diskImageURL: URL { url.appendingPathComponent("Disk.img") }
     var efiVariableStoreURL: URL { url.appendingPathComponent("NVRAM") }
+    var hardwareModelURL: URL { url.appendingPathComponent("HardwareModel")}
+    var machineIdentifierURL: URL { url.appendingPathComponent("MachineIdentifier")}
+    var auxiliaryStorageURL: URL { url.appendingPathComponent("AuxiliaryStorage")}
     var configURL: URL { url.appendingPathComponent("Info.json") }
     
-    var diskImageExists: Bool { FileManager.default.fileExists(atPath: diskImageURL.path) }
     var bundleDirectoryExists: Bool { FileManager.default.directoryExists(at: url) }
-    
+
+    var diskImageExists: Bool { FileManager.default.fileExists(atPath: diskImageURL.path) }
+    var hardwareModelExists: Bool { FileManager.default.fileExists(atPath: hardwareModelURL.path) }
+    var machineIdentifierExists: Bool { FileManager.default.fileExists(atPath: machineIdentifierURL.path) }
+    var auxiliaryStorageExists: Bool { FileManager.default.fileExists(atPath: auxiliaryStorageURL.path) }
+
     init(_ url: URL) {
         self.url = url
     }
@@ -63,8 +70,7 @@ struct VMBundle {
         if !diskImageExists {
             debugPrint("Disk image does not exist: \(diskImagePath)")
             if !FileManager.default.createFile(atPath: diskImageURL.path, contents: nil, attributes: nil) {
-                print("Failed to create disk image: \(diskImagePath)")
-                throw VMError.fileCreationFailed(diskImagePath)
+                throw Failure("Failed to create disk image: \(diskImagePath)")
             }
         }
         
@@ -89,6 +95,14 @@ struct VMBundle {
     func save(config: VMConfig) throws {
         let jsonData = try JSONEncoder().encode(config)
         try jsonData.write(to: configURL, options: [.atomicWrite])
+    }
+    
+    func save(hardware: Data) throws {
+        try hardware.write(to: hardwareModelURL)
+    }
+    
+    func save(machineIdentifier: Data) throws {
+        try machineIdentifier.write(to: machineIdentifierURL)
     }
     
     func remove() throws {

@@ -26,9 +26,7 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     @Published var enableNetwork = true
     @Published var enableAudio = true
     @Published var enableConsole = true
-    
-    var machineIdentifierData: Data?
-    
+        
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -69,7 +67,6 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case cpuCount
         case restoreImagePath
         case bundlePath
-        case machineIdentifierData
     }
     
     required init(from decoder: Decoder) throws {
@@ -83,7 +80,6 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
         restoreImagePath = try? container.decodeIfPresent(String.self, forKey: .restoreImagePath)
         bundlePath = try? container.decodeIfPresent(String.self, forKey: .bundlePath)
-        machineIdentifierData = try? container.decodeIfPresent(Data.self, forKey: .machineIdentifierData)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -96,7 +92,6 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         try container.encode(cpuCount.count, forKey: .cpuCount)
         try container.encodeIfPresent(restoreImagePath, forKey: .restoreImagePath)
         try container.encodeIfPresent(bundlePath, forKey: .bundlePath)
-        try container.encodeIfPresent(machineIdentifierData, forKey: .machineIdentifierData)
     }
 }
 

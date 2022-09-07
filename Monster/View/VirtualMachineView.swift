@@ -12,7 +12,7 @@ struct VMConfigView: View {
     @ObservedObject var instance: VMInstance
 
     @State var showBanner: Bool = false
-    
+
     var body: some View {
         VMPlayer(instance: instance)
             .navigationTitle(instance.config.name)
@@ -39,8 +39,19 @@ struct VMConfigView: View {
     @ViewBuilder
     private var progressBanner: some View {
         HStack {
-            ProgressView("Installing...", value: instance.installingProgress)
+            ProgressView(progressMessage, value: instance.installingProgress)
         }
+    }
+    
+    private var progressMessage: String {
+        if instance.installingProgress < 0.1 {
+            return "Installing ... (loading files)"
+        }
+        
+        var progress = Int(instance.installingProgress * 100)
+        progress = min(progress, 100)
+        progress = max(0, progress)
+        return "Installing ... (\(progress)%)"
     }
     
     @ViewBuilder
@@ -75,30 +86,59 @@ struct VMConfigView: View {
     
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
-        ToolbarItemGroup(placement: .status) {
-            Button {
-                run()
-            } label: {
-                Label("Run", systemImage: "play.fill")
-            }
-            Button {
-                instance.pause()
-            } label: {
-                Label("Pause", systemImage: "pause.fill")
-            }
-            Button {
-                instance.stop()
-            } label: {
-                Label("Stop", systemImage: "stop.fill")
+        ToolbarItemGroup(placement: .navigation) {
+            switch instance.state {
+            case .running:
+                pauseButton
+                stopButton
+            case .paused:
+                runButton
+                stopButton
+            default:
+                runButton
             }
         }
     }
 
     private func run() {
-        do {
-            try instance.run()
-        } catch {
-            print(error)
+        Task {
+            try? await instance.run()
+        }
+    }
+    
+    private func pause() {
+        Task {
+            try? await instance.pause()
+        }
+    }
+
+    private func stop() {
+        Task {
+            try? await instance.stop()
+        }
+    }
+    
+    private var runButton: some View {
+        Button {
+            run()
+        } label: {
+            Label("Run", systemImage: "play.fill")
+        }
+    }
+    
+    private var pauseButton: some View {
+        Button {
+            pause()
+        } label: {
+            Label("Pause", systemImage: "pause.fill")
+        }
+    }
+    
+    private var stopButton: some View {
+        Button {
+            stop()
+        } label: {
+            Label("Stop", systemImage: "stop.fill")
         }
     }
 }

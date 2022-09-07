@@ -156,11 +156,11 @@
 			isa = PBXGroup;
 			children = (
 				F4FFF2B128A39B4F003B75F9 /* VMConfig.swift */,
+				F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */,
 				F4D6880E28C59FFE003544A6 /* VMConfigHelper.swift */,
 				F4D90FC328ACE8A000E11588 /* VMManager.swift */,
 				F4D90FC128ACE73D00E11588 /* VMPlayer.swift */,
 				F4D90FC528AE282200E11588 /* VMInstance.swift */,
-				F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */,
 				F4459CA828C3A39B004FF431 /* VMError.swift */,
 			);
 			path = VirtualMachine;
