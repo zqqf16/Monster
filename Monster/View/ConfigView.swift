@@ -29,8 +29,9 @@ struct ConfigView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .background(.background)
-        .onReceive(config.objectWillChange) { _ in
+        .onReceive(config.objectWillChange.debounce(for: .milliseconds(1000), scheduler: RunLoop.main)) { _ in
             print("Config changed")
+            save()
         }
     }
     
@@ -144,6 +145,15 @@ struct ConfigView: View {
                 config.shareFolders.removeAll()
             }
         }
+    }
+    
+    private func save() {
+        guard let bundleURL = config.bundleURL else {
+            return
+        }
+        
+        let bundle = VMBundle(bundleURL)
+        try? bundle.save(config: config)
     }
 }
 
