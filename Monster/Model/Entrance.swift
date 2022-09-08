@@ -55,4 +55,12 @@ enum Entrance: Int, CaseIterable, Identifiable {
         case .macOS: return "Install and run macOS virtual machine"
         }
     }
+    
+    static var allCases: [Entrance] {
+#if arch(arm64)
+        return [.macOS, .linux, .import]
+#else
+        return [.linux, .import]
+#endif
+    }
 }

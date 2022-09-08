@@ -42,12 +42,24 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     private(set) var virtualMachineView: VZVirtualMachineView = VZVirtualMachineView()
     
     private var observeToken: NSKeyValueObservation?
+
     private var configHelper: VMConfigHelper
+
+#if arch(arm64)
     private var installer: VZMacOSInstaller!
+#endif
 
     init(_ config: VMConfig) {
         self.config = config
-        self.configHelper = VMConfigHelper(config: config)
+#if arch(arm64)
+        if config.os == .macOS {
+            self.configHelper = MacOSConfigHelper(config)
+        } else {
+            self.configHelper = GenericConfigHelper(config)
+        }
+#else
+        self.configHelper = GenericConfigHelper(config)
+#endif
     }
     
     deinit {
@@ -70,21 +82,27 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     
     @MainActor
     func run() async throws {
+#if !arch(arm64)
+        if config.os == .macOS {
+            throw Failure("MacOS is not supported on this device")
+        }
+#endif
         if virtualMachine != nil {
             if state == .running || state == .installing {
                 return
             }
-            
             if virtualMachine.canResume {
                 try await resume()
                 return
             }
         }
 
+#if arch(arm64)
         if configHelper.needInstall {
             try await install()
             self.state = .stopped
         }
+#endif
         
         try await start()
     }
@@ -190,6 +208,8 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     }
 }
 
+#if arch(arm64)
+
 // MARK: MacOS Installation
 extension VMInstance {
     func install() async throws {
@@ -230,8 +250,8 @@ extension VMInstance {
     func startInstallation(restoreImage: VZMacOSRestoreImage) async throws {
         self.state = .installing
 
-        let configHelper = VMConfigHelper(config: self.config)
-        let virtualMachineConfiguration = try configHelper.createMacOSVirtualMachineConfiguration(restoreImage: restoreImage)
+        let configHelper = MacOSConfigHelper(self.config)
+        let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration(restoreImage: restoreImage)
         
         virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
         virtualMachine.delegate = self
@@ -259,3 +279,4 @@ extension VMInstance {
         }
     }
 }
+#endif
