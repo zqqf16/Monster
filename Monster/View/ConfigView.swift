@@ -105,9 +105,6 @@ struct ConfigView: View {
                 FileButton(url: $config.restoreImageURL)
                     .rightToLeft()
             }
-            BaseLine("Boot from iso", icon: "power") {
-                Toggle("", isOn: .constant(false))
-            }
         }
     }
     
@@ -118,18 +115,9 @@ struct ConfigView: View {
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
-            BaseLine("Shared Folder", icon: "folder") {
-                VStack(alignment: .trailing) {
-                    FileButton(canChooseDirectories: true, canChooseFiles: false, url: sharedFolder)
-                        .rightToLeft()
-                    if sharedFolder.wrappedValue != nil {
-                        Text(sharedFolderTips)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                            .italic()
-                            .textSelection(.enabled)
-                    }
-                }
+            BaseLine("Shared Folder", icon: "folder", tips: sharedFolderTips) {
+                FileButton(canChooseDirectories: true, canChooseFiles: false, url: sharedFolder)
+                    .rightToLeft()
             }
         }
     }
@@ -160,25 +148,37 @@ struct ConfigView: View {
 private struct BaseLine<Content>: View where Content: View {
     var title: String
     var icon: String?
-    
+    var tips: String?
+
     @ViewBuilder var contentBilder: () -> Content
     
-    init(_ title: String = "", icon: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
+    init(_ title: String = "", icon: String? = nil, tips: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
         self.title = title
         self.icon = icon
+        self.tips = tips
         self.contentBilder = contentBilder
     }
     
     var body: some View {
-        HStack {
-            if let icon = icon {
-                Image(systemName: icon)
-                    .foregroundColor(.accentColor)
+        VStack(alignment: .trailing) {
+            HStack {
+                if let icon = icon {
+                    Image(systemName: icon)
+                        .foregroundColor(.accentColor)
+                }
+                
+                Text(title)
+                Spacer()
+                contentBilder()
             }
-            
-            Text(title)
-            Spacer()
-            contentBilder()
+            if let tips = tips {
+                Spacer()
+                Text(tips)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .italic()
+                    .textSelection(.enabled)
+            }
         }
     }
 }
