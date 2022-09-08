@@ -292,6 +292,9 @@ extension VMInstance {
                 }
             })
         }
+        
+        config.installed = true
     }
 }
+
 #endif

@@ -13,6 +13,8 @@ protocol VMConfigHelper {
     var config: VMConfig { get }
     var bundle: VMBundle { get }
 
+    var needInstall: Bool { get }
+    
     init(_ config: VMConfig)
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration
     
@@ -23,11 +25,7 @@ protocol VMConfigHelper {
 
 extension VMConfigHelper {
     var needInstall: Bool {
-#if arch(arm64)
-        return config.os == .macOS && !bundle.diskImageExists
-#else
         return false
-#endif
     }
     
 #if arch(arm64)

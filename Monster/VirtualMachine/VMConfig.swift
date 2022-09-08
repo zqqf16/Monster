@@ -28,6 +28,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     @Published var enableNetwork = true
     @Published var enableAudio = true
     @Published var enableConsole = true
+    
+    var installed: Bool = false
         
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -70,6 +72,7 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case restoreImageURL
         case bundleURL
         case shareFolders
+        case installed
     }
     
     required init(from decoder: Decoder) throws {
@@ -83,6 +86,9 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
         restoreImageURL = try? container.decodeIfPresent(URL.self, forKey: .restoreImageURL)
         bundleURL = try? container.decodeIfPresent(URL.self, forKey: .bundleURL)
+        if let installed = try? container.decodeIfPresent(Bool.self, forKey: .installed) {
+            self.installed = installed
+        }
         if let shareFolders = try? container.decodeIfPresent([URL].self, forKey: .shareFolders) {
             self.shareFolders = shareFolders
         } else {
@@ -101,6 +107,7 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         try container.encodeIfPresent(restoreImageURL, forKey: .restoreImageURL)
         try container.encodeIfPresent(bundleURL, forKey: .bundleURL)
         try container.encode(shareFolders, forKey: .shareFolders)
+        try container.encode(installed, forKey: .installed)
     }
 }
 

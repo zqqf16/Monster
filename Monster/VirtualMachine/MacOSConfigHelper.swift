@@ -117,7 +117,7 @@ struct MacOSConfigHelper: VMConfigHelper {
     }
     
     var needInstall: Bool {
-        return !bundle.diskImageExists
+        return !bundle.diskImageExists || !config.installed
     }
     
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {
