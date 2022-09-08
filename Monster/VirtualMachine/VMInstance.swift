@@ -30,7 +30,7 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     /// Virtual machine state
     @Published var state: State = .stopped
     
-    @Published var currentError: Error?
+    @Published var currentError: Failure?
         
     /// macOS installing progress
     @Published var installingProgress: Double = 0
@@ -82,6 +82,21 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     
     @MainActor
     func run() async throws {
+        do {
+            try await startIfNeed()
+        } catch {
+            if let error = error as? Failure {
+                self.currentError = error
+            } else {
+                self.currentError = Failure("Unknow error", reason: error)
+            }
+            self.state = .error
+            throw self.currentError!
+        }
+    }
+    
+    @MainActor
+    private func startIfNeed() async throws {
 #if !arch(arm64)
         if config.os == .macOS {
             throw Failure("MacOS is not supported on this device")
@@ -106,7 +121,7 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
         
         try await start()
     }
-
+    
     @MainActor
     func start() async throws {
         try configVirtualMachine()
@@ -133,8 +148,9 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
         guard let virtualMachine = self.virtualMachine else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             virtualMachine.stop { [weak self] error in
-                self?.virtualMachine = nil
-                self?.virtualMachineView.virtualMachine = nil
+                guard let self = self else { return }
+                self.virtualMachine = nil
+                self.virtualMachineView.virtualMachine = nil
                 if let _ = error {
                     print("Virtual machine did stop with error: \(error!.localizedDescription)")
                     continuation.resume(throwing: Failure("Virtual machine failed to stop", reason: error))

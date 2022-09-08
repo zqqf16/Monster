@@ -12,6 +12,7 @@ struct VMConfigView: View {
     @ObservedObject var instance: VMInstance
 
     @State var showBanner: Bool = false
+    @State var currentError: Failure? = nil
 
     var body: some View {
         VMPlayer(instance: instance)
@@ -62,12 +63,25 @@ struct VMConfigView: View {
                     .resizable()
                     .foregroundColor(.red)
                     .frame(width: 20, height: 20)
+                VStack(alignment: .leading) {
+                    if let error = instance.currentError {
+                        Text(error.localizedDescription).fontWeight(.bold)
+                    } else {
+                        Text("Unknow Error")
+                    }
+                    
+                    if let reason = instance.currentError?.reason {
+                        Text(reason.localizedDescription).font(.subheadline)
+                    }
+                }
+            } else {
+                Text(bannerMessage)
+                    .fontWeight(.bold)
             }
-            Text(bannerMessage)
-                .fontWeight(.bold)
+            
             Spacer()
             Button {
-                run()
+                execute(instance.run)
             } label: {
                 Image(systemName: "arrow.clockwise")
             }
@@ -99,28 +113,10 @@ struct VMConfigView: View {
             }
         }
     }
-
-    private func run() {
-        Task {
-            try? await instance.run()
-        }
-    }
-    
-    private func pause() {
-        Task {
-            try? await instance.pause()
-        }
-    }
-
-    private func stop() {
-        Task {
-            try? await instance.stop()
-        }
-    }
     
     private var runButton: some View {
         Button {
-            run()
+            execute(instance.run)
         } label: {
             Label("Run", systemImage: "play.fill")
         }
@@ -128,7 +124,7 @@ struct VMConfigView: View {
     
     private var pauseButton: some View {
         Button {
-            pause()
+            execute(instance.pause)
         } label: {
             Label("Pause", systemImage: "pause.fill")
         }
@@ -136,9 +132,26 @@ struct VMConfigView: View {
     
     private var stopButton: some View {
         Button {
-            stop()
+            execute(instance.stop)
         } label: {
             Label("Stop", systemImage: "stop.fill")
+        }
+    }
+    
+    private func execute(_ function: @escaping () async throws -> Void) {
+        Task {
+            do {
+                try await function()
+            } catch {
+                if let error = error as? Failure {
+                    self.currentError = error
+                } else {
+                    self.currentError = Failure("Unknow error", reason: error)
+                }
+                withAnimation {
+                    self.showBanner = true
+                }
+            }
         }
     }
 }
