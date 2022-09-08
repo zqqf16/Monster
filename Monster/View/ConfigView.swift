@@ -58,7 +58,7 @@ struct ConfigView: View {
             BaseLine("Path") {
                 FileButton(
                     readOnly: true,
-                    path: $config.bundlePath
+                    url: $config.bundleURL
                 )
                 .rightToLeft()
             }
@@ -101,7 +101,7 @@ struct ConfigView: View {
     private var drivesSection: some View {
         Section("Drives") {
             BaseLine(config.os.restoreImageTitle, icon: "externaldrive") {
-                FileButton(path: $config.restoreImagePath)
+                FileButton(url: $config.restoreImageURL)
                     .rightToLeft()
             }
             BaseLine("Boot from iso", icon: "power") {
@@ -119,7 +119,7 @@ struct ConfigView: View {
         Section("Advanced") {
             BaseLine("Shared Folder", icon: "folder") {
                 VStack(alignment: .trailing) {
-                    FileButton(canChooseDirectories: true, canChooseFiles: false, path: sharedFolder)
+                    FileButton(canChooseDirectories: true, canChooseFiles: false, url: sharedFolder)
                         .rightToLeft()
                     if sharedFolder.wrappedValue != nil {
                         Text(sharedFolderTips)
@@ -133,13 +133,13 @@ struct ConfigView: View {
         }
     }
     
-    private var sharedFolder: Binding<String?> {
+    private var sharedFolder: Binding<URL?> {
         // TODO: Only supports one directory now
         Binding {
-            config.shareFolders.first?.path
+            config.shareFolders.first
         } set: {
-            if let path = $0 {
-                config.shareFolders = [URL(filePath: path)]
+            if let url = $0 {
+                config.shareFolders = [url]
             } else {
                 config.shareFolders.removeAll()
             }

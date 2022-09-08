@@ -15,7 +15,10 @@ struct GenericConfigHelper: VMConfigHelper {
     
     init(_ config: VMConfig) {
         self.config = config
-        self.bundle = VMBundle(config)
+        if config.bundleURL == nil {
+            config.bundleURL = VMBundle.generateBundleURL(for: config)
+        }
+        self.bundle = VMBundle(config.bundleURL!)
     }
 
     // MARK: BootLoader
@@ -60,11 +63,10 @@ struct GenericConfigHelper: VMConfigHelper {
     // MARK: Storage
     private func createUSBMassStorageDeviceConfiguration() throws -> VZUSBMassStorageDeviceConfiguration? {
         guard config.os != .macOS,
-              let restoreImagePath = config.restoreImagePath else {
+              let restoreImageURL = config.restoreImageURL else {
             return nil
         }
         do {
-            let restoreImageURL = URL(filePath: restoreImagePath)
             let intallerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
             return VZUSBMassStorageDeviceConfiguration(attachment: intallerDiskAttachment)
         } catch {

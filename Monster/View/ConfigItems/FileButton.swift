@@ -23,7 +23,7 @@ struct FileButton: View {
     
     var textFont: Font? = nil
 
-    @Binding var path: String?
+    @Binding var url: URL?
     
     var body: some View {
         HStack(spacing: 4) {
@@ -44,7 +44,7 @@ struct FileButton: View {
     }
     
     private var showDeleteButton: Bool {
-        return !readOnly && path != nil
+        return !readOnly && url != nil
     }
     
     func rightToLeft() -> FileButton {
@@ -82,7 +82,7 @@ struct FileButton: View {
     @ViewBuilder
     private var removeButton: some View {
         Button {
-            self.path = nil
+            self.url = nil
         } label: {
             Image(systemName: deleteSystemImageName)
                 .resizable()
@@ -95,7 +95,7 @@ struct FileButton: View {
     @ViewBuilder
     private var text: some View {
         let aligment: TextAlignment = (layoutDirection == .leftToRight ? .leading : .trailing)
-        if path == nil {
+        if url == nil {
             if let comment = self.comment {
                 Text(comment)
                     .multilineTextAlignment(aligment)
@@ -104,7 +104,7 @@ struct FileButton: View {
                     .italic()
             }
         } else if showResult {
-            Text(path!)
+            Text(url!.path)
                 .multilineTextAlignment(aligment)
                 .lineLimit(1)
                 .font(textFont)
@@ -116,22 +116,20 @@ struct FileButton: View {
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = canChooseDirectories
         panel.canChooseFiles = canChooseFiles
-        if let path = path {
-            let url = URL(filePath: path)
+        if let url = url {
             panel.directoryURL = url.deletingLastPathComponent()
             panel.nameFieldLabel = url.lastPathComponent
         }
         
         if panel.runModal() == .OK {
-            self.path = panel.url?.relativePath
+            self.url = panel.url
         }
     }
     
     private func showInFinder() {
-        guard let path = path else {
+        guard let url = url else {
             return
         }
-        let url = URL(filePath: path)
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 }
@@ -139,8 +137,8 @@ struct FileButton: View {
 struct FileButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            FileButton(showResult: true, path: .constant("/root/path"))
-            FileButton(readOnly: true, path: .constant("/root/path"))
+            FileButton(showResult: true, url: .constant(URL(filePath: "/root/path")))
+            FileButton(readOnly: true, url: .constant(URL(filePath: "/root/path")))
         }
     }
 }

@@ -41,10 +41,12 @@ class Store: ObservableObject {
     }
     
     func createVirtualMachine(with config: VMConfig, select: Bool = true) {
-        let bundle = VMBundle(config)
+        if config.bundleURL == nil {
+            config.bundleURL = VMBundle.generateBundleURL(for: config)
+        }
+        let bundle = VMBundle(config.bundleURL!)
         try? bundle.prepareBundleDirectory()
         try? bundle.save(config: config)
-        config.bundlePath = bundle.url.path
 
         vms.append(config)
         selectedVM = vms.last
@@ -57,8 +59,8 @@ class Store: ObservableObject {
         }
         
         vms.remove(at: index)
-        if deleteFiles {
-            let bundle = VMBundle(config)
+        if deleteFiles, let bundleURL = config.bundleURL {
+            let bundle = VMBundle(bundleURL)
             try? bundle.remove()
         }
         

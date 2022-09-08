@@ -28,24 +28,25 @@ struct VMBundle {
     init(_ url: URL) {
         self.url = url
     }
-    
-    init(_ config: VMConfig) {
-        let bundleURL: URL
-        if let bundlePath = config.bundlePath {
-            bundleURL = URL(filePath: bundlePath)
-        } else {
-            let name = Self.generateDirectoryName(for: config)
-            bundleURL = Self.directoryURL(with: name)
-        }
         
-        self.url = bundleURL
-    }
-    
     private static func directoryURL(with name: String) -> URL {
         AppSettings.vmDirectory.appendingPathComponent(name).appendingPathExtension("vm")
     }
     
-    private static func generateDirectoryName(for config: VMConfig) -> String {
+    static func generateBundleURL(for config: VMConfig) -> URL {
+        let fileManager = FileManager.default
+        var counter = 0
+        var url = directoryURL(with: config.name)
+    
+        while fileManager.directoryExists(at: url) {
+            counter += 1
+            url = directoryURL(with: "\(config.name) \(counter)")
+        }
+        
+        return url
+    }
+    
+    static func generateDirectoryName(for config: VMConfig) -> String {
         let fileManager = FileManager.default
         var counter = 0
         var name = config.name
@@ -83,7 +84,7 @@ struct VMBundle {
         do {
             let jsonData = try Data(contentsOf: configURL, options: .mappedIfSafe)
             let config = try JSONDecoder().decode(VMConfig.self, from: jsonData)
-            config.bundlePath = url.path
+            config.bundleURL = url
             return config
         } catch {
             print("Failed to load config:\(error)")

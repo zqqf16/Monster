@@ -245,13 +245,12 @@ extension VMInstance {
     }
 
     func loadRestoreImage() async throws -> VZMacOSRestoreImage {
-        guard let restoreImagePath = config.restoreImagePath else {
+        guard let restoreImageURL = config.restoreImageURL else {
             throw Failure("Restore image path shouldn't be nil")
         }
         
-        let url = URL(filePath: restoreImagePath)
         return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<VZMacOSRestoreImage, Error>) in
-            VZMacOSRestoreImage.load(from: url) { result in
+            VZMacOSRestoreImage.load(from: restoreImageURL) { result in
                 switch result {
                 case let .failure(error):
                     continuation.resume(throwing: Failure("Failed to load restore image", reason: error))

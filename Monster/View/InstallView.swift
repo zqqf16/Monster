@@ -110,7 +110,7 @@ struct InstallView: View {
         }
 
         return BaseGridRow(title) {
-            FileButton(comment: comment, path: $config.restoreImagePath)
+            FileButton(comment: comment, url: $config.restoreImageURL)
                 .font(.subheadline)
         }
     }

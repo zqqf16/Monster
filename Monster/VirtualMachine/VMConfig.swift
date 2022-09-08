@@ -19,8 +19,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     @Published var diskSize: StorageSize
     @Published var cpuCount: CpuCount
     
-    @Published var restoreImagePath: String?
-    @Published var bundlePath: String?
+    @Published var restoreImageURL: URL?
+    @Published var bundleURL: URL?
     
     @Published var shareFolders: [URL] = []
     
@@ -40,23 +40,23 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     var icon: String {
         os.defaultIconName
     }
-    
+
     init(
         _ name: String,
         os: OperatingSystem,
         memorySize: StorageSize,
         diskSize: StorageSize,
         cpuCount: CpuCount,
-        restoreImage: String? = nil,
-        bundlePath: String? = nil
+        restoreImageURL: URL? = nil,
+        bundleURL: URL? = nil
     ) {
         self.name = name
         self.os = os
         self.memorySize = memorySize
         self.diskSize = diskSize
         self.cpuCount = cpuCount
-        self.restoreImagePath = restoreImage
-        self.bundlePath = bundlePath
+        self.restoreImageURL = restoreImageURL
+        self.bundleURL = bundleURL
     }
     
     // MARK: Codable
@@ -67,8 +67,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case memorySize
         case diskSize
         case cpuCount
-        case restoreImagePath
-        case bundlePath
+        case restoreImageURL
+        case bundleURL
         case shareFolders
     }
     
@@ -81,8 +81,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         memorySize = try container.decode(UInt64.self, forKey: .memorySize).B
         diskSize = try container.decode(UInt64.self, forKey: .diskSize).B
         cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
-        restoreImagePath = try? container.decodeIfPresent(String.self, forKey: .restoreImagePath)
-        bundlePath = try? container.decodeIfPresent(String.self, forKey: .bundlePath)
+        restoreImageURL = try? container.decodeIfPresent(URL.self, forKey: .restoreImageURL)
+        bundleURL = try? container.decodeIfPresent(URL.self, forKey: .bundleURL)
         if let shareFolders = try? container.decodeIfPresent([URL].self, forKey: .shareFolders) {
             self.shareFolders = shareFolders
         } else {
@@ -98,8 +98,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         try container.encode(memorySize.bytes, forKey: .memorySize)
         try container.encode(diskSize.bytes, forKey: .diskSize)
         try container.encode(cpuCount.count, forKey: .cpuCount)
-        try container.encodeIfPresent(restoreImagePath, forKey: .restoreImagePath)
-        try container.encodeIfPresent(bundlePath, forKey: .bundlePath)
+        try container.encodeIfPresent(restoreImageURL, forKey: .restoreImageURL)
+        try container.encodeIfPresent(bundleURL, forKey: .bundleURL)
         try container.encode(shareFolders, forKey: .shareFolders)
     }
 }
