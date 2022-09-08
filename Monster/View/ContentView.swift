@@ -88,7 +88,7 @@ private struct Toolbar: ToolbarContent {
     @Environment(\.openWindow) private var openWindow
 
     var body: some ToolbarContent {
-        ToolbarItemGroup(placement: .status) {
+        ToolbarItemGroup(placement: .navigation) {
             Button {
                 if let selectedVM = store.selectedVM {
                     openWindow(value: selectedVM)
@@ -98,18 +98,6 @@ private struct Toolbar: ToolbarContent {
             }
             .disabled(store.selectedVM == nil)
             .keyboardShortcut("r", modifiers: .command)
-
-            Button {
-                //
-            } label: {
-                Label("Pause", systemImage: "pause.fill")
-            }
-
-            Button {
-                //
-            } label: {
-                Label("Stop", systemImage: "stop.fill")
-            }
         }
         ToolbarItem() {
             Spacer()

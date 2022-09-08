@@ -21,7 +21,9 @@ struct VMConfigView: View {
                 toolbar
             }
             .onAppear {
-                //
+                if instance.state == .stopped {
+                    execute(instance.run)
+                }
             }
             .onReceive(instance.$state, perform: { state in
                 withAnimation {
