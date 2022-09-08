@@ -109,13 +109,39 @@ struct ConfigView: View {
             }
         }
     }
+    
+    private var sharedFolderTips: String {
+        "Run `mount -t virtiofs MonsterShared ~/Monster` in vm"
+    }
 
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
-            BaseLine("Shared Directory", icon: "folder") {
-                FileButton(path: $config.restoreImagePath)
-                    .rightToLeft()
+            BaseLine("Shared Folder", icon: "folder") {
+                VStack(alignment: .trailing) {
+                    FileButton(canChooseDirectories: true, canChooseFiles: false, path: sharedFolder)
+                        .rightToLeft()
+                    if sharedFolder.wrappedValue != nil {
+                        Text(sharedFolderTips)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .italic()
+                            .textSelection(.enabled)
+                    }
+                }
+            }
+        }
+    }
+    
+    private var sharedFolder: Binding<String?> {
+        // TODO: Only supports one directory now
+        Binding {
+            config.shareFolders.first?.path
+        } set: {
+            if let path = $0 {
+                config.shareFolders = [URL(filePath: path)]
+            } else {
+                config.shareFolders.removeAll()
             }
         }
     }

@@ -10,6 +10,8 @@ import SwiftUI
 
 struct FileButton: View {
     var readOnly: Bool = false
+    var canChooseDirectories: Bool = false
+    var canChooseFiles: Bool = true
     
     var systemImageName: String = "folder.badge.plus"
     var readOnlySystemImageName: String = "rectangle.and.text.magnifyingglass"
@@ -112,8 +114,8 @@ struct FileButton: View {
     private func openPanel() {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        
+        panel.canChooseDirectories = canChooseDirectories
+        panel.canChooseFiles = canChooseFiles
         if let path = path {
             let url = URL(filePath: path)
             panel.directoryURL = url.deletingLastPathComponent()

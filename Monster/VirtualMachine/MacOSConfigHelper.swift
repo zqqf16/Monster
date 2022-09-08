@@ -141,7 +141,8 @@ struct MacOSConfigHelper: VMConfigHelper {
         virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
         virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
         virtualMachineConfiguration.consoleDevices = [createSpiceAgentConsoleDeviceConfiguration()]
-        
+        virtualMachineConfiguration.directorySharingDevices = [try directorySharingConfiguration()]
+
         do {
             try virtualMachineConfiguration.validate()
         } catch {

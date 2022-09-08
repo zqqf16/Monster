@@ -22,6 +22,8 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     @Published var restoreImagePath: String?
     @Published var bundlePath: String?
     
+    @Published var shareFolders: [URL] = []
+    
     @Published var enableKeyboard = true
     @Published var enableNetwork = true
     @Published var enableAudio = true
@@ -67,6 +69,7 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case cpuCount
         case restoreImagePath
         case bundlePath
+        case shareFolders
     }
     
     required init(from decoder: Decoder) throws {
@@ -80,6 +83,11 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
         restoreImagePath = try? container.decodeIfPresent(String.self, forKey: .restoreImagePath)
         bundlePath = try? container.decodeIfPresent(String.self, forKey: .bundlePath)
+        if let shareFolders = try? container.decodeIfPresent([URL].self, forKey: .shareFolders) {
+            self.shareFolders = shareFolders
+        } else {
+            self.shareFolders = []
+        }
     }
     
     func encode(to encoder: Encoder) throws {
@@ -92,6 +100,7 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         try container.encode(cpuCount.count, forKey: .cpuCount)
         try container.encodeIfPresent(restoreImagePath, forKey: .restoreImagePath)
         try container.encodeIfPresent(bundlePath, forKey: .bundlePath)
+        try container.encode(shareFolders, forKey: .shareFolders)
     }
 }
 
@@ -118,7 +127,7 @@ extension VMConfig {
     class var maximumAllowedCPUCount: CpuCount {
         let totalAvailableCPUs = ProcessInfo.processInfo.processorCount
         
-        var virtualCPUCount = totalAvailableCPUs <= 1 ? 1 : totalAvailableCPUs - 1
+        var virtualCPUCount = totalAvailableCPUs <= 1 ? 1 : totalAvailableCPUs
         virtualCPUCount = max(virtualCPUCount, VZVirtualMachineConfiguration.minimumAllowedCPUCount)
         virtualCPUCount = min(virtualCPUCount, VZVirtualMachineConfiguration.maximumAllowedCPUCount)
         

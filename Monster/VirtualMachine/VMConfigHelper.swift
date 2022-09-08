@@ -99,4 +99,20 @@ extension VMConfigHelper {
         
         return networkDevice
     }
+    
+    func directorySharingConfiguration() throws -> VZDirectorySharingDeviceConfiguration {
+        let tag: String = "MonsterShared"
+        try VZVirtioFileSystemDeviceConfiguration.validateTag(tag)
+        
+        var directories: [String: VZSharedDirectory] = [:]
+        config.shareFolders.forEach { directoryURL in
+            let name = directoryURL.lastPathComponent
+            directories[name] = VZSharedDirectory(url: directoryURL, readOnly: false)
+        }
+        
+        let share = VZMultipleDirectoryShare(directories: directories)
+        let device = VZVirtioFileSystemDeviceConfiguration(tag: tag)
+        device.share = share
+        return device
+    }
 }
