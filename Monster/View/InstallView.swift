@@ -85,8 +85,6 @@ struct InstallView: View {
             Divider()
             systemRows
             Divider()
-            advancedRows
-            Divider()
         }
     }
     
@@ -169,24 +167,7 @@ struct InstallView: View {
             .font(.subheadline)
         }
     }
-    
-    @ViewBuilder
-    private var advancedRows: some View {
-        BaseGridRow("Advanced") {
-            Toggle("Keyboard", isOn: $config.enableKeyboard).font(.subheadline)
-        }
-        toggleRow("Audio", isOn: $config.enableAudio)
-        toggleRow("Network", isOn: $config.enableNetwork)
-        toggleRow("Console", isOn: $config.enableConsole)
-    }
-    
-    private func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
-        GridRow {
-            Spacer()
-            Toggle(title, isOn: isOn).font(.subheadline)
-        }
-    }
-    
+
     @ViewBuilder
     private var footer: some View {
         HStack {
@@ -223,7 +204,7 @@ private struct BaseGridRow<Content> : View where Content : View {
     }
     
     var body: some View {
-        GridRow {
+        GridRow() {
             Text(title)
                 .frame(minWidth: 120, alignment: .leading)
                 .gridColumnAlignment(.leading)

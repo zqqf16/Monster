@@ -23,11 +23,6 @@ struct VMConfig: Codable, Hashable {
     var shareFolders: [URL] = []
     
     var installed: Bool = false
-
-    var enableKeyboard = true
-    var enableNetwork = true
-    var enableAudio = true
-    var enableConsole = true
     
     var icon: String {
         os.defaultIconName
