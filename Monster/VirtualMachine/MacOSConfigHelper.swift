@@ -15,12 +15,9 @@ struct MacOSConfigHelper: VMConfigHelper {
     var config: VMConfig
     var bundle: VMBundle
     
-    init(_ config: VMConfig) {
+    init(config: VMConfig, bundle: VMBundle) {
         self.config = config
-        if config.bundleURL == nil {
-            config.bundleURL = VMBundle.generateBundleURL(for: config)
-        }
-        self.bundle = VMBundle(config.bundleURL!)
+        self.bundle = bundle
     }
     
     // MARK: Platform

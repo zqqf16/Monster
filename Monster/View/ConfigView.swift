@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ConfigView: View {
-    
-    @ObservedObject var config: VMConfig
 
+    @ObservedObject var vm: VirtualMachine
+    
     var editable: Bool = true
         
     @State private var enableLogging = false
@@ -29,23 +29,23 @@ struct ConfigView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .background(.background)
-        .onReceive(config.objectWillChange.debounce(for: .milliseconds(1000), scheduler: RunLoop.main)) { _ in
-            print("Config changed")
-            save()
-        }
+        .onReceive(vm.$config.debounce(for: .milliseconds(1000), scheduler: RunLoop.main), perform: { config in
+            print("Virtual machine configurations changed")
+            try? self.vm.saveConfig()
+        })
     }
     
     @ViewBuilder
     private var generalSection: some View {
         Section("General") {
             BaseLine("Name") {
-                TextField("", text: $config.name)
+                TextField("", text: $vm.config.name)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 240)
             }
-            if config.os != .macOS {
+            if vm.config.os != .macOS {
                 BaseLine("Linux Distribution") {
-                    Picker("", selection: $config.os) {
+                    Picker("", selection: $vm.config.os) {
                         ForEach(OperatingSystem.linuxDistributions) { os in
                             Text(os.name).tag(os)
                         }
@@ -59,7 +59,7 @@ struct ConfigView: View {
             BaseLine("Path") {
                 FileButton(
                     readOnly: true,
-                    url: $config.bundleURL
+                    url: $vm.config.bundleURL
                 )
                 .rightToLeft()
             }
@@ -71,7 +71,7 @@ struct ConfigView: View {
         Section("System") {
             BaseLine("Memory Size", icon: "memorychip") {
                 UnitSlider(
-                    value: $config.memorySize,
+                    value: $vm.config.memorySize,
                     range: VMConfig.memorySizeRange,
                     step: 1.GB,
                     units: [.mebibytes, .gibibytes],
@@ -80,7 +80,7 @@ struct ConfigView: View {
             }
             BaseLine("Disk Size", icon: "internaldrive") {
                 UnitSlider(
-                    value: $config.diskSize,
+                    value: $vm.config.diskSize,
                     range: VMConfig.diskSizeRange,
                     step: 10.GB,
                     units: [.mebibytes, .gibibytes],
@@ -89,7 +89,7 @@ struct ConfigView: View {
             }
             BaseLine("CPU Count", icon: "cpu") {
                 UnitSlider(
-                    value: $config.cpuCount,
+                    value: $vm.config.cpuCount,
                     range: VMConfig.cpuCountRnage,
                     step: 1.core,
                     units: []
@@ -101,8 +101,8 @@ struct ConfigView: View {
     @ViewBuilder
     private var drivesSection: some View {
         Section("Drives") {
-            BaseLine(config.os.restoreImageTitle, icon: "externaldrive") {
-                FileButton(url: $config.restoreImageURL)
+            BaseLine(vm.config.os.restoreImageTitle, icon: "externaldrive") {
+                FileButton(url: $vm.config.restoreImageURL)
                     .rightToLeft()
             }
         }
@@ -125,23 +125,14 @@ struct ConfigView: View {
     private var sharedFolder: Binding<URL?> {
         // TODO: Only supports one directory now
         Binding {
-            config.shareFolders.first
+            vm.config.shareFolders.first
         } set: {
             if let url = $0 {
-                config.shareFolders = [url]
+                vm.config.shareFolders = [url]
             } else {
-                config.shareFolders.removeAll()
+                vm.config.shareFolders.removeAll()
             }
         }
-    }
-    
-    private func save() {
-        guard let bundleURL = config.bundleURL else {
-            return
-        }
-        
-        let bundle = VMBundle(bundleURL)
-        try? bundle.save(config: config)
     }
 }
 
@@ -185,6 +176,6 @@ private struct BaseLine<Content>: View where Content: View {
 
 struct ConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfigView(config: .defaultMacOSConfig)
+        ConfigView(vm: VirtualMachine(config: .defaultMacOS))
     }
 }

@@ -12,10 +12,10 @@ import Virtualization
 struct VMPlayer: NSViewRepresentable {
     typealias NSViewType = VZVirtualMachineView
 
-    @ObservedObject var instance: VMInstance
+    @ObservedObject var vm: VirtualMachine
 
     func makeNSView(context: Context) -> VZVirtualMachineView {
-        return instance.virtualMachineView
+        return vm.virtualMachineView
     }
     
     func updateNSView(_ nsView: VZVirtualMachineView, context: Context) {

@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct InstallView: View {
-    @ObservedObject var config = VMConfig("Ubuntu 20.04", os: .ubuntu, memorySize: 8.GB, diskSize: 30.GB, cpuCount: 4.core)
+    @State var config: VMConfig = .defaultLinux
 
     @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
 
     @State var linuxDictribution: OperatingSystem?
-    
+
     var body: some View {
         VStack {
             Spacer()
-            Text("New Virtual Machine")
+            Text("New Virtual Machin")
                 .font(.title)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
@@ -55,8 +55,9 @@ struct InstallView: View {
                     switch value {
                     case .macOS:
                         linuxDictribution = config.os
-                        config.os = .macOS
-                    case .linux: config.os = linuxDictribution ?? .linux
+                        os.wrappedValue = .macOS
+                    case .linux:
+                        os.wrappedValue = linuxDictribution ?? .linux
                     case .import:
                         // do something
                         break
@@ -66,6 +67,15 @@ struct InstallView: View {
                 }
             }
         )
+    }
+    
+    private var os: Binding<OperatingSystem> {
+        Binding {
+            config.os
+        } set: { value in
+            config.os = value
+            config.name = "\(value)"
+        }
     }
     
     @ViewBuilder
@@ -83,7 +93,7 @@ struct InstallView: View {
     private var distributionRow: some View {
         BaseGridRow("Linux Distribution") {
             HStack {
-                Picker("", selection: $config.os) {
+                Picker("", selection: os) {
                     ForEach(OperatingSystem.linuxDistributions) { os in
                         Text(os.name).font(.subheadline).tag(os)
                     }
@@ -170,7 +180,7 @@ struct InstallView: View {
         toggleRow("Console", isOn: $config.enableConsole)
     }
     
-    func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
+    private func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
         GridRow {
             Spacer()
             Toggle(title, isOn: isOn).font(.subheadline)
@@ -197,7 +207,7 @@ struct InstallView: View {
     }
     
     private func commit() {
-        store.createVirtualMachine(with: config)
+        store.addVirtualMachine(with: config)
         dismiss()
     }
 }

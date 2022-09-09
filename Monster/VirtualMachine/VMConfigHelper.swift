@@ -15,7 +15,7 @@ protocol VMConfigHelper {
 
     var needInstall: Bool { get }
     
-    init(_ config: VMConfig)
+    init(config: VMConfig, bundle: VMBundle)
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration
     
 #if arch(arm64)

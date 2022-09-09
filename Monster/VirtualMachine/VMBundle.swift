@@ -80,17 +80,11 @@ struct VMBundle {
     }
 
     // MARK: Config
-    func loadConfig() -> VMConfig? {
-        do {
-            let jsonData = try Data(contentsOf: configURL, options: .mappedIfSafe)
-            let config = try JSONDecoder().decode(VMConfig.self, from: jsonData)
-            config.bundleURL = url
-            return config
-        } catch {
-            print("Failed to load config:\(error)")
-        }
-        
-        return nil
+    func loadConfig() throws -> VMConfig {
+        let jsonData = try Data(contentsOf: configURL, options: .mappedIfSafe)
+        var config = try JSONDecoder().decode(VMConfig.self, from: jsonData)
+        config.bundleURL = url
+        return config
     }
     
     func save(config: VMConfig) throws {

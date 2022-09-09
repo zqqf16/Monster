@@ -70,10 +70,9 @@ struct MonsterApp: App {
         }
         
         // Preview
-        WindowGroup(for: VMConfig.self) { $vm in
-            if let config = $vm.wrappedValue {
-                VMConfigView(instance: VMManager.shared.getInstance(with: config))
-                    .navigationTitle("Preview")
+        WindowGroup(for: String.self) { $vmID in
+            if let vmID = $vmID.wrappedValue, let vm = store.virtualMachine(with: vmID) {
+                VirtualMachineView(vm: vm)
                     .environmentObject(store)
             }
         }

@@ -13,11 +13,11 @@ struct Sidebar: View {
     var body: some View {
         List(store.vms, selection: selection) { vm in
             NavigationLink(value: vm) {
-                Image(vm.icon)
+                Image(vm.config.icon)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(vm.name)
                         .fontWeight(.semibold)
-                    Text("\(vm.os.name)")
+                    Text("\(vm.config.os.name)")
                         .font(.subheadline)
                 }
             }
@@ -26,7 +26,7 @@ struct Sidebar: View {
         .frame(minWidth: 180)
     }
     
-    var selection: Binding<VMConfig?> {
+    var selection: Binding<VirtualMachine?> {
         Binding {
             store.selectedVM
         } set: { value in

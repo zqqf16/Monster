@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 class Store: ObservableObject {
-    @Published var vms: [VMConfig] = []
-    @Published var selectedVM: VMConfig?
+    @Published var vms: [VirtualMachine] = []
+    @Published var selectedVM: VirtualMachine?
 
     @Published var showWelcome: Bool = false
     @Published var showDeleteAlert: Bool = false
@@ -32,38 +32,42 @@ class Store: ObservableObject {
         let files = (try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
         let bundles = files.filter { $0.pathExtension == "vm" }
 
-        bundles.forEach { url in
-            let bundle = VMBundle(url)
-            if let config = bundle.loadConfig() {
-                vms.append(config)
-            }
+        vms = bundles.compactMap { try? VirtualMachine(bundleURL: $0) }
+    }
+    
+    // MARK: Virtual Machine
+
+    func virtualMachine(with vmID: String) -> VirtualMachine? {
+        vms.first { vm in
+            vm.id == vmID
         }
     }
     
-    func createVirtualMachine(with config: VMConfig, select: Bool = true) {
-        if config.bundleURL == nil {
-            config.bundleURL = VMBundle.generateBundleURL(for: config)
+    func addVirtualMachine(with config: VMConfig, select: Bool = true) {
+        var validatedConfig = config
+        if validatedConfig.bundleURL == nil {
+            validatedConfig.bundleURL = VMBundle.generateBundleURL(for: config)
         }
-        let bundle = VMBundle(config.bundleURL!)
-        try? bundle.prepareBundleDirectory()
-        try? bundle.save(config: config)
 
-        vms.append(config)
+        let vm = VirtualMachine(config: validatedConfig)
+        try? vm.prepareBundle()
+        vms.append(vm)
+
         selectedVM = vms.last
         columnVisibility = .all
     }
     
-    func remove(config: VMConfig, deleteFiles: Bool = true) {
-        guard let index = vms.firstIndex(of: config) else {
+    func remove(virtualMachine: VirtualMachine, deleteFiles: Bool = true) {
+        guard let index = vms.firstIndex(of: virtualMachine) else {
+            print("Virtual machine \(virtualMachine) not found")
             return
         }
         
-        vms.remove(at: index)
-        if deleteFiles, let bundleURL = config.bundleURL {
-            let bundle = VMBundle(bundleURL)
-            try? bundle.remove()
+        if deleteFiles {
+            try? virtualMachine.removeFiles()
         }
         
+        vms.remove(at: index)
         if vms.count > 0 {
             let index = min(index, vms.count-1)
             selectedVM = vms[index]

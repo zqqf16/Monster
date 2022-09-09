@@ -9,56 +9,28 @@ import Foundation
 import AppKit
 import Virtualization
 
-class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
+struct VMConfig: Codable, Hashable {
     var id = UUID().uuidString
-
-    @Published var name: String
-    @Published var os: OperatingSystem = .macOS
+    var name: String
+    var os: OperatingSystem = .macOS
     
-    @Published var memorySize: StorageSize
-    @Published var diskSize: StorageSize
-    @Published var cpuCount: CpuCount
+    var memorySize: StorageSize = 4.GB
+    var diskSize: StorageSize = 30.GB
+    var cpuCount: CpuCount = 4.core
     
-    @Published var restoreImageURL: URL?
-    @Published var bundleURL: URL?
-    
-    @Published var shareFolders: [URL] = []
-    
-    @Published var enableKeyboard = true
-    @Published var enableNetwork = true
-    @Published var enableAudio = true
-    @Published var enableConsole = true
+    var restoreImageURL: URL? = nil
+    var bundleURL: URL? = nil
+    var shareFolders: [URL] = []
     
     var installed: Bool = false
-        
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: VMConfig, rhs: VMConfig) -> Bool {
-        return lhs.id == rhs.id
-    }
 
+    var enableKeyboard = true
+    var enableNetwork = true
+    var enableAudio = true
+    var enableConsole = true
+    
     var icon: String {
         os.defaultIconName
-    }
-
-    init(
-        _ name: String,
-        os: OperatingSystem,
-        memorySize: StorageSize,
-        diskSize: StorageSize,
-        cpuCount: CpuCount,
-        restoreImageURL: URL? = nil,
-        bundleURL: URL? = nil
-    ) {
-        self.name = name
-        self.os = os
-        self.memorySize = memorySize
-        self.diskSize = diskSize
-        self.cpuCount = cpuCount
-        self.restoreImageURL = restoreImageURL
-        self.bundleURL = bundleURL
     }
     
     // MARK: Codable
@@ -75,9 +47,14 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
         case installed
     }
     
-    required init(from decoder: Decoder) throws {
+    init(name: String, os: OperatingSystem = .macOS) {
+        self.name = name
+        self.os = os
+    }
+    
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
+        id = try container.decode(String.self, forKey: .name)
         name = try container.decode(String.self, forKey: .name)
         os = try container.decode(OperatingSystem.self, forKey: .os)
         
@@ -111,27 +88,31 @@ class VMConfig: ObservableObject, Identifiable, Hashable, Codable {
     }
 }
 
-
-// MARK: System limitation
-
+// MARK: Default configs
 extension VMConfig {
-    class var minimumAllowedMemorySize: StorageSize {
+    static var defaultMacOS: VMConfig { .init(name: "macOS") }
+    static var defaultLinux: VMConfig { VMConfig(name: "Linux", os: .linux) }
+}
+
+// MARK: Value ranges
+extension VMConfig {
+    static var minimumAllowedMemorySize: StorageSize {
         1.GB
     }
     
-    class var maximumAllowedMemorySize: StorageSize {
+    static var maximumAllowedMemorySize: StorageSize {
         VZVirtualMachineConfiguration.maximumAllowedMemorySize.B
     }
     
-    class var memorySizeRange: ClosedRange<StorageSize> {
+    static var memorySizeRange: ClosedRange<StorageSize> {
         minimumAllowedMemorySize ... maximumAllowedMemorySize
     }
     
-    class var minimumAllowedCPUCount: CpuCount {
+    static var minimumAllowedCPUCount: CpuCount {
         VZVirtualMachineConfiguration.minimumAllowedCPUCount.core
     }
     
-    class var maximumAllowedCPUCount: CpuCount {
+    static var maximumAllowedCPUCount: CpuCount {
         let totalAvailableCPUs = ProcessInfo.processInfo.processorCount
         
         var virtualCPUCount = totalAvailableCPUs <= 1 ? 1 : totalAvailableCPUs
@@ -141,15 +122,15 @@ extension VMConfig {
         return virtualCPUCount.core
     }
     
-    class var cpuCountRnage: ClosedRange<CpuCount> {
+    static var cpuCountRnage: ClosedRange<CpuCount> {
         minimumAllowedCPUCount ... maximumAllowedCPUCount
     }
     
-    class var minimumAllowedDiskSize: StorageSize {
+    static var minimumAllowedDiskSize: StorageSize {
         return 5.GB // 2.5GB, Ubuntu 20.04
     }
     
-    class var maximumAllowedDiskSize: StorageSize {
+    static var maximumAllowedDiskSize: StorageSize {
         guard let size = FileManager.getFileSize(for: .systemFreeSize) else {
             return 100.GB
         }
@@ -162,15 +143,7 @@ extension VMConfig {
         return UInt64(sizeInGB).GB
     }
     
-    class var diskSizeRange: ClosedRange<StorageSize> {
+    static var diskSizeRange: ClosedRange<StorageSize> {
         minimumAllowedDiskSize ... maximumAllowedDiskSize
-    }
-}
-
-// MARK: Default configs
-
-extension VMConfig {
-    class var defaultMacOSConfig: VMConfig {
-        VMConfig("macOS", os: .macOS, memorySize: 4.GB, diskSize: 30.GB, cpuCount: 4.core)
     }
 }

@@ -8,30 +8,30 @@
 import SwiftUI
 import Virtualization
 
-struct VMConfigView: View {
-    @ObservedObject var instance: VMInstance
+struct VirtualMachineView: View {
+    @ObservedObject var vm: VirtualMachine
 
     @State var showBanner: Bool = false
     @State var currentError: Failure? = nil
 
     var body: some View {
-        VMPlayer(instance: instance)
-            .navigationTitle(instance.config.name)
+        VMPlayer(vm: vm)
+            .navigationTitle(vm.name)
             .toolbar {
                 toolbar
             }
             .onAppear {
-                if instance.state == .stopped {
-                    execute(instance.run)
+                if vm.state == .stopped {
+                    execute(vm.run)
                 }
             }
-            .onReceive(instance.$state, perform: { state in
+            .onReceive(vm.$state, perform: { state in
                 withAnimation {
                     showBanner = state != .running
                 }
             })
             .banner(isPresented: $showBanner) {
-                if instance.state == .installing {
+                if vm.state == .installing {
                     progressBanner
                 } else {
                     textBanner
@@ -42,16 +42,16 @@ struct VMConfigView: View {
     @ViewBuilder
     private var progressBanner: some View {
         HStack {
-            ProgressView(progressMessage, value: instance.installingProgress)
+            ProgressView(progressMessage, value: vm.installingProgress)
         }
     }
     
     private var progressMessage: String {
-        if instance.installingProgress < 0.1 {
+        if vm.installingProgress < 0.1 {
             return "Installing ... (loading files)"
         }
         
-        var progress = Int(instance.installingProgress * 100)
+        var progress = Int(vm.installingProgress * 100)
         progress = min(progress, 100)
         progress = max(0, progress)
         return "Installing ... (\(progress)%)"
@@ -60,30 +60,25 @@ struct VMConfigView: View {
     @ViewBuilder
     private var textBanner: some View {
         HStack {
-            if instance.state == .error {
+            if vm.state == .error {
                 Image(systemName: "xmark.octagon.fill")
                     .resizable()
                     .foregroundColor(.red)
                     .frame(width: 20, height: 20)
                 VStack(alignment: .leading) {
-                    if let error = instance.currentError {
-                        Text(error.localizedDescription).fontWeight(.bold)
-                    } else {
-                        Text("Unknow Error")
-                    }
-                    
-                    if let reason = instance.currentError?.reason {
+                    Text(bannerTitle).fontWeight(.bold)
+                    if let reason = currentError?.reason {
                         Text(reason.localizedDescription).font(.subheadline)
                     }
                 }
             } else {
-                Text(bannerMessage)
+                Text(bannerTitle)
                     .fontWeight(.bold)
             }
             
             Spacer()
             Button {
-                execute(instance.run)
+                execute(vm.run)
             } label: {
                 Image(systemName: "arrow.clockwise")
             }
@@ -91,19 +86,18 @@ struct VMConfigView: View {
         }
     }
     
-    private var bannerMessage: String {
-        switch instance.state {
-        case .error:
-            return instance.currentError != nil ? instance.currentError!.localizedDescription : "Unknow Error!"
-        default:
-            return "Virtual Machine is \(instance.state)"
+    private var bannerTitle: String {
+        if vm.state == .error {
+            return currentError != nil ? currentError!.localizedDescription : "Unknow Error"
         }
+        
+        return "Virtual Machine is \(vm.state)"
     }
     
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .navigation) {
-            switch instance.state {
+            switch vm.state {
             case .running:
                 pauseButton
                 stopButton
@@ -118,7 +112,7 @@ struct VMConfigView: View {
     
     private var runButton: some View {
         Button {
-            execute(instance.run)
+            execute(vm.run)
         } label: {
             Label("Run", systemImage: "play.fill")
         }
@@ -126,7 +120,7 @@ struct VMConfigView: View {
     
     private var pauseButton: some View {
         Button {
-            execute(instance.pause)
+            execute(vm.pause)
         } label: {
             Label("Pause", systemImage: "pause.fill")
         }
@@ -134,7 +128,7 @@ struct VMConfigView: View {
     
     private var stopButton: some View {
         Button {
-            execute(instance.stop)
+            execute(vm.stop)
         } label: {
             Label("Stop", systemImage: "stop.fill")
         }
@@ -142,6 +136,7 @@ struct VMConfigView: View {
     
     private func execute(_ function: @escaping () async throws -> Void) {
         Task {
+            self.currentError = nil
             do {
                 try await function()
             } catch {
@@ -158,8 +153,8 @@ struct VMConfigView: View {
     }
 }
 
-struct VMConfigView_Previews: PreviewProvider {
+struct VirtualMachineView_Previews: PreviewProvider {
     static var previews: some View {
-        VMConfigView(instance: VMInstance(.defaultMacOSConfig))
+        VirtualMachineView(vm: VirtualMachine(config: .defaultMacOS))
     }
 }

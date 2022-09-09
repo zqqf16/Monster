@@ -8,130 +8,12 @@
 import Foundation
 import Virtualization
 
-class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
-
-    enum State: Int {
-        // The same with VZVirtualMachine.State
-        case stopped = 0
-        case running = 1
-        case paused = 2
-        case error = 3
-        case starting = 4
-        case pausing = 5
-        case resuming = 6
-        case stopping = 7
-        
-        // for macOS installing
-        case installing = 100
-    }
-    
-    var config: VMConfig
-
-    /// Virtual machine state
-    @Published var state: State = .stopped
-    
-    @Published var currentError: Failure?
-        
-    /// macOS installing progress
-    @Published var installingProgress: Double = 0
-    
-    /// Current virtual machine
-    private(set) var virtualMachine: VZVirtualMachine!
-
-    /// Current virtual machine view
-    private(set) var virtualMachineView: VZVirtualMachineView = VZVirtualMachineView()
-    
-    private var observeToken: NSKeyValueObservation?
-
-    private var configHelper: VMConfigHelper
-
-#if arch(arm64)
-    private var installer: VZMacOSInstaller!
-#endif
-
-    init(_ config: VMConfig) {
-        self.config = config
-#if arch(arm64)
-        if config.os == .macOS {
-            self.configHelper = MacOSConfigHelper(config)
-        } else {
-            self.configHelper = GenericConfigHelper(config)
-        }
-#else
-        self.configHelper = GenericConfigHelper(config)
-#endif
-    }
-    
-    deinit {
-        observeToken?.invalidate()
-    }
-    
-    private func configVirtualMachine() throws {
-        let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration()
-        virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
-        virtualMachine.delegate = self
-
-        observeToken?.invalidate()
-        observeToken = virtualMachine.observe(\.state) {[weak self] vm, change in
-            print("Virtual machine state: \(vm.state.rawValue)")
-            if let state = State(rawValue: vm.state.rawValue) {
-                self?.state = state
-            }
-        }
-    }
-    
-    @MainActor
-    func run() async throws {
-        do {
-            try await startIfNeed()
-        } catch {
-            if let error = error as? Failure {
-                self.currentError = error
-            } else {
-                self.currentError = Failure("Unknow error", reason: error)
-            }
-            self.state = .error
-            throw self.currentError!
-        }
-    }
-    
-    @MainActor
-    private func startIfNeed() async throws {
-#if !arch(arm64)
-        if config.os == .macOS {
-            throw Failure("MacOS is not supported on this device")
-        }
-#endif
-        if virtualMachine != nil {
-            if state == .running || state == .installing {
-                return
-            }
-            if virtualMachine.canResume {
-                try await resume()
-                return
-            }
-        }
-
-#if arch(arm64)
-        if configHelper.needInstall {
-            try await install()
-            self.state = .stopped
-        }
-#endif
-        
-        try await start()
-    }
-    
+extension VZVirtualMachine {
     @MainActor
     func start() async throws {
-        try configVirtualMachine()
-        virtualMachineView.virtualMachine = virtualMachine
-        if !virtualMachine.canStart {
-            throw Failure("Virtual machine cannot start")
-        }
-        
+        guard self.canStart else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            virtualMachine.start(completionHandler: { result in
+            self.start(completionHandler: { result in
                 switch result {
                 case let .failure(error):
                     continuation.resume(throwing: Failure("Virtual machine started failed", reason: error))
@@ -145,12 +27,9 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     
     @MainActor
     func stop() async throws {
-        guard let virtualMachine = self.virtualMachine else { return }
+        guard self.canStop else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            virtualMachine.stop { [weak self] error in
-                guard let self = self else { return }
-                self.virtualMachine = nil
-                self.virtualMachineView.virtualMachine = nil
+            self.stop { error in
                 if let _ = error {
                     print("Virtual machine did stop with error: \(error!.localizedDescription)")
                     continuation.resume(throwing: Failure("Virtual machine failed to stop", reason: error))
@@ -164,9 +43,9 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     
     @MainActor
     func pause() async throws {
-        guard let virtualMachine = self.virtualMachine else { return }
+        guard self.canPause else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            virtualMachine.pause { result in
+            self.pause { result in
                 switch result {
                 case let .failure(error):
                     print("Virtual machine failed to pause with error: \(error)")
@@ -181,9 +60,9 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
     
     @MainActor
     func resume() async throws {
-        guard let virtualMachine = self.virtualMachine else { return }
+        guard self.canResume else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            virtualMachine.resume { result in
+            self.resume { result in
                 switch result {
                 case let .failure(error):
                     print("Virtual machine failed to resume with error: \(error)")
@@ -194,6 +73,60 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
                 }
             }
         }
+    }
+}
+
+/// VZVirtualMachine Wrapper
+class VMInstance: NSObject, VZVirtualMachineDelegate {
+    @Published
+    var state: VirtualMachine.State = .stopped
+    
+    @Published
+    private(set) var virtualMachine: VZVirtualMachine!
+    
+    private var configHelper: VMConfigHelper
+    private var observeToken: NSKeyValueObservation?
+
+    init(_ configHelper: VMConfigHelper) {
+        self.configHelper = configHelper
+    }
+    
+    deinit {
+        observeToken?.invalidate()
+    }
+    
+    private func configVirtualMachine() throws {
+        let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration()
+        virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
+        virtualMachine.delegate = self
+
+        observeToken?.invalidate()
+        observeToken = virtualMachine.observe(\.state, options: [.initial, .new]) {[weak self] vm, change in
+            print("Virtual machine state: \(vm.state)")
+            if let state = VirtualMachine.State(rawValue: vm.state.rawValue) {
+                self?.state = state
+            }
+        }
+    }
+    
+    @MainActor
+    func start() async throws {
+        try configVirtualMachine()
+        try await virtualMachine.start()
+    }
+
+    @MainActor
+    func stop() async throws {
+        try await virtualMachine.stop()
+        virtualMachine = nil
+    }
+    
+    func pause() async throws {
+        try await virtualMachine.pause()
+    }
+    
+    func resume() async throws {
+        try await virtualMachine.resume()
     }
 
     /*
@@ -223,78 +156,3 @@ class VMInstance: NSObject, VZVirtualMachineDelegate, ObservableObject {
         print("Netowrk attachment was disconnected with error: \(error.localizedDescription)")
     }
 }
-
-#if arch(arm64)
-
-// MARK: MacOS Installation
-extension VMInstance {
-    func install() async throws {
-        defer {
-            installer = nil
-        }
-        do {
-            let restoreImage = try await self.loadRestoreImage()
-            try await self.startInstallation(restoreImage: restoreImage)
-            try await self.stop()
-        } catch let error as Failure {
-            print("\(error.localizedDescription) \n \(error.reason?.localizedDescription ?? "")")
-            throw error
-        } catch {
-            throw error
-        }
-    }
-
-    func loadRestoreImage() async throws -> VZMacOSRestoreImage {
-        guard let restoreImageURL = config.restoreImageURL else {
-            throw Failure("Restore image path shouldn't be nil")
-        }
-        
-        return try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<VZMacOSRestoreImage, Error>) in
-            VZMacOSRestoreImage.load(from: restoreImageURL) { result in
-                switch result {
-                case let .failure(error):
-                    continuation.resume(throwing: Failure("Failed to load restore image", reason: error))
-                case let .success(restoreImage):
-                    continuation.resume(returning: restoreImage)
-                }
-            }
-        }
-    }
-    
-    @MainActor
-    func startInstallation(restoreImage: VZMacOSRestoreImage) async throws {
-        self.state = .installing
-
-        let configHelper = MacOSConfigHelper(self.config)
-        let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration(restoreImage: restoreImage)
-        
-        virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
-        virtualMachine.delegate = self
-        virtualMachineView.virtualMachine = virtualMachine
-
-        installer = VZMacOSInstaller(virtualMachine: virtualMachine, restoringFromImageAt: restoreImage.url)
-
-        observeToken = installer.progress.observe(\.fractionCompleted, options: [.initial, .new]) { [weak self] (progress, change) in
-            guard let self = self else { return }
-            self.installingProgress = change.newValue ?? Double(progress.completedUnitCount / progress.totalUnitCount)
-            print("Installation progress: \(self.installingProgress * 100)%")
-        }
-        
-        print("Starting installation")
-
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            installer.install(completionHandler: { result in
-                if case let .failure(error) = result {
-                    continuation.resume(throwing: Failure("Failed to install virtual machine", reason: error))
-                } else {
-                    continuation.resume()
-                    print("Installation succeeded")
-                }
-            })
-        }
-        
-        config.installed = true
-    }
-}
-
-#endif

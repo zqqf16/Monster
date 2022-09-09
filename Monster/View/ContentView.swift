@@ -16,7 +16,7 @@ struct ContentView: View {
             Sidebar()
         } detail: {
             if let selectedVM = store.selectedVM {
-                ConfigView(config: selectedVM)
+                ConfigView(vm: selectedVM)
             } else {
                 EmptyStateView()
             }
@@ -33,14 +33,14 @@ struct ContentView: View {
     }
 
     var alertTitle: String {
-        let name = store.selectedVM?.name ?? ""
+        let name = store.selectedVM?.config.name ?? ""
         return "Are you sure to delete \(name)?"
     }
     
     @ViewBuilder var alert: some View {
         Button("Delete", role: .destructive) {
             if let selectedVM = store.selectedVM {
-                store.remove(config: selectedVM, deleteFiles: AppSettings.deleteVMFiles)
+                store.remove(virtualMachine: selectedVM, deleteFiles: AppSettings.deleteVMFiles)
             }
         }
         Button("Cancel", role: .cancel) {
@@ -91,7 +91,7 @@ private struct Toolbar: ToolbarContent {
         ToolbarItemGroup(placement: .navigation) {
             Button {
                 if let selectedVM = store.selectedVM {
-                    openWindow(value: selectedVM)
+                    openWindow(value: selectedVM.id)
                 }
             } label: {
                 Label("Run", systemImage: "play.fill")
