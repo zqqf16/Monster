@@ -18,7 +18,7 @@ struct InstallView: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("New Virtual Machin")
+            Text("New Virtual Machine")
                 .font(.title)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
@@ -150,7 +150,7 @@ struct InstallView: View {
             )
             .font(.subheadline)
         }
-        BaseGridRow("Disk Size") {
+        BaseGridRow("Disk") {
             UnitSlider(
                 value: $config.diskSize,
                 range: VMConfig.diskSizeRange,
@@ -159,7 +159,7 @@ struct InstallView: View {
             )
             .font(.subheadline)
         }
-        BaseGridRow("CPU Count") {
+        BaseGridRow("CPUs") {
             UnitSlider(
                 value: $config.cpuCount,
                 range: VMConfig.cpuCountRnage,

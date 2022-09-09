@@ -69,7 +69,7 @@ struct ConfigView: View {
     @ViewBuilder
     private var systemSection: some View {
         Section("System") {
-            BaseLine("Memory Size", icon: "memorychip") {
+            BaseLine("Memory", icon: "memorychip") {
                 UnitSlider(
                     value: $vm.config.memorySize,
                     range: VMConfig.memorySizeRange,
@@ -78,7 +78,7 @@ struct ConfigView: View {
                     defaultUnit: .gibibytes
                 ).hideSlider()
             }
-            BaseLine("Disk Size", icon: "internaldrive") {
+            BaseLine("Disk", icon: "internaldrive") {
                 UnitSlider(
                     value: $vm.config.diskSize,
                     range: VMConfig.diskSizeRange,
@@ -87,7 +87,7 @@ struct ConfigView: View {
                     defaultUnit: .gibibytes
                 ).hideSlider()
             }
-            BaseLine("CPU Count", icon: "cpu") {
+            BaseLine("CPUs", icon: "cpu") {
                 UnitSlider(
                     value: $vm.config.cpuCount,
                     range: VMConfig.cpuCountRnage,
