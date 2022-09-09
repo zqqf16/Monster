@@ -7,23 +7,26 @@
 //
 
 import Foundation
+import AppKit
 
 struct VMBundle {
     var url: URL
     
-    var diskImageURL: URL { url.appendingPathComponent("Disk.img") }
-    var efiVariableStoreURL: URL { url.appendingPathComponent("NVRAM") }
-    var hardwareModelURL: URL { url.appendingPathComponent("HardwareModel")}
-    var machineIdentifierURL: URL { url.appendingPathComponent("MachineIdentifier")}
-    var auxiliaryStorageURL: URL { url.appendingPathComponent("AuxiliaryStorage")}
-    var configURL: URL { url.appendingPathComponent("Info.json") }
+    var diskImageURL: URL { filePath("Disk.img") }
+    var efiVariableStoreURL: URL { filePath("NVRAM") }
+    var hardwareModelURL: URL { filePath("HardwareModel")}
+    var machineIdentifierURL: URL { filePath("MachineIdentifier")}
+    var auxiliaryStorageURL: URL { filePath("AuxiliaryStorage")}
+    var configURL: URL { filePath("Info.json") }
+    var snapshotURL: URL { filePath("Snapshot.png")}
     
-    var bundleDirectoryExists: Bool { FileManager.default.directoryExists(at: url) }
+    var bundleDirectoryExists: Bool { exists(at: url) }
 
-    var diskImageExists: Bool { FileManager.default.fileExists(atPath: diskImageURL.path) }
-    var hardwareModelExists: Bool { FileManager.default.fileExists(atPath: hardwareModelURL.path) }
-    var machineIdentifierExists: Bool { FileManager.default.fileExists(atPath: machineIdentifierURL.path) }
-    var auxiliaryStorageExists: Bool { FileManager.default.fileExists(atPath: auxiliaryStorageURL.path) }
+    var diskImageExists: Bool { exists(at: diskImageURL) }
+    var hardwareModelExists: Bool { exists(at: hardwareModelURL) }
+    var machineIdentifierExists: Bool { exists(at: machineIdentifierURL) }
+    var auxiliaryStorageExists: Bool { exists(at: auxiliaryStorageURL) }
+    var snapshotExists: Bool { exists(at: snapshotURL) }
 
     init(_ url: URL) {
         self.url = url
@@ -58,6 +61,14 @@ struct VMBundle {
         return name
     }
     
+    private func exists(at url: URL) -> Bool {
+        return FileManager.default.fileExists(atPath: url.path)
+    }
+    
+    private func filePath(_ fileName: String) -> URL {
+        url.appendingPathComponent(fileName)
+    }
+    
     func prepareBundleDirectory() throws {
         if !bundleDirectoryExists {
             debugPrint("Create bundle directory: \(url.path)")
@@ -79,7 +90,6 @@ struct VMBundle {
         try fileHandle.truncate(atOffset: size.bytes)
     }
 
-    // MARK: Config
     func loadConfig() throws -> VMConfig {
         let jsonData = try Data(contentsOf: configURL, options: .mappedIfSafe)
         var config = try JSONDecoder().decode(VMConfig.self, from: jsonData)
@@ -98,6 +108,18 @@ struct VMBundle {
     
     func save(machineIdentifier: Data) throws {
         try machineIdentifier.write(to: machineIdentifierURL)
+    }
+    
+    func loadSnapshot() -> NSImage? {
+        return NSImage(contentsOf: snapshotURL)
+    }
+
+    func save(snapshot: NSImage) throws {
+        guard let data = snapshot.pngData else {
+            return
+        }
+        
+        try data.write(to: snapshotURL)
     }
     
     func remove() throws {

@@ -20,14 +20,17 @@ struct ConfigView: View {
     @State private var showName: Bool = false
     
     var body: some View {
-        Form {
-            generalSection
-            drivesSection
-            systemSection
-            advanceSection
+        ScrollView {
+            header
+            Form {
+                generalSection
+                drivesSection
+                systemSection
+                advanceSection
+            }
+            .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
         }
-        .formStyle(.grouped)
-        .scrollContentBackground(.hidden)
         .background(.background)
         .onReceive(vm.$config.debounce(for: .milliseconds(1000), scheduler: RunLoop.main), perform: { config in
             print("Virtual machine configurations changed")
@@ -36,13 +39,21 @@ struct ConfigView: View {
     }
     
     @ViewBuilder
+    private var header: some View {
+        VStack {
+            SnapshotView(vm: vm)
+            
+            TextField("", text: $vm.config.name)
+                .font(.largeTitle)
+                .multilineTextAlignment(.center)
+                .textFieldStyle(.plain)
+        }
+        .padding()
+    }
+    
+    @ViewBuilder
     private var generalSection: some View {
-        Section("General") {
-            BaseLine("Name") {
-                TextField("", text: $vm.config.name)
-                    .multilineTextAlignment(.trailing)
-                    .frame(maxWidth: 240)
-            }
+        Section {
             if vm.config.os != .macOS {
                 BaseLine("Linux Distribution") {
                     Picker("", selection: $vm.config.os) {

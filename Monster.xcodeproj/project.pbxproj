@@ -33,6 +33,8 @@
 		F4F2AF9128C3943200C3A5A3 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */; };
 		F4F577AA28CAE7D00040E394 /* VirtualMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F577A928CAE7D00040E394 /* VirtualMachine.swift */; };
 		F4F577AE28CB17040040E394 /* VMInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F577AD28CB17040040E394 /* VMInstaller.swift */; };
+		F4F577B028CB6F0A0040E394 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F577AF28CB6F0A0040E394 /* NSImage.swift */; };
+		F4F577B228CB77630040E394 /* SnapshotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F577B128CB77630040E394 /* SnapshotView.swift */; };
 		F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF824328C1A47D009F5DF6 /* InstallView.swift */; };
 		F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28528A38360003B75F9 /* MonsterApp.swift */; };
 		F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF28728A38360003B75F9 /* ContentView.swift */; };
@@ -91,6 +93,8 @@
 		F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
 		F4F577A928CAE7D00040E394 /* VirtualMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachine.swift; sourceTree = "<group>"; };
 		F4F577AD28CB17040040E394 /* VMInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMInstaller.swift; sourceTree = "<group>"; };
+		F4F577AF28CB6F0A0040E394 /* NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
+		F4F577B128CB77630040E394 /* SnapshotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotView.swift; sourceTree = "<group>"; };
 		F4FF824328C1A47D009F5DF6 /* InstallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallView.swift; sourceTree = "<group>"; };
 		F4FFF28228A38360003B75F9 /* Monster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Monster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FFF28528A38360003B75F9 /* MonsterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterApp.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				F4376BD128C0A33400E7B65A /* EntranceItem.swift */,
 				F4D6881028C62F06003544A6 /* FileButton.swift */,
 				F4CC874128C776E70011538E /* Banner.swift */,
+				F4F577B128CB77630040E394 /* SnapshotView.swift */,
 			);
 			path = ConfigItems;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 				F435FFA728C23AC6006D5671 /* FileManager.swift */,
 				F435FF9E28C1DC90006D5671 /* Measurement.swift */,
 				F435FFA228C1F909006D5671 /* Unit.swift */,
+				F4F577AF28CB6F0A0040E394 /* NSImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -405,6 +411,7 @@
 				F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */,
 				F4DFF5DE28C98EAF00246E1F /* MacOSConfigHelper.swift in Sources */,
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
+				F4F577B028CB6F0A0040E394 /* NSImage.swift in Sources */,
 				F483FD3328C639E0004A997E /* ConfigUtils.swift in Sources */,
 				F435FFA328C1F909006D5671 /* Unit.swift in Sources */,
 				F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */,
@@ -427,6 +434,7 @@
 				F435FF9F28C1DC90006D5671 /* Measurement.swift in Sources */,
 				F4F577AE28CB17040040E394 /* VMInstaller.swift in Sources */,
 				F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */,
+				F4F577B228CB77630040E394 /* SnapshotView.swift in Sources */,
 				F4E11D0228C4DF6200649826 /* Settings.swift in Sources */,
 				F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */,
 				F4DFF5E028C991E800246E1F /* GenericConfigHelper.swift in Sources */,

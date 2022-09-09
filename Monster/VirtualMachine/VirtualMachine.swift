@@ -42,6 +42,9 @@ class VirtualMachine: ObservableObject, Identifiable {
     @Published
     private(set) var instance: VMInstance!
     
+    @Published
+    private(set) var snapshot: NSImage?
+    
     lazy private(set) var virtualMachineView: VZVirtualMachineView = {
         VZVirtualMachineView()
     }()
@@ -70,13 +73,21 @@ class VirtualMachine: ObservableObject, Identifiable {
     }
     
     private var subscriptions = Set<AnyCancellable>()
-    
+    private var timerCancellable: AnyCancellable?
+
     var name: String {
         config.name
     }
     
     init(config: VMConfig) {
         self.config = config
+        loadSnpashot()
+        startSnapshotTimer()
+    }
+    
+    deinit {
+        timerCancellable?.cancel()
+        subscriptions.forEach { $0.cancel() }
     }
 }
 
@@ -208,5 +219,40 @@ extension VirtualMachine {
         } catch {
             throw Failure("Failed to save virtual machine configurations", reason: error)
         }
+    }
+}
+
+// MARK: Snapshots
+extension VirtualMachine {
+    func takeSnapshot() {
+        guard instance != nil, instance.state != .stopped else {
+            return
+        }
+        let rect = virtualMachineView.bounds
+        guard let rep = virtualMachineView.bitmapImageRepForCachingDisplay(in: rect) else {
+            return
+        }
+        
+        print("Taking snapshot ...")
+        
+        virtualMachineView.cacheDisplay(in: rect, to: rep)
+        let img = NSImage(size: rect.size)
+        img.addRepresentation(rep)
+       
+        snapshot = img
+        try? bundle?.save(snapshot: img)
+    }
+    
+    func startSnapshotTimer() {
+        timerCancellable?.cancel()
+        timerCancellable = Timer.publish(every: 10, on: .main, in: .default)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.takeSnapshot()
+            }
+    }
+    
+    func loadSnpashot() {
+        snapshot = bundle?.loadSnapshot()
     }
 }
