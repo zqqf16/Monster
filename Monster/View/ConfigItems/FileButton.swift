@@ -18,10 +18,11 @@ struct FileButton: View {
     var deleteSystemImageName: String = "xmark.circle.fill"
 
     var layoutDirection: LayoutDirection = .leftToRight
-    var comment: String? = nil
+    var tips: String? = nil
     var showResult: Bool = true
     
     var textFont: Font? = nil
+    var tipsFont: Font? = nil
 
     @Binding var url: URL?
     
@@ -96,11 +97,11 @@ struct FileButton: View {
     private var text: some View {
         let aligment: TextAlignment = (layoutDirection == .leftToRight ? .leading : .trailing)
         if url == nil {
-            if let comment = self.comment {
-                Text(comment)
+            if let tips = self.tips {
+                Text(tips)
                     .multilineTextAlignment(aligment)
                     .lineLimit(1)
-                    .font(textFont)
+                    .font(tipsFont)
                     .italic()
             }
         } else if showResult {

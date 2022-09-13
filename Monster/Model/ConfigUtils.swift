@@ -15,4 +15,12 @@ extension OperatingSystem {
         }
         return "ISO Image"
     }
+    
+    var restoreImageTips: String {
+        if self == .macOS {
+            return "Select a restore image file (.ipsw)"
+        }
+        let arch = VMConfig.arch.uppercased()
+        return "Select an arch ISO image file (.iso) for \(arch)"
+    }
 }

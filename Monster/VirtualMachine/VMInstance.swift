@@ -129,19 +129,6 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
         try await virtualMachine.resume()
     }
 
-    /*
-    func takeSnapshot() {
-        let rect = virtualMachineView.bounds
-        guard let rep = virtualMachineView.bitmapImageRepForCachingDisplay(in: rect) else {
-            return
-        }
-        self.virtualMachineView.cacheDisplay(in: rect, to: rep)
-        let img = NSImage(size: rect.size)
-        img.addRepresentation(rep)
-        debugPrint(img)
-    }
-     */
-
     // MARK: VZVirtualMachineDelegate methods.
 
     func virtualMachine(_ virtualMachine: VZVirtualMachine, didStopWithError error: Error) {

@@ -58,9 +58,11 @@ struct VMConfig: Codable, Hashable {
         cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
         restoreImageURL = try? container.decodeIfPresent(URL.self, forKey: .restoreImageURL)
         bundleURL = try? container.decodeIfPresent(URL.self, forKey: .bundleURL)
+        
         if let installed = try? container.decodeIfPresent(Bool.self, forKey: .installed) {
             self.installed = installed
         }
+        
         if let shareFolders = try? container.decodeIfPresent([URL].self, forKey: .shareFolders) {
             self.shareFolders = shareFolders
         } else {
@@ -89,8 +91,26 @@ extension VMConfig {
     static var defaultLinux: VMConfig { VMConfig(name: "Linux", os: .linux) }
 }
 
-// MARK: Value ranges
+// MARK: System Info
 extension VMConfig {
+    static var arch: String {
+        var systeminfo = utsname()
+        uname(&systeminfo)
+        let machine = withUnsafeBytes(of: &systeminfo.machine) {bufPtr->String in
+            let data = Data(bufPtr)
+            if let lastIndex = data.lastIndex(where: {$0 != 0}) {
+                return String(data: data[0...lastIndex], encoding: .isoLatin1)!
+            } else {
+                return String(data: data, encoding: .isoLatin1)!
+            }
+        }
+        return machine
+    }
+    
+    static var isArm64: Bool {
+        return arch.hasPrefix("arm64")
+    }
+
     static var minimumAllowedMemorySize: StorageSize {
         1.GB
     }

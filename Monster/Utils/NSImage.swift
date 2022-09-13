@@ -13,7 +13,8 @@ extension NSImage {
         guard let tiff = self.tiffRepresentation,
               let bitmap = NSBitmapImageRep(data: tiff)
         else {
-            return nil }
+            return nil
+        }
         return bitmap.representation(using: .png, properties: [:])
     }
 }

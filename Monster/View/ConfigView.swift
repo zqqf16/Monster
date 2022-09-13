@@ -112,7 +112,11 @@ struct ConfigView: View {
     @ViewBuilder
     private var drivesSection: some View {
         Section("Drives") {
-            BaseLine(vm.config.os.restoreImageTitle, icon: "externaldrive") {
+            BaseLine(
+                vm.config.os.restoreImageTitle,
+                icon: "externaldrive",
+                tips: vm.config.os.restoreImageTips
+            ) {
                 FileButton(url: $vm.config.restoreImageURL)
                     .rightToLeft()
             }

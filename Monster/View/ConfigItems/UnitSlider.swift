@@ -49,6 +49,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
                 .textFieldStyle(.plain)
                 .multilineTextAlignment(.trailing).padding(0)
                 .font(textFont)
+                .monospacedDigit()
             Stepper("", value: floatValue, step: 1)
                 .labelsHidden()
                 .padding(0)

@@ -107,19 +107,12 @@ struct InstallView: View {
     }
     
     private var restoreImageRow: some View {
-        let comment: String
-        let title: String
-        if config.os == .macOS {
-            title = "Restore Image"
-            comment = "Select a restore image file (.ipsw)"
-        } else {
-            title = "ISO Image"
-            comment = "Select an ISO image file (.iso)"
-        }
-
-        return BaseGridRow(title) {
-            FileButton(comment: comment, url: $config.restoreImageURL)
-                .font(.subheadline)
+        return BaseGridRow(config.os.restoreImageTitle) {
+            FileButton(
+                tips: config.os.restoreImageTips,
+                url: $config.restoreImageURL
+            )
+            .font(.subheadline)
         }
     }
     
@@ -129,7 +122,7 @@ struct InstallView: View {
             distributionRow
         }
         restoreImageRow
-        BaseGridRow("Name") {
+        BaseGridRow("Display Name") {
             TextField("", text: $config.name)
                 .font(.subheadline)
                 .frame(minWidth: 240)
@@ -206,7 +199,7 @@ private struct BaseGridRow<Content> : View where Content : View {
     var body: some View {
         GridRow() {
             Text(title)
-                .frame(minWidth: 120, alignment: .leading)
+                .frame(minWidth: 120, alignment: .trailing)
                 .gridColumnAlignment(.leading)
             contentBilder()
                 .gridColumnAlignment(.leading)
