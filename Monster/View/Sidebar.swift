@@ -17,8 +17,13 @@ struct Sidebar: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(vm.name)
                         .fontWeight(.semibold)
-                    Text("\(vm.config.os.name)")
-                        .font(.subheadline)
+                    HStack(alignment: .firstTextBaseline, spacing: 2) {
+                        Circle()
+                            .fill(Color(nsColor: vm.state.color))
+                            .frame(width: 8)
+                        Text("\(vm.config.os.name)")
+                            .font(.subheadline)
+                    }
                 }
             }
         }

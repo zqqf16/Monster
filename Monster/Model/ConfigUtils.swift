@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 extension OperatingSystem {
     var restoreImageTitle: String {
@@ -22,5 +23,17 @@ extension OperatingSystem {
         }
         let arch = VMConfig.arch.uppercased()
         return "Select an arch ISO image file (.iso) for \(arch)"
+    }
+}
+
+extension VirtualMachine.State {
+    var color: NSColor {
+        switch self {
+        case .error: return .systemRed
+        case .installing: return .systemCyan
+        case .paused, .pausing, .resuming: return .systemYellow
+        case .running, .starting: return .systemGreen
+        case .stopped, .stopping: return .systemGray
+        }
     }
 }
