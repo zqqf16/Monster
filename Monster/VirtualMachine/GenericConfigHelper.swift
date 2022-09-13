@@ -9,6 +9,12 @@
 import Foundation
 import Virtualization
 
+extension VMDisplay {
+    func toGenericConfig() -> VZVirtioGraphicsScanoutConfiguration {
+        VZVirtioGraphicsScanoutConfiguration(widthInPixels: width, heightInPixels: height)
+    }
+}
+
 struct GenericConfigHelper: VMConfigHelper {
     var config: VMConfig
     var bundle: VMBundle
@@ -74,7 +80,7 @@ struct GenericConfigHelper: VMConfigHelper {
     private func createGraphicsDeviceConfiguration() -> VZGraphicsDeviceConfiguration {
         let graphicsConfiguration = VZVirtioGraphicsDeviceConfiguration()
         graphicsConfiguration.scanouts = [
-            VZVirtioGraphicsScanoutConfiguration(widthInPixels: 1280, heightInPixels: 720)
+            config.display.toGenericConfig()
         ]
         return graphicsConfiguration
     }

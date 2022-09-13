@@ -11,6 +11,16 @@ import Virtualization
 
 #if arch(arm64)
 
+extension VMDisplay {
+    func toMacConfig() -> VZMacGraphicsDisplayConfiguration {
+        VZMacGraphicsDisplayConfiguration(
+            widthInPixels: width,
+            heightInPixels: height,
+            pixelsPerInch: pixelsPerInch
+        )
+    }
+}
+
 struct MacOSConfigHelper: VMConfigHelper {
     var config: VMConfig
     var bundle: VMBundle
@@ -84,7 +94,7 @@ struct MacOSConfigHelper: VMConfigHelper {
     private func createGraphicsDeviceConfiguration() -> VZGraphicsDeviceConfiguration {
         let graphicsConfiguration = VZMacGraphicsDeviceConfiguration()
         graphicsConfiguration.displays = [
-            VZMacGraphicsDisplayConfiguration(widthInPixels: 1920, heightInPixels: 1080, pixelsPerInch: 144)
+            config.display.toMacConfig()
         ]
         return graphicsConfiguration
     }

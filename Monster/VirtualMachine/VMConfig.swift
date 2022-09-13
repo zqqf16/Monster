@@ -18,6 +18,8 @@ struct VMConfig: Codable, Hashable {
     var diskSize: StorageSize = 30.GB
     var cpuCount: CpuCount = 4.core
     
+    var display: VMDisplay = .default
+    
     var restoreImageURL: URL? = nil
     var bundleURL: URL? = nil
     var shareFolders: [URL] = []
@@ -36,6 +38,7 @@ struct VMConfig: Codable, Hashable {
         case memorySize
         case diskSize
         case cpuCount
+        case display
         case restoreImageURL
         case bundleURL
         case shareFolders
@@ -56,6 +59,10 @@ struct VMConfig: Codable, Hashable {
         memorySize = try container.decode(UInt64.self, forKey: .memorySize).B
         diskSize = try container.decode(UInt64.self, forKey: .diskSize).B
         cpuCount = try container.decode(Int.self, forKey: .cpuCount).core
+        if let display = try? container.decode(VMDisplay.self, forKey: .display) {
+            self.display = display
+        }
+
         restoreImageURL = try? container.decodeIfPresent(URL.self, forKey: .restoreImageURL)
         bundleURL = try? container.decodeIfPresent(URL.self, forKey: .bundleURL)
         
@@ -78,6 +85,7 @@ struct VMConfig: Codable, Hashable {
         try container.encode(memorySize.bytes, forKey: .memorySize)
         try container.encode(diskSize.bytes, forKey: .diskSize)
         try container.encode(cpuCount.count, forKey: .cpuCount)
+        try container.encode(display, forKey: .display)
         try container.encodeIfPresent(restoreImageURL, forKey: .restoreImageURL)
         try container.encodeIfPresent(bundleURL, forKey: .bundleURL)
         try container.encode(shareFolders, forKey: .shareFolders)

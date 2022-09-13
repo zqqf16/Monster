@@ -19,6 +19,7 @@ class Store: ObservableObject {
     init() {
         loadVMConfigs()
 
+        print(VMDisplay.defaultPPI)
         if vms.count > 0 {
             selectedVM = vms[0]
         }

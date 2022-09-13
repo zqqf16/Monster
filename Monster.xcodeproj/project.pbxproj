@@ -26,6 +26,9 @@
 		F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FC528AE282200E11588 /* VMInstance.swift */; };
 		F4D90FC928AE2A8400E11588 /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D90FC828AE2A8400E11588 /* Virtualization.framework */; };
 		F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */; };
+		F4DE9EB628D074A300E8ED74 /* VMDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DE9EB528D074A300E8ED74 /* VMDisplay.swift */; };
+		F4DE9EBA28D094D000E8ED74 /* DisplayPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DE9EB928D094D000E8ED74 /* DisplayPicker.swift */; };
+		F4DE9EBC28D0CB6900E8ED74 /* FormTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DE9EBB28D0CB6900E8ED74 /* FormTextFieldStyle.swift */; };
 		F4DFF5DE28C98EAF00246E1F /* MacOSConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DFF5DD28C98EAF00246E1F /* MacOSConfigHelper.swift */; };
 		F4DFF5E028C991E800246E1F /* GenericConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */; };
 		F4E11D0228C4DF6200649826 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E11D0128C4DF6200649826 /* Settings.swift */; };
@@ -86,6 +89,9 @@
 		F4D90FC528AE282200E11588 /* VMInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMInstance.swift; sourceTree = "<group>"; };
 		F4D90FC828AE2A8400E11588 /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
 		F4D90FCB28AE4A1400E11588 /* NSWindow+SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWindow+SwiftUI.swift"; sourceTree = "<group>"; };
+		F4DE9EB528D074A300E8ED74 /* VMDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMDisplay.swift; sourceTree = "<group>"; };
+		F4DE9EB928D094D000E8ED74 /* DisplayPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayPicker.swift; sourceTree = "<group>"; };
+		F4DE9EBB28D0CB6900E8ED74 /* FormTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextFieldStyle.swift; sourceTree = "<group>"; };
 		F4DFF5DD28C98EAF00246E1F /* MacOSConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacOSConfigHelper.swift; sourceTree = "<group>"; };
 		F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericConfigHelper.swift; sourceTree = "<group>"; };
 		F4E11D0128C4DF6200649826 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -146,6 +152,8 @@
 				F4D6881028C62F06003544A6 /* FileButton.swift */,
 				F4CC874128C776E70011538E /* Banner.swift */,
 				F4F577B128CB77630040E394 /* SnapshotView.swift */,
+				F4DE9EB928D094D000E8ED74 /* DisplayPicker.swift */,
+				F4DE9EBB28D0CB6900E8ED74 /* FormTextFieldStyle.swift */,
 			);
 			path = ConfigItems;
 			sourceTree = "<group>";
@@ -166,6 +174,7 @@
 		F4D90FC028ACE5FC00E11588 /* VirtualMachine */ = {
 			isa = PBXGroup;
 			children = (
+				F4DE9EB528D074A300E8ED74 /* VMDisplay.swift */,
 				F4FFF2B128A39B4F003B75F9 /* VMConfig.swift */,
 				F4D6880E28C59FFE003544A6 /* VMConfigHelper.swift */,
 				F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */,
@@ -410,6 +419,7 @@
 				F4D90FCC28AE4A1400E11588 /* NSWindow+SwiftUI.swift in Sources */,
 				F4FF824428C1A47D009F5DF6 /* InstallView.swift in Sources */,
 				F4DFF5DE28C98EAF00246E1F /* MacOSConfigHelper.swift in Sources */,
+				F4DE9EB628D074A300E8ED74 /* VMDisplay.swift in Sources */,
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
 				F4F577B028CB6F0A0040E394 /* NSImage.swift in Sources */,
 				F483FD3328C639E0004A997E /* ConfigUtils.swift in Sources */,
@@ -435,9 +445,11 @@
 				F4F577AE28CB17040040E394 /* VMInstaller.swift in Sources */,
 				F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */,
 				F4F577B228CB77630040E394 /* SnapshotView.swift in Sources */,
+				F4DE9EBA28D094D000E8ED74 /* DisplayPicker.swift in Sources */,
 				F4E11D0228C4DF6200649826 /* Settings.swift in Sources */,
 				F435FFA128C1F6F0006D5671 /* UnitSlider.swift in Sources */,
 				F4DFF5E028C991E800246E1F /* GenericConfigHelper.swift in Sources */,
+				F4DE9EBC28D0CB6900E8ED74 /* FormTextFieldStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

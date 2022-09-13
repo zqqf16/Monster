@@ -24,8 +24,8 @@ struct ConfigView: View {
             header
             Form {
                 generalSection
-                drivesSection
                 systemSection
+                drivesSection
                 advanceSection
             }
             .formStyle(.grouped)
@@ -55,7 +55,7 @@ struct ConfigView: View {
     private var generalSection: some View {
         Section {
             if vm.config.os != .macOS {
-                BaseLine("Linux Distribution") {
+                BaseLine("Linux Distribution", icon: "LinuxIcon") {
                     Picker("", selection: $vm.config.os) {
                         ForEach(OperatingSystem.linuxDistributions) { os in
                             Text(os.name).tag(os)
@@ -67,7 +67,7 @@ struct ConfigView: View {
                 }
             }
             
-            BaseLine("Path") {
+            BaseLine("Path", systemIcon: "archivebox") {
                 FileButton(
                     readOnly: true,
                     url: $vm.config.bundleURL
@@ -80,7 +80,7 @@ struct ConfigView: View {
     @ViewBuilder
     private var systemSection: some View {
         Section("System") {
-            BaseLine("Memory", icon: "memorychip") {
+            BaseLine("Memory", systemIcon: "memorychip") {
                 UnitSlider(
                     value: $vm.config.memorySize,
                     range: VMConfig.memorySizeRange,
@@ -89,7 +89,25 @@ struct ConfigView: View {
                     defaultUnit: .gibibytes
                 ).hideSlider()
             }
-            BaseLine("Disk", icon: "internaldrive") {
+            BaseLine("CPUs", systemIcon: "cpu") {
+                UnitSlider(
+                    value: $vm.config.cpuCount,
+                    range: VMConfig.cpuCountRnage,
+                    step: 1.core,
+                    units: []
+                ).hideSlider()
+            }
+            BaseLine("Display", systemIcon: "display") {
+                DisplayField(display: $vm.config.display)
+                DisplayPicker(selected: $vm.config.display)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var drivesSection: some View {
+        Section("Drives") {
+            BaseLine("Disk", systemIcon: "internaldrive") {
                 UnitSlider(
                     value: $vm.config.diskSize,
                     range: VMConfig.diskSizeRange,
@@ -98,23 +116,10 @@ struct ConfigView: View {
                     defaultUnit: .gibibytes
                 ).hideSlider()
             }
-            BaseLine("CPUs", icon: "cpu") {
-                UnitSlider(
-                    value: $vm.config.cpuCount,
-                    range: VMConfig.cpuCountRnage,
-                    step: 1.core,
-                    units: []
-                ).hideSlider()
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private var drivesSection: some View {
-        Section("Drives") {
+
             BaseLine(
                 vm.config.os.restoreImageTitle,
-                icon: "externaldrive",
+                systemIcon: "opticaldisc",
                 tips: vm.config.os.restoreImageTips
             ) {
                 FileButton(url: $vm.config.restoreImageURL)
@@ -130,7 +135,7 @@ struct ConfigView: View {
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
-            BaseLine("Shared Folder", icon: "folder", tips: sharedFolderTips) {
+            BaseLine("Shared Folder", systemIcon: "folder", tips: sharedFolderTips) {
                 FileButton(canChooseDirectories: true, canChooseFiles: false, url: sharedFolder)
                     .rightToLeft()
             }
@@ -148,49 +153,72 @@ struct ConfigView: View {
                 vm.config.shareFolders.removeAll()
             }
         }
-    }
+    }    
 }
 
 private struct BaseLine<Content>: View where Content: View {
     var title: String
     var icon: String?
+    var systemIcon: String?
     var tips: String?
 
     @ViewBuilder var contentBilder: () -> Content
     
-    init(_ title: String = "", icon: String? = nil, tips: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
+    init(_ title: String = "", icon: String? = nil, systemIcon: String? = nil, tips: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
         self.title = title
         self.icon = icon
+        self.systemIcon = systemIcon
         self.tips = tips
         self.contentBilder = contentBilder
     }
     
     var body: some View {
-        VStack(alignment: .trailing) {
-            HStack {
-                if let icon = icon {
-                    Image(systemName: icon)
-                        .foregroundColor(.accentColor)
-                }
-                
-                Text(title)
-                Spacer()
-                contentBilder()
+        if tips != nil {
+            VStack(alignment: .trailing) {
+                contentView
+                tipsView
             }
-            if let tips = tips {
-                Spacer()
-                Text(tips)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .italic()
-                    .textSelection(.enabled)
+        } else {
+            contentView
+        }
+    }
+    
+    @ViewBuilder
+    var contentView: some View {
+        HStack {
+            if let icon = systemIcon {
+                Image(systemName: icon)
+                    .frame(width: 18, height: 18)
+                    .foregroundColor(.accentColor)
+            } else if let icon = icon {
+                Image(icon)
+                    .resizable()
+                    .frame(width: 18, height: 18)
+                    .foregroundColor(.accentColor)
             }
+            
+            Text(title)
+            Spacer()
+            contentBilder()
+        }
+    }
+    
+    @ViewBuilder
+    var tipsView: some View {
+        if let tips = tips {
+            Spacer()
+            Text(tips)
+                .font(.footnote)
+                .foregroundColor(.secondary)
+                .italic()
+                .textSelection(.enabled)
         }
     }
 }
 
 struct ConfigView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfigView(vm: VirtualMachine(config: .defaultMacOS))
+        ConfigView(vm: VirtualMachine(config: .defaultLinux))
+            .frame(minHeight: 800)
     }
 }
