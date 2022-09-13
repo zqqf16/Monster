@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ConfigView: View {
-
+    
     @ObservedObject var vm: VirtualMachine
     
     var editable: Bool = true
-        
+    
     @State private var enableLogging = false
     @State private var selectedColor = "Red"
     @State private var scale: Float = 0
@@ -107,23 +107,23 @@ struct ConfigView: View {
     @ViewBuilder
     private var drivesSection: some View {
         Section("Drives") {
-            BaseLine("Disk", systemIcon: "internaldrive") {
-                UnitSlider(
-                    value: $vm.config.diskSize,
-                    range: VMConfig.diskSizeRange,
-                    step: 10.GB,
-                    units: [.mebibytes, .gibibytes],
-                    defaultUnit: .gibibytes
-                ).hideSlider()
+            BaseLine(
+                "Disk",
+                systemIcon: "internaldrive",
+                tips: "Boot disk cannot be resized after creation"
+            ) {
+                Text("\(vm.config.diskSize.gb) GiB")
             }
-
+            
             BaseLine(
                 vm.config.os.restoreImageTitle,
                 systemIcon: "opticaldisc",
                 tips: vm.config.os.restoreImageTips
             ) {
-                FileButton(url: $vm.config.restoreImageURL)
-                    .rightToLeft()
+                FileButton(
+                    url: $vm.config.restoreImageURL
+                )
+                .rightToLeft()
             }
         }
     }
@@ -131,13 +131,17 @@ struct ConfigView: View {
     private var sharedFolderTips: String {
         "Run `mount -t virtiofs MonsterShared ~/Monster` in vm"
     }
-
+    
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
             BaseLine("Shared Folder", systemIcon: "folder", tips: sharedFolderTips) {
-                FileButton(canChooseDirectories: true, canChooseFiles: false, url: sharedFolder)
-                    .rightToLeft()
+                FileButton(
+                    canChooseDirectories: true,
+                    canChooseFiles: false,
+                    url: sharedFolder
+                )
+                .rightToLeft()
             }
         }
     }
@@ -153,7 +157,7 @@ struct ConfigView: View {
                 vm.config.shareFolders.removeAll()
             }
         }
-    }    
+    }
 }
 
 private struct BaseLine<Content>: View where Content: View {
@@ -161,7 +165,7 @@ private struct BaseLine<Content>: View where Content: View {
     var icon: String?
     var systemIcon: String?
     var tips: String?
-
+    
     @ViewBuilder var contentBilder: () -> Content
     
     init(_ title: String = "", icon: String? = nil, systemIcon: String? = nil, tips: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
@@ -196,7 +200,6 @@ private struct BaseLine<Content>: View where Content: View {
                     .frame(width: 18, height: 18)
                     .foregroundColor(.accentColor)
             }
-            
             Text(title)
             Spacer()
             contentBilder()
