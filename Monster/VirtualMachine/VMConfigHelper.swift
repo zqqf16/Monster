@@ -103,9 +103,12 @@ extension VMConfigHelper {
         try VZVirtioFileSystemDeviceConfiguration.validateTag(tag)
         
         var directories: [String: VZSharedDirectory] = [:]
-        config.shareFolders.forEach { directoryURL in
-            let name = directoryURL.lastPathComponent
-            directories[name] = VZSharedDirectory(url: directoryURL, readOnly: false)
+        config.shareFolders.forEach { folder in
+            guard folder.enable else {
+                return
+            }
+            let name = folder.url.lastPathComponent
+            directories[name] = VZSharedDirectory(url: folder.url, readOnly: folder.readOnly)
         }
         
         let share = VZMultipleDirectoryShare(directories: directories)

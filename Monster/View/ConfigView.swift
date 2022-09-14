@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ConfigView: View {
-    
+
     @ObservedObject var vm: VirtualMachine
     
     var editable: Bool = true
@@ -18,7 +18,7 @@ struct ConfigView: View {
     @State private var scale: Float = 0
     
     @State private var showName: Bool = false
-    
+
     var body: some View {
         ScrollView {
             header
@@ -128,33 +128,30 @@ struct ConfigView: View {
         }
     }
     
-    private var sharedFolderTips: String {
+    private var shareFolderTips: String {
         "Run `mount -t virtiofs MonsterShared ~/Monster` in vm"
     }
     
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
-            BaseLine("Shared Folder", systemIcon: "folder", tips: sharedFolderTips) {
-                FileButton(
-                    canChooseDirectories: true,
-                    canChooseFiles: false,
-                    url: sharedFolder
-                )
-                .rightToLeft()
-            }
-        }
-    }
-    
-    private var sharedFolder: Binding<URL?> {
-        // TODO: Only supports one directory now
-        Binding {
-            vm.config.shareFolders.first
-        } set: {
-            if let url = $0 {
-                vm.config.shareFolders = [url]
-            } else {
-                vm.config.shareFolders.removeAll()
+            VStack(alignment: .trailing) {
+                HStack {
+                    Image(systemName: "folder")
+                        .frame(width: 18, height: 18)
+                        .foregroundColor(.accentColor)
+                    Text("Shared Folder")
+                    Spacer()
+                }
+                HStack {
+                    Spacer()
+                    ShareFolderView(vm: vm)
+                }
+                Text(shareFolderTips)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .italic()
+                    .textSelection(.enabled)
             }
         }
     }

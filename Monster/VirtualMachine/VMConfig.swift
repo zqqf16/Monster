@@ -22,7 +22,7 @@ struct VMConfig: Codable, Hashable {
     
     var restoreImageURL: URL? = nil
     var bundleURL: URL? = nil
-    var shareFolders: [URL] = []
+    var shareFolders: [VMShareFolder] = []
     
     var installed: Bool = false
     
@@ -70,7 +70,7 @@ struct VMConfig: Codable, Hashable {
             self.installed = installed
         }
         
-        if let shareFolders = try? container.decodeIfPresent([URL].self, forKey: .shareFolders) {
+        if let shareFolders = try? container.decodeIfPresent([VMShareFolder].self, forKey: .shareFolders) {
             self.shareFolders = shareFolders
         } else {
             self.shareFolders = []
