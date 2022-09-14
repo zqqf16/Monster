@@ -206,10 +206,11 @@ extension VirtualMachine {
     }
     
     func removeFiles() throws {
-        do {
-            try bundle?.remove()
-        } catch {
-            throw Failure("Failed to remove virtual machine bundle", reason: error)
+        guard let url = bundle?.url else { return }
+        NSWorkspace.shared.recycle([url]) { _, error in
+            if let error = error {
+                print("Failed to remove virtual machine bundle: \(error.localizedDescription)")
+            }
         }
     }
     
