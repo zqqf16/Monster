@@ -12,7 +12,7 @@ import SwiftUI
 struct AppSettings {
     
     @AppStorage("vmDirectory")
-    static var vmDirectory = FileManager.documentDirectory
+    static var vmDirectory = FileManager.appSupportDirectory
     
     @AppStorage("deleteVMFiles")
     static var deleteVMFiles = true

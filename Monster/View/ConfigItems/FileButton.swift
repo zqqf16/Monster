@@ -105,7 +105,7 @@ struct FileButton: View {
                     .italic()
             }
         } else if showResult {
-            Text(url!.path)
+            Text(url!.lastPathComponent)
                 .multilineTextAlignment(aligment)
                 .lineLimit(1)
                 .font(textFont)

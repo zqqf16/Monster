@@ -35,4 +35,12 @@ extension FileManager {
 
         return isDir.boolValue
     }
+    
+    static var appSupportDirectory: URL {
+        let fileManager = FileManager.default
+        let appSupportURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let directoryURL = appSupportURL.appendingPathComponent("im.zorro.monster")
+        try? fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+        return directoryURL
+    }
 }
