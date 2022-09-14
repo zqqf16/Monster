@@ -22,7 +22,7 @@ extension OperatingSystem {
             return "Select a restore image file (.ipsw)"
         }
         let arch = VMConfig.arch.uppercased()
-        return "Select an arch ISO image file (.iso) for \(arch)"
+        return "Select an ISO image file (.iso) for \(arch)"
     }
 }
 
