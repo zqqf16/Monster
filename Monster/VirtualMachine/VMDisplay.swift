@@ -41,7 +41,7 @@ extension VMDisplay {
             VMDisplay(name: "WXGA 1280x800", width: 1280, height: 800),
             VMDisplay(name: "Full HD 1920x1080", width: 1920, height: 1080),
             VMDisplay(name: "2K 2560x1440", width: 2560, height: 1440),
-            VMDisplay(name: "4K 3840x2160", width: 3840, height: 2160),
+            VMDisplay(name: "4K 3840x2160", width: 3840, height: 2160, pixelsPerInch: 218),
             VMDisplay(name: "5K 5120x2880", width: 5120, height: 2880)
         ] + presetsFromDevice
     }

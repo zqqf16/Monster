@@ -98,7 +98,10 @@ struct ConfigView: View {
                 ).hideSlider()
             }
             BaseLine("Display", systemIcon: "display") {
-                DisplayField(display: $vm.config.display)
+                DisplayField(
+                    display: $vm.config.display,
+                    showPPI: vm.config.os == .macOS
+                )
                 DisplayPicker(selected: $vm.config.display)
             }
         }

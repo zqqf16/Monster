@@ -12,7 +12,7 @@ struct FormTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<_Label>) -> some View {
         configuration
             .monospacedDigit()
-            .padding(EdgeInsets(top: -8, leading: -8, bottom: -8, trailing: 0))
+            .padding(EdgeInsets(top: -8, leading: -12, bottom: -8, trailing: -4))
             .cornerRadius(4)
             .background {
                 RoundedRectangle(cornerRadius: 4, style: .continuous)
