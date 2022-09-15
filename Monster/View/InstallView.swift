@@ -15,6 +15,8 @@ struct InstallView: View {
 
     @State var linuxDictribution: OperatingSystem?
 
+    @State var error: Error? = nil
+    
     var body: some View {
         VStack {
             Spacer()
@@ -23,6 +25,11 @@ struct InstallView: View {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding()
+            if let error = error {
+                Text(error.localizedDescription)
+                    .foregroundColor(.red)
+                    .italic()
+            }
             HStack {
                 ForEach(Entrance.allCases) { entrance in
                     EntranceItem(
@@ -36,7 +43,9 @@ struct InstallView: View {
             Spacer()
             footer
             Spacer()
-        }
+        }.onChange(of: config, perform: { newValue in
+            error = nil
+        })
         .scenePadding()
         .background(.background)
         .frame(minWidth: 600)
@@ -59,7 +68,7 @@ struct InstallView: View {
                     case .linux:
                         os.wrappedValue = linuxDictribution ?? .linux
                     case .import:
-                        // do something
+                        openPanel()
                         break
                     case .none:
                         break
@@ -174,7 +183,7 @@ struct InstallView: View {
             Button {
                 commit()
             } label: {
-                Text("Next")
+                Text("Create")
             }
             .keyboardShortcut(.defaultAction)
         }
@@ -183,6 +192,23 @@ struct InstallView: View {
     private func commit() {
         store.addVirtualMachine(with: config)
         dismiss()
+    }
+    
+    private func openPanel() {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = false
+        panel.treatsFilePackagesAsDirectories = false
+        guard panel.runModal() == .OK,
+              let url = panel.url else {
+            return
+        }
+        
+        do {
+            try store.importVirtualMachine(from: url)
+            dismiss()
+        } catch {
+            self.error = error
+        }
     }
 }
 

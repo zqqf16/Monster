@@ -10,24 +10,25 @@ import SwiftUI
 
 class Store: ObservableObject {
     @Published var vms: [VirtualMachine] = []
-    @Published var selectedVM: VirtualMachine?
+    @Published var selectedVM: VirtualMachine? {
+        didSet {
+            columnVisibility = selectedVM == nil ? .detailOnly : .all
+        }
+    }
 
     @Published var showWelcome: Bool = false
     @Published var showDeleteAlert: Bool = false
     @Published var columnVisibility = NavigationSplitViewVisibility.all
 
     init() {
-        loadVMConfigs()
+        loadVirtualMachines()
 
-        print(VMDisplay.defaultPPI)
         if vms.count > 0 {
             selectedVM = vms[0]
         }
-        
-        columnVisibility = selectedVM == nil ? .detailOnly : .all
     }
     
-    private func loadVMConfigs() {
+    private func loadVirtualMachines() {
         let fileManager = FileManager.default
         let directory = AppSettings.vmDirectory
         let files = (try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
@@ -75,5 +76,34 @@ class Store: ObservableObject {
         } else {
             selectedVM = nil
         }
+    }
+    
+    @discardableResult
+    func importVirtualMachine(from url: URL) throws -> VirtualMachine? {
+        let bundle = VMBundle(url)
+        guard var config = try? bundle.loadConfig() else {
+            throw Failure("Failed to load informations from file")
+        }
+        
+        if vms.contains(where: { $0.id == config.id }) {
+            throw Failure("There is already a virtual machine with the same ID")
+        }
+        
+        let dest = VMBundle.generateBundleURL(for: config)
+        do {
+            print("Moving file from \(url.path) to \(dest.path)")
+            try bundle.move(to: dest)
+        } catch {
+            throw Failure("Failed to move file", reason: error)
+        }
+        config.bundleURL = dest
+        
+        let vm = VirtualMachine(config: config)
+        try? vm.saveConfig()
+
+        self.vms.insert(vm, at: 0)
+        selectedVM = vms[0]
+        
+        return vm
     }
 }

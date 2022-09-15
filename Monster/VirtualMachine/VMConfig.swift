@@ -52,7 +52,7 @@ struct VMConfig: Codable, Hashable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .name)
+        id = try container.decode(String.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         os = try container.decode(OperatingSystem.self, forKey: .os)
         

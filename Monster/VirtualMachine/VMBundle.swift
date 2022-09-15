@@ -125,4 +125,8 @@ struct VMBundle {
     func remove() throws {
         try FileManager.default.removeItem(at: url)
     }
+    
+    func move(to destination: URL) throws {
+        try FileManager.default.moveItem(at: url, to: destination)
+    }
 }
