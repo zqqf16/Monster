@@ -80,6 +80,13 @@ class Store: ObservableObject {
     
     @discardableResult
     func importVirtualMachine(from url: URL) throws -> VirtualMachine? {
+        for vm in vms {
+            if vm.config.bundleURL == url {
+                selectedVM = vm
+                throw Failure("Virtual machine already exists")
+            }
+        }
+
         let bundle = VMBundle(url)
         guard var config = try? bundle.loadConfig() else {
             throw Failure("Failed to load informations from file")
@@ -88,7 +95,7 @@ class Store: ObservableObject {
         if vms.contains(where: { $0.id == config.id }) {
             throw Failure("There is already a virtual machine with the same ID")
         }
-        
+
         let dest = VMBundle.generateBundleURL(for: config)
         do {
             print("Moving file from \(url.path) to \(dest.path)")

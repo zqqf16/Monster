@@ -56,10 +56,8 @@ struct MonsterApp: App {
         WindowGroup("Monster", id: "Main") {
             ContentView()
                 .handlesExternalEvents(preferring: Set(arrayLiteral: "main"), allowing: Set(arrayLiteral: "*"))
-                .onOpenURL { (url) in
-                    if url.isFileURL {
-                        print("Open file: \(url.path)")
-                    }
+                .onOpenURL { url in
+                    open(url: url)
                 }
                 .environmentObject(store)
         }
@@ -81,5 +79,14 @@ struct MonsterApp: App {
             CommandGroup(replacing: CommandGroupPlacement.newItem) { }
         }
         .windowToolbarStyle(.unifiedCompact)
+    }
+    
+    private func open(url: URL) {
+        print("Open url: \(url.path)")
+        guard url.isFileURL else {
+            return
+        }
+        
+        try? store.importVirtualMachine(from: url)
     }
 }
