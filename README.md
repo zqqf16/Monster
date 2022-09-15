@@ -1,8 +1,11 @@
 # Monster
 
-Monster is a virtualization app to run macOS and Linux VMs on macOS host.
+Monster is a virtualization app that is based on Apple `virtualization.framework`.
+It can run Linux or macOS virtual machines on macOS systems.
 
-It is still under development...
+It is still in development...
+
+*System requirements: **macOS 13.0 or higher***
 
 ## Snapshots
 
@@ -11,3 +14,8 @@ It is still under development...
 ![init](snapshots/init.png)
 
 ![player](snapshots/player.png)
+
+## Development Environment
+
+- macOS 13.0 beta
+- Version 14.0 beta
