@@ -9,5 +9,5 @@
 import Foundation
 
 extension Unit: Identifiable {
-    public var id: String { self.symbol }
+    public var id: String { symbol }
 }

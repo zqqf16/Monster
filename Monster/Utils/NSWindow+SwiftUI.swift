@@ -15,9 +15,9 @@ extension NSWindow {
 
 extension Array where Element == NSWindow {
     var swiftUIWindows: [NSWindow] {
-        self.filter { $0.isSwiftUIWindow }
+        filter { $0.isSwiftUIWindow }
     }
-    
+
     var hasSwiftUIWindow: Bool {
         swiftUIWindows.count > 0
     }

@@ -5,17 +5,16 @@
 //  Created by zqqf16 on 2022/9/1.
 //
 
-import Foundation
 import AppKit
+import Foundation
 
 enum Entrance: Int, CaseIterable, Identifiable {
-    
-    var id: Int { self.rawValue }
-    
+    var id: Int { rawValue }
+
     case macOS
     case linux
     case `import`
-    
+
     var imageName: String {
         switch self {
         case .macOS: return "macOS"
@@ -23,7 +22,7 @@ enum Entrance: Int, CaseIterable, Identifiable {
         case .import: return "arrow.down.doc"
         }
     }
-    
+
     var image: NSImage {
         switch self {
         case .macOS: return NSImage(named: "macOS")!
@@ -31,7 +30,7 @@ enum Entrance: Int, CaseIterable, Identifiable {
         case .import: return NSImage(systemSymbolName: "arrow.down.doc", accessibilityDescription: nil)!
         }
     }
-    
+
     var name: String {
         switch self {
         case .import: return "Import"
@@ -39,7 +38,7 @@ enum Entrance: Int, CaseIterable, Identifiable {
         case .macOS: return "macOS"
         }
     }
-    
+
     var restoreImageName: String {
         switch self {
         case .import: return ""
@@ -47,7 +46,7 @@ enum Entrance: Int, CaseIterable, Identifiable {
         case .macOS: return "Restore Image"
         }
     }
-    
+
     var description: String {
         switch self {
         case .import: return "Import an existing virtual machine"
@@ -55,12 +54,12 @@ enum Entrance: Int, CaseIterable, Identifiable {
         case .macOS: return "Install and run macOS virtual machine"
         }
     }
-    
+
     static var allCases: [Entrance] {
-#if arch(arm64)
-        return [.macOS, .linux, .import]
-#else
-        return [.linux, .import]
-#endif
+        #if arch(arm64)
+            return [.macOS, .linux, .import]
+        #else
+            return [.linux, .import]
+        #endif
     }
 }

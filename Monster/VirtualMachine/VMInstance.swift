@@ -11,7 +11,7 @@ import Virtualization
 extension VZVirtualMachine {
     @MainActor
     func start() async throws {
-        guard self.canStart else { return }
+        guard canStart else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.start(completionHandler: { result in
                 switch result {
@@ -24,10 +24,10 @@ extension VZVirtualMachine {
             })
         }
     }
-    
+
     @MainActor
     func stop() async throws {
-        guard self.canStop else { return }
+        guard canStop else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.stop { error in
                 if let _ = error {
@@ -40,10 +40,10 @@ extension VZVirtualMachine {
             }
         }
     }
-    
+
     @MainActor
     func pause() async throws {
-        guard self.canPause else { return }
+        guard canPause else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.pause { result in
                 switch result {
@@ -57,10 +57,10 @@ extension VZVirtualMachine {
             }
         }
     }
-    
+
     @MainActor
     func resume() async throws {
-        guard self.canResume else { return }
+        guard canResume else { return }
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.resume { result in
                 switch result {
@@ -80,35 +80,35 @@ extension VZVirtualMachine {
 class VMInstance: NSObject, VZVirtualMachineDelegate {
     @Published
     var state: VirtualMachine.State = .stopped
-    
+
     @Published
     private(set) var virtualMachine: VZVirtualMachine!
-    
+
     private var configHelper: VMConfigHelper
     private var observeToken: NSKeyValueObservation?
 
     init(_ configHelper: VMConfigHelper) {
         self.configHelper = configHelper
     }
-    
+
     deinit {
         observeToken?.invalidate()
     }
-    
+
     private func configVirtualMachine() throws {
         let virtualMachineConfiguration = try configHelper.createVirtualMachineConfiguration()
         virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
         virtualMachine.delegate = self
 
         observeToken?.invalidate()
-        observeToken = virtualMachine.observe(\.state, options: [.initial, .new]) {[weak self] vm, change in
+        observeToken = virtualMachine.observe(\.state, options: [.initial, .new]) { [weak self] vm, _ in
             print("Virtual machine state: \(vm.state)")
             if let state = VirtualMachine.State(rawValue: vm.state.rawValue) {
                 self?.state = state
             }
         }
     }
-    
+
     @MainActor
     func start() async throws {
         try configVirtualMachine()
@@ -120,26 +120,26 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
         try await virtualMachine.stop()
         virtualMachine = nil
     }
-    
+
     func pause() async throws {
         try await virtualMachine.pause()
     }
-    
+
     func resume() async throws {
         try await virtualMachine.resume()
     }
 
     // MARK: VZVirtualMachineDelegate methods.
 
-    func virtualMachine(_ virtualMachine: VZVirtualMachine, didStopWithError error: Error) {
+    func virtualMachine(_: VZVirtualMachine, didStopWithError error: Error) {
         print("Virtual machine did stop with error: \(error.localizedDescription)")
     }
 
-    func guestDidStop(_ virtualMachine: VZVirtualMachine) {
+    func guestDidStop(_: VZVirtualMachine) {
         print("Guest did stop virtual machine.")
     }
 
-    func virtualMachine(_ virtualMachine: VZVirtualMachine, networkDevice: VZNetworkDevice, attachmentWasDisconnectedWithError error: Error) {
+    func virtualMachine(_: VZVirtualMachine, networkDevice _: VZNetworkDevice, attachmentWasDisconnectedWithError error: Error) {
         print("Netowrk attachment was disconnected with error: \(error.localizedDescription)")
     }
 }

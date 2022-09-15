@@ -18,29 +18,31 @@ extension VMDisplay {
 struct GenericConfigHelper: VMConfigHelper {
     var config: VMConfig
     var bundle: VMBundle
-    
+
     init(config: VMConfig, bundle: VMBundle) {
         self.config = config
         self.bundle = bundle
     }
 
     // MARK: BootLoader
+
     private func retrieveOrCreateEFIVariableStore() throws -> VZEFIVariableStore {
         let efiVariableStoreURL = bundle.efiVariableStoreURL
         if FileManager.default.fileExists(atPath: efiVariableStoreURL.path) {
             return VZEFIVariableStore(url: efiVariableStoreURL)
         }
-        
+
         return try VZEFIVariableStore(creatingVariableStoreAt: efiVariableStoreURL)
     }
-    
+
     private func createBootLoader() throws -> VZBootLoader {
         let bootloader = VZEFIBootLoader()
         bootloader.variableStore = try retrieveOrCreateEFIVariableStore()
         return bootloader
     }
-    
+
     // MARK: Platform
+
     private func retrieveOrCreateMachineIdentifier() throws -> VZGenericMachineIdentifier {
         do {
             if bundle.machineIdentifierExists {
@@ -56,17 +58,19 @@ struct GenericConfigHelper: VMConfigHelper {
             throw Failure("Failed to retrieve machine identifier: \(error.localizedDescription)")
         }
     }
-    
+
     private func createPlatform() throws -> VZPlatformConfiguration {
         let platform = VZGenericPlatformConfiguration()
         platform.machineIdentifier = try retrieveOrCreateMachineIdentifier()
         return platform
     }
-    
+
     // MARK: Storage
+
     private func createUSBMassStorageDeviceConfiguration() throws -> VZUSBMassStorageDeviceConfiguration? {
         guard config.os != .macOS,
-              let restoreImageURL = config.restoreImageURL else {
+              let restoreImageURL = config.restoreImageURL
+        else {
             return nil
         }
         do {
@@ -80,21 +84,21 @@ struct GenericConfigHelper: VMConfigHelper {
     private func createGraphicsDeviceConfiguration() -> VZGraphicsDeviceConfiguration {
         let graphicsConfiguration = VZVirtioGraphicsDeviceConfiguration()
         graphicsConfiguration.scanouts = [
-            config.display.toGenericConfig()
+            config.display.toGenericConfig(),
         ]
         return graphicsConfiguration
     }
-    
+
     func createVirtualMachineConfiguration() throws -> VZVirtualMachineConfiguration {
         try bundle.prepareBundleDirectory()
 
         let virtualMachineConfiguration = VZVirtualMachineConfiguration()
-        
+
         virtualMachineConfiguration.cpuCount = computeCPUCount()
         virtualMachineConfiguration.memorySize = computeMemorySize()
-        
+
         let disksArray = NSMutableArray()
-        
+
         do {
             if let usbDevice = try createUSBMassStorageDeviceConfiguration() {
                 disksArray.add(usbDevice)
@@ -107,11 +111,11 @@ struct GenericConfigHelper: VMConfigHelper {
         guard let disks = disksArray as? [VZStorageDeviceConfiguration] else {
             fatalError("Invalid disksArray.")
         }
-        
+
         virtualMachineConfiguration.platform = try createPlatform()
         virtualMachineConfiguration.bootLoader = try createBootLoader()
         virtualMachineConfiguration.storageDevices = disks
-        
+
         virtualMachineConfiguration.networkDevices = [createNetworkDeviceConfiguration()]
         virtualMachineConfiguration.graphicsDevices = [createGraphicsDeviceConfiguration()]
         virtualMachineConfiguration.audioDevices = [createAudioDeviceConfiguration()]
@@ -125,9 +129,9 @@ struct GenericConfigHelper: VMConfigHelper {
         } catch {
             throw Failure("Virtual machine configuration is invalid: \(error.localizedDescription)")
         }
-        
+
         try? bundle.save(config: config)
-        
+
         return virtualMachineConfiguration
     }
 }

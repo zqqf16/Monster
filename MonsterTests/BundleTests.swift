@@ -6,13 +6,12 @@
 //  Copyright © 2022 zqqf16. All rights reserved.
 //
 
-import XCTest
 @testable import Monster
+import XCTest
 
 final class BundleTests: XCTestCase {
-
     var bundle: VMBundle!
-    
+
     override func setUpWithError() throws {
         let url = try createBundle()
         bundle = VMBundle(url)
@@ -21,15 +20,15 @@ final class BundleTests: XCTestCase {
     override func tearDownWithError() throws {
         try FileManager.default.removeItem(atPath: bundle.url.path)
     }
-    
+
     func createBundle() throws -> URL {
         let name = UUID().uuidString + ".vm"
         let path = NSTemporaryDirectory() + "/\(name)"
         try FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false)
-    
+
         return URL(filePath: path)
     }
-    
+
     func testNeedInstall() throws {
         XCTAssertTrue(bundle.needInstall)
         FileManager.default.createFile(atPath: bundle.diskImageURL.path, contents: nil)
@@ -38,11 +37,11 @@ final class BundleTests: XCTestCase {
 
     func testConfig() throws {
         XCTAssertNil(bundle.loadConfig())
-        
+
         let target = VMConfig("Test VM", os: .macOS, memorySize: 4.GB, diskSize: 100.GB, cpuCount: 4.core)
         try bundle.save(config: target)
         let config = bundle.loadConfig()!
-        
+
         XCTAssertEqual(config.name, target.name)
         XCTAssertEqual(config.id, target.id)
         XCTAssertEqual(config.diskSize, target.diskSize)
@@ -52,9 +51,8 @@ final class BundleTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

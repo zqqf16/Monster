@@ -12,6 +12,7 @@ struct VMShareFolder: Codable, Identifiable, Equatable, Hashable {
     var id: String {
         url.path
     }
+
     var enable: Bool
     var url: URL
     var name: String { url.lastPathComponent }

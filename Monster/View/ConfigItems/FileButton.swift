@@ -12,7 +12,7 @@ struct FileButton: View {
     var readOnly: Bool = false
     var canChooseDirectories: Bool = false
     var canChooseFiles: Bool = true
-    
+
     var systemImageName: String = "folder.badge.plus"
     var readOnlySystemImageName: String = "rectangle.and.text.magnifyingglass"
     var deleteSystemImageName: String = "xmark.circle.fill"
@@ -20,12 +20,12 @@ struct FileButton: View {
     var layoutDirection: LayoutDirection = .leftToRight
     var tips: String? = nil
     var showResult: Bool = true
-    
+
     var textFont: Font? = nil
     var tipsFont: Font? = nil
 
     @Binding var url: URL?
-    
+
     var body: some View {
         HStack(spacing: 4) {
             if layoutDirection == .leftToRight {
@@ -43,29 +43,29 @@ struct FileButton: View {
             }
         }
     }
-    
+
     private var showDeleteButton: Bool {
         return !readOnly && url != nil
     }
-    
+
     func rightToLeft() -> FileButton {
         var newButton = self
         newButton.layoutDirection = .rightToLeft
         return newButton
     }
-    
+
     func font(_ font: Font) -> FileButton {
         var newButton = self
         newButton.textFont = font
         return newButton
     }
-    
+
     func hideResult() -> FileButton {
         var newButton = self
         newButton.showResult = false
         return newButton
     }
-    
+
     @ViewBuilder
     private var button: some View {
         Button {
@@ -79,7 +79,7 @@ struct FileButton: View {
         }
         .buttonStyle(.plain)
     }
-    
+
     @ViewBuilder
     private var removeButton: some View {
         Button {
@@ -92,7 +92,7 @@ struct FileButton: View {
         }
         .buttonStyle(.plain)
     }
-    
+
     @ViewBuilder
     private var text: some View {
         let aligment: TextAlignment = (layoutDirection == .leftToRight ? .leading : .trailing)
@@ -111,7 +111,7 @@ struct FileButton: View {
                 .font(textFont)
         }
     }
-    
+
     private func openPanel() {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
@@ -121,12 +121,12 @@ struct FileButton: View {
             panel.directoryURL = url.deletingLastPathComponent()
             panel.nameFieldLabel = url.lastPathComponent
         }
-        
+
         if panel.runModal() == .OK {
-            self.url = panel.url
+            url = panel.url
         }
     }
-    
+
     private func showInFinder() {
         guard let url = url else {
             return

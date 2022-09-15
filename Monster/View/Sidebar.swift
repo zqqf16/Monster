@@ -30,7 +30,7 @@ struct Sidebar: View {
         .listStyle(.sidebar)
         .frame(minWidth: 180)
     }
-    
+
     var selection: Binding<VirtualMachine?> {
         Binding {
             store.selectedVM

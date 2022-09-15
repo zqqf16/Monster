@@ -27,7 +27,7 @@ class Store: ObservableObject {
             selectedVM = vms[0]
         }
     }
-    
+
     private func loadVirtualMachines() {
         let fileManager = FileManager.default
         let directory = AppSettings.vmDirectory
@@ -36,7 +36,7 @@ class Store: ObservableObject {
 
         vms = bundles.compactMap { try? VirtualMachine(bundleURL: $0) }
     }
-    
+
     // MARK: Virtual Machine
 
     func virtualMachine(with vmID: String) -> VirtualMachine? {
@@ -44,8 +44,8 @@ class Store: ObservableObject {
             vm.id == vmID
         }
     }
-    
-    func addVirtualMachine(with config: VMConfig, select: Bool = true) {
+
+    func addVirtualMachine(with config: VMConfig, select _: Bool = true) {
         var validatedConfig = config
         if validatedConfig.bundleURL == nil {
             validatedConfig.bundleURL = VMBundle.generateBundleURL(for: config)
@@ -58,26 +58,26 @@ class Store: ObservableObject {
         selectedVM = vms.last
         columnVisibility = .all
     }
-    
+
     func remove(virtualMachine: VirtualMachine, deleteFiles: Bool = true) {
         guard let index = vms.firstIndex(of: virtualMachine) else {
             print("Virtual machine \(virtualMachine) not found")
             return
         }
-        
+
         if deleteFiles {
             try? virtualMachine.removeFiles()
         }
-        
+
         vms.remove(at: index)
         if vms.count > 0 {
-            let index = min(index, vms.count-1)
+            let index = min(index, vms.count - 1)
             selectedVM = vms[index]
         } else {
             selectedVM = nil
         }
     }
-    
+
     @discardableResult
     func importVirtualMachine(from url: URL) throws -> VirtualMachine? {
         for vm in vms {
@@ -91,7 +91,7 @@ class Store: ObservableObject {
         guard var config = try? bundle.loadConfig() else {
             throw Failure("Failed to load informations from file")
         }
-        
+
         if vms.contains(where: { $0.id == config.id }) {
             throw Failure("There is already a virtual machine with the same ID")
         }
@@ -104,13 +104,13 @@ class Store: ObservableObject {
             throw Failure("Failed to move file", reason: error)
         }
         config.bundleURL = dest
-        
+
         let vm = VirtualMachine(config: config)
         try? vm.saveConfig()
 
-        self.vms.insert(vm, at: 0)
+        vms.insert(vm, at: 0)
         selectedVM = vms[0]
-        
+
         return vm
     }
 }

@@ -36,7 +36,7 @@ struct ContentView: View {
         let name = store.selectedVM?.config.name ?? ""
         return "Are you sure to delete \(name)?"
     }
-    
+
     @ViewBuilder var alert: some View {
         Button("Delete", role: .destructive) {
             if let selectedVM = store.selectedVM {
@@ -73,7 +73,7 @@ private struct EmptyStateView: View {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .stroke(isHovering ? Color.accentColor : .clear)
         }
-        
+
         .scaleEffect(isHovering ? 1.02 : 1)
         .onHover { isHovering in
             withAnimation {
@@ -99,7 +99,7 @@ private struct Toolbar: ToolbarContent {
             .disabled(store.selectedVM == nil)
             .keyboardShortcut("r", modifiers: .command)
         }
-        ToolbarItem() {
+        ToolbarItem {
             Spacer()
         }
         ToolbarItemGroup(placement: .primaryAction) {

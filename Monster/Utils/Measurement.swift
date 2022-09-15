@@ -17,7 +17,7 @@ extension Int {
     var GB: Measurement<UnitInformationStorage> { doubleValue.GB }
     var TB: Measurement<UnitInformationStorage> { doubleValue.TB }
     var PB: Measurement<UnitInformationStorage> { doubleValue.PB }
-    
+
     var core: Measurement<CpuCoreUnit> { .init(value: Double(self), unit: .none) }
 }
 
@@ -30,7 +30,7 @@ extension UInt64 {
     var GB: Measurement<UnitInformationStorage> { doubleValue.GB }
     var TB: Measurement<UnitInformationStorage> { doubleValue.TB }
     var PB: Measurement<UnitInformationStorage> { doubleValue.PB }
-    
+
     var core: Measurement<CpuCoreUnit> { .init(value: Double(self), unit: .none) }
 }
 
@@ -53,18 +53,20 @@ typealias CpuCount = Measurement<CpuCoreUnit>
 
 extension StorageSize {
     var bytes: UInt64 {
-        UInt64(self.converted(to: .bytes).value)
+        UInt64(converted(to: .bytes).value)
     }
+
     var mb: UInt64 {
-        UInt64(self.converted(to: .mebibytes).value)
+        UInt64(converted(to: .mebibytes).value)
     }
+
     var gb: UInt64 {
-        UInt64(self.converted(to: .gibibytes).value)
+        UInt64(converted(to: .gibibytes).value)
     }
 }
 
 extension CpuCount {
     var count: Int {
-        Int(self.value)
+        Int(value)
     }
 }

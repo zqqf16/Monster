@@ -6,11 +6,10 @@
 //  Copyright © 2022 zqqf16. All rights reserved.
 //
 
-import XCTest
 @testable import Monster
+import XCTest
 
 final class ConfigTests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -29,10 +28,10 @@ final class ConfigTests: XCTestCase {
             restoreImage: "macos11.2.ipsw",
             bundlePath: "~/Documents/Test.vm"
         )
-        
+
         let jsonData = try JSONEncoder().encode(config)
         let config2 = try JSONDecoder().decode(VMConfig.self, from: jsonData)
-        
+
         XCTAssertEqual(config.id, config2.id)
         XCTAssertEqual(config.name, config2.name)
         XCTAssertEqual(config.os, config2.os)
@@ -42,12 +41,11 @@ final class ConfigTests: XCTestCase {
         XCTAssertEqual(config.restoreImagePath, config2.restoreImagePath)
         XCTAssertEqual(config.bundlePath, config2.bundlePath)
     }
-    
+
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

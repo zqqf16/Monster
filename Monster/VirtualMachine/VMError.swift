@@ -13,7 +13,7 @@ public struct Failure: LocalizedError {
     public var reason: Error?
 
     public init(_ message: String, reason: Error? = nil) {
-        self.errorDescription = message
+        errorDescription = message
         self.reason = reason
     }
 }

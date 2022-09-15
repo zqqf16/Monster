@@ -10,7 +10,7 @@ import SwiftUI
 struct EntranceItem: View {
     @Binding var selection: Entrance?
     var entrance: Entrance
-    
+
     var body: some View {
         Button {
             selection = entrance
@@ -25,7 +25,7 @@ private struct Label: View {
     @Binding var selection: Entrance?
     var entrance: Entrance
     @State private var isHovering = false
-    
+
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
             Image(nsImage: entrance.image)
@@ -45,8 +45,8 @@ private struct Label: View {
         .background {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(selection == entrance ?
-                      AnyShapeStyle(Color.accentColor) :
-                        AnyShapeStyle(BackgroundStyle()))
+                    AnyShapeStyle(Color.accentColor) :
+                    AnyShapeStyle(BackgroundStyle()))
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .stroke(isHovering ? Color.accentColor : .clear)
         }
@@ -57,7 +57,7 @@ private struct Label: View {
             }
         }
     }
-    
+
     func shapeStyle<S: ShapeStyle>(_ style: S) -> some ShapeStyle {
         if selection == entrance {
             return AnyShapeStyle(.background)

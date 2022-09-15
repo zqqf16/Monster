@@ -14,11 +14,11 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
     var range: ClosedRange<Measurement<UnitType>>
     var step: Measurement<UnitType>
     var units: [UnitType]
-    
+
     var showSlider = true
-    var textFont: Font? = nil
+    var textFont: Font?
     @State var currentUnit: UnitType
-    
+
     init(
         value: Binding<Measurement<UnitType>>,
         range: ClosedRange<Measurement<UnitType>>,
@@ -26,15 +26,15 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
         units: [UnitType],
         defaultUnit: UnitType? = nil
     ) {
-        self._value = value
+        _value = value
         self.range = range
         if let step = step {
             self.step = step
         } else {
-            self.step = (range.upperBound - range.lowerBound)/10
+            self.step = (range.upperBound - range.lowerBound) / 10
         }
         self.units = units
-        self._currentUnit = State(initialValue: defaultUnit ?? value.wrappedValue.unit)
+        _currentUnit = State(initialValue: defaultUnit ?? value.wrappedValue.unit)
     }
 
     var body: some View {
@@ -43,7 +43,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
                 Slider(value: floatValue, in: floatRange, step: floatStep)
                     .layoutPriority(1000)
             }
-            
+
             TextField("", text: stringValue)
                 .frame(minWidth: 46, alignment: .trailing)
                 .textFieldStyle(.plain)
@@ -54,7 +54,7 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
             Stepper("", value: floatValue, step: 1)
                 .labelsHidden()
                 .padding(0)
-            
+
             Menu {
                 ForEach(units) { unit in
                     Button(unit.symbol) {
@@ -70,19 +70,19 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
             .opacity(units.count > 0 ? 1 : 0)
         }
     }
-    
+
     func hideSlider() -> Self {
         var newValue = self
         newValue.showSlider = false
         return newValue
     }
-    
+
     func font(_ font: Font?) -> Self {
         var newValue = self
         newValue.textFont = font
         return newValue
     }
-    
+
     private var floatValue: Binding<Double> {
         Binding(
             get: {
@@ -96,15 +96,15 @@ struct UnitSlider<UnitType>: View where UnitType: Dimension {
             }
         )
     }
-    
+
     private var floatRange: ClosedRange<Double> {
         range.lowerBound.converted(to: currentUnit).value ... range.upperBound.converted(to: currentUnit).value
     }
-    
+
     private var floatStep: Double {
-        self.step.converted(to: currentUnit).value
+        step.converted(to: currentUnit).value
     }
-    
+
     private var stringValue: Binding<String> {
         Binding(
             get: {
@@ -125,14 +125,14 @@ struct UnitSlider_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             UnitSlider<UnitInformationStorage>(
-                value: .constant(100000.MB),
-                range: 1.MB...1000.MB,
+                value: .constant(100_000.MB),
+                range: 1.MB ... 1000.MB,
                 step: 100.MB,
                 units: [.mebibytes, .gibibytes]
             )
             UnitSlider<UnitInformationStorage>(
                 value: .constant(10.GB),
-                range: 1.GB...100.GB,
+                range: 1.GB ... 100.GB,
                 units: []
             )
         }

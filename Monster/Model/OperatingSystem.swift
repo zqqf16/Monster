@@ -9,7 +9,7 @@ import Foundation
 
 enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
     var id: Self { self }
-    
+
     case macOS
     case ubuntu
     case debian
@@ -17,7 +17,7 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
     case arch
     case redhat
     case linux
-    
+
     var name: String {
         switch self {
         case .macOS: return "macOS"
@@ -29,9 +29,9 @@ enum OperatingSystem: Int, CaseIterable, Identifiable, Codable {
         case .redhat: return "RedHat"
         }
     }
-    
+
     var defaultIconName: String { name }
-    
+
     static var linuxDistributions: [Self] {
         Self.allCases.filter { $0 != .macOS }
     }

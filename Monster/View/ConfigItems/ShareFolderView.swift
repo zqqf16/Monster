@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ShareFolderView: View {
-
     @ObservedObject var vm: VirtualMachine
     @State var selected: String?
 
@@ -57,7 +56,7 @@ struct ShareFolderView: View {
                 .stroke(.secondary.opacity(0.2))
         }
     }
-    
+
     private func openPanel() {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = true
@@ -67,18 +66,18 @@ struct ShareFolderView: View {
         guard panel.runModal() == .OK else {
             return
         }
-        
+
         panel.urls.forEach { url in
             let folder = VMShareFolder(enable: true, url: url, readOnly: false)
             self.vm.config.shareFolders.append(folder)
         }
     }
-    
+
     private func removeSelection() {
         guard let id = selected else {
             return
         }
-        
+
         vm.config.shareFolders.removeAll { folder in
             folder.id == id
         }

@@ -16,7 +16,7 @@ struct InstallView: View {
     @State var linuxDictribution: OperatingSystem?
 
     @State var error: Error? = nil
-    
+
     var body: some View {
         VStack {
             Spacer()
@@ -34,23 +34,24 @@ struct InstallView: View {
                 ForEach(Entrance.allCases) { entrance in
                     EntranceItem(
                         selection: currentEntrance,
-                        entrance: entrance)
+                        entrance: entrance
+                    )
                 }
             }
-            
+
             Spacer(minLength: 20)
             grid
             Spacer()
             footer
             Spacer()
-        }.onChange(of: config, perform: { newValue in
+        }.onChange(of: config, perform: { _ in
             error = nil
         })
         .scenePadding()
         .background(.background)
         .frame(minWidth: 600)
     }
-    
+
     private var currentEntrance: Binding<Entrance?> {
         Binding(
             get: {
@@ -69,7 +70,6 @@ struct InstallView: View {
                         os.wrappedValue = linuxDictribution ?? .linux
                     case .import:
                         openPanel()
-                        break
                     case .none:
                         break
                     }
@@ -77,7 +77,7 @@ struct InstallView: View {
             }
         )
     }
-    
+
     private var os: Binding<OperatingSystem> {
         Binding {
             config.os
@@ -86,7 +86,7 @@ struct InstallView: View {
             config.name = "\(value)"
         }
     }
-    
+
     @ViewBuilder
     private var grid: some View {
         Grid(alignment: .leading, horizontalSpacing: 10) {
@@ -96,7 +96,7 @@ struct InstallView: View {
             Divider()
         }
     }
-    
+
     private var distributionRow: some View {
         BaseGridRow("Linux Distribution") {
             HStack {
@@ -114,7 +114,7 @@ struct InstallView: View {
             }
         }
     }
-    
+
     private var restoreImageRow: some View {
         return BaseGridRow(config.os.restoreImageTitle) {
             FileButton(
@@ -124,7 +124,7 @@ struct InstallView: View {
             .font(.subheadline)
         }
     }
-    
+
     @ViewBuilder
     private var generalRows: some View {
         if currentEntrance.wrappedValue == .linux {
@@ -138,7 +138,7 @@ struct InstallView: View {
                 .textFieldStyle(.roundedBorder)
         }
     }
-    
+
     @ViewBuilder
     private var systemRows: some View {
         BaseGridRow("Memory") {
@@ -188,21 +188,22 @@ struct InstallView: View {
             .keyboardShortcut(.defaultAction)
         }
     }
-    
+
     private func commit() {
         store.addVirtualMachine(with: config)
         dismiss()
     }
-    
+
     private func openPanel() {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
         panel.treatsFilePackagesAsDirectories = false
         guard panel.runModal() == .OK,
-              let url = panel.url else {
+              let url = panel.url
+        else {
             return
         }
-        
+
         do {
             try store.importVirtualMachine(from: url)
             dismiss()
@@ -212,18 +213,18 @@ struct InstallView: View {
     }
 }
 
-private struct BaseGridRow<Content> : View where Content : View {
+private struct BaseGridRow<Content>: View where Content: View {
     var title: String = ""
-    
+
     @ViewBuilder var contentBilder: () -> Content
-    
+
     init(_ title: String = "", contentBuilder: @escaping () -> Content) {
         self.title = title
-        self.contentBilder = contentBuilder
+        contentBilder = contentBuilder
     }
-    
+
     var body: some View {
-        GridRow() {
+        GridRow {
             Text(title)
                 .frame(minWidth: 120, alignment: .trailing)
                 .gridColumnAlignment(.leading)

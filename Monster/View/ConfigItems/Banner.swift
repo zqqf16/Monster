@@ -8,8 +8,7 @@
 
 import SwiftUI
 
-struct BannerView<Content> : View where Content : View {
-
+struct BannerView<Content>: View where Content: View {
     @ViewBuilder var contentBilder: () -> Content
 
     var body: some View {
@@ -29,9 +28,9 @@ struct BannerView<Content> : View where Content : View {
     }
 }
 
-struct BannerModifier<ContentView> : ViewModifier where ContentView : View {
+struct BannerModifier<ContentView>: ViewModifier where ContentView: View {
     @ViewBuilder var contentBilder: () -> ContentView
-    
+
     @Binding var isPresented: Bool
 
     func body(content: Content) -> some View {
@@ -47,8 +46,8 @@ struct BannerModifier<ContentView> : ViewModifier where ContentView : View {
 }
 
 extension View {
-    func banner<Content>(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View where Content : View {
-        self.modifier(BannerModifier(contentBilder: content, isPresented: isPresented))
+    func banner<Content>(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) -> some View where Content: View {
+        modifier(BannerModifier(contentBilder: content, isPresented: isPresented))
     }
 }
 

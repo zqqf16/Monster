@@ -10,7 +10,7 @@ import SwiftUI
 
 struct DisplayPicker: View {
     @Binding var selected: VMDisplay
-    
+
     var body: some View {
         Menu {
             ForEach(VMDisplay.presets) { preset in
@@ -46,14 +46,14 @@ struct DisplayField: View {
             }
         }
     }
-    
-    func textField(_ binding: Binding<Int>, aligment: Alignment = .leading) -> some View {
+
+    func textField(_ binding: Binding<Int>, aligment _: Alignment = .leading) -> some View {
         TextField("", text: stringBinding(binding))
             .monospacedDigit()
             .frame(width: 50, alignment: .leading)
             .textFieldStyle(FormTextFieldStyle())
     }
-    
+
     func stringBinding(_ origin: Binding<Int>) -> Binding<String> {
         return Binding {
             "\(origin.wrappedValue)"

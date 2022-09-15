@@ -37,7 +37,7 @@ struct VirtualMachineView: View {
                     textBanner
                 }
             }
-        }
+    }
 
     @ViewBuilder
     private var progressBanner: some View {
@@ -45,18 +45,18 @@ struct VirtualMachineView: View {
             ProgressView(progressMessage, value: vm.installingProgress)
         }
     }
-    
+
     private var progressMessage: String {
         if vm.installingProgress < 0.1 {
             return "Installing ... (loading files)"
         }
-        
+
         var progress = Int(vm.installingProgress * 100)
         progress = min(progress, 100)
         progress = max(0, progress)
         return "Installing ... (\(progress)%)"
     }
-    
+
     @ViewBuilder
     private var textBanner: some View {
         HStack {
@@ -75,7 +75,7 @@ struct VirtualMachineView: View {
                 Text(bannerTitle)
                     .fontWeight(.bold)
             }
-            
+
             Spacer()
             Button {
                 execute(vm.run)
@@ -85,15 +85,15 @@ struct VirtualMachineView: View {
             .buttonStyle(.plain)
         }
     }
-    
+
     private var bannerTitle: String {
         if vm.state == .error {
             return currentError != nil ? currentError!.localizedDescription : "Unknow Error"
         }
-        
+
         return "Virtual Machine is \(vm.state)"
     }
-    
+
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .navigation) {
@@ -109,7 +109,7 @@ struct VirtualMachineView: View {
             }
         }
     }
-    
+
     private var runButton: some View {
         Button {
             execute(vm.run)
@@ -117,7 +117,7 @@ struct VirtualMachineView: View {
             Label("Run", systemImage: "play.fill")
         }
     }
-    
+
     private var pauseButton: some View {
         Button {
             execute(vm.pause)
@@ -125,7 +125,7 @@ struct VirtualMachineView: View {
             Label("Pause", systemImage: "pause.fill")
         }
     }
-    
+
     private var stopButton: some View {
         Button {
             execute(vm.stop)
@@ -133,7 +133,7 @@ struct VirtualMachineView: View {
             Label("Stop", systemImage: "stop.fill")
         }
     }
-    
+
     private func execute(_ function: @escaping () async throws -> Void) {
         Task {
             self.currentError = nil

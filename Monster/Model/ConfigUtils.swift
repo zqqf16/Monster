@@ -6,8 +6,8 @@
 //  Copyright © 2022 zqqf16. All rights reserved.
 //
 
-import Foundation
 import AppKit
+import Foundation
 
 extension OperatingSystem {
     var restoreImageTitle: String {
@@ -16,7 +16,7 @@ extension OperatingSystem {
         }
         return "ISO Image"
     }
-    
+
     var restoreImageTips: String {
         if self == .macOS {
             return "Select a restore image file (.ipsw)"

@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct ConfigView: View {
-
     @ObservedObject var vm: VirtualMachine
-    
+
     var editable: Bool = true
-    
+
     @State private var enableLogging = false
     @State private var selectedColor = "Red"
     @State private var scale: Float = 0
-    
+
     @State private var showName: Bool = false
 
     var body: some View {
@@ -32,17 +31,17 @@ struct ConfigView: View {
             .scrollContentBackground(.hidden)
         }
         .background(.background)
-        .onReceive(vm.$config.debounce(for: .milliseconds(1000), scheduler: RunLoop.main), perform: { config in
+        .onReceive(vm.$config.debounce(for: .milliseconds(1000), scheduler: RunLoop.main), perform: { _ in
             print("Virtual machine configurations changed")
             try? self.vm.saveConfig()
         })
     }
-    
+
     @ViewBuilder
     private var header: some View {
         VStack {
             SnapshotView(vm: vm)
-            
+
             TextField("", text: $vm.config.name)
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
@@ -50,7 +49,7 @@ struct ConfigView: View {
         }
         .padding()
     }
-    
+
     @ViewBuilder
     private var generalSection: some View {
         Section {
@@ -66,7 +65,7 @@ struct ConfigView: View {
                     .frame(maxWidth: 100)
                 }
             }
-            
+
             BaseLine("Path", systemIcon: "archivebox") {
                 FileButton(
                     readOnly: true,
@@ -76,7 +75,7 @@ struct ConfigView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var systemSection: some View {
         Section("System") {
@@ -106,7 +105,7 @@ struct ConfigView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private var drivesSection: some View {
         Section("Drives") {
@@ -117,7 +116,7 @@ struct ConfigView: View {
             ) {
                 Text("\(vm.config.diskSize.gb) GiB")
             }
-            
+
             BaseLine(
                 vm.config.os.restoreImageTitle,
                 systemIcon: "opticaldisc",
@@ -130,11 +129,11 @@ struct ConfigView: View {
             }
         }
     }
-    
+
     private var shareFolderTips: String {
         "Run `mount -t virtiofs MonsterShared ~/Monster` in vm"
     }
-    
+
     @ViewBuilder
     private var advanceSection: some View {
         Section("Advanced") {
@@ -165,9 +164,9 @@ private struct BaseLine<Content>: View where Content: View {
     var icon: String?
     var systemIcon: String?
     var tips: String?
-    
+
     @ViewBuilder var contentBilder: () -> Content
-    
+
     init(_ title: String = "", icon: String? = nil, systemIcon: String? = nil, tips: String? = nil, @ViewBuilder contentBilder: @escaping () -> Content) {
         self.title = title
         self.icon = icon
@@ -175,7 +174,7 @@ private struct BaseLine<Content>: View where Content: View {
         self.tips = tips
         self.contentBilder = contentBilder
     }
-    
+
     var body: some View {
         if tips != nil {
             VStack(alignment: .trailing) {
@@ -186,7 +185,7 @@ private struct BaseLine<Content>: View where Content: View {
             contentView
         }
     }
-    
+
     @ViewBuilder
     var contentView: some View {
         HStack {
@@ -205,7 +204,7 @@ private struct BaseLine<Content>: View where Content: View {
             contentBilder()
         }
     }
-    
+
     @ViewBuilder
     var tipsView: some View {
         if let tips = tips {
