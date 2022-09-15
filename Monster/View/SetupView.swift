@@ -1,5 +1,5 @@
 //
-//  GuideView.swift
+//  SetupView.swift
 //  Monster
 //
 //  Created by zqqf16 on 2022/9/2.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct InstallView: View {
+struct SetupView: View {
     @State var config: VMConfig = .defaultLinux
 
     @EnvironmentObject private var store: Store
@@ -234,8 +234,8 @@ private struct BaseGridRow<Content>: View where Content: View {
     }
 }
 
-struct InstallView_Previews: PreviewProvider {
+struct SetupView_Previews: PreviewProvider {
     static var previews: some View {
-        InstallView()
+        SetupView()
     }
 }

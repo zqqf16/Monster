@@ -25,7 +25,7 @@ struct ContentView: View {
             Toolbar()
         }
         .sheet(isPresented: $store.showWelcome) {
-            InstallView()
+            SetupView()
         }
         .alert(alertTitle, isPresented: $store.showDeleteAlert) {
             alert

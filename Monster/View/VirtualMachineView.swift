@@ -1,5 +1,5 @@
 //
-//  VMConfigView.swift
+//  VirtualMachineView.swift
 //  Monster
 //
 //  Created by zqqf16 on 2022/8/12.
