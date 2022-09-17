@@ -93,7 +93,8 @@ class Store: ObservableObject {
         }
 
         if vms.contains(where: { $0.id == config.id }) {
-            throw Failure("There is already a virtual machine with the same ID")
+            print("There is already a virtual machine with the same ID \(config.id)")
+            config.id = UUID().uuidString
         }
 
         let dest = VMBundle.generateBundleURL(for: config)
