@@ -18,4 +18,4 @@ It is still in development...
 ## Development Environment
 
 - macOS 13.0 beta
-- Version 14.0 beta
+- Xcode 14.1 beta（macOS 13.0 SDK）
