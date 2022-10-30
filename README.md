@@ -15,7 +15,6 @@ macOS 13.0 or higher
 | :------------ | ------------------------ |
 | Intel         | Linux (x86)              |
 | Apple silicon | Linux (arm64), macOS 12+ |
-|               |                          |
 
 ## Snapshots
 
