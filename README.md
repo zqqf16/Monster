@@ -7,6 +7,8 @@ It is still in development...
 
 *System requirements: **macOS 13.0 or higher***
 
+Monster 是一个虚拟机App，它基于Apple的*virtualization.framework*，可以在macOS系统上运行Linux或者macOS虚拟机。
+
 ## Snapshots
 
 ![](snapshots/home.png)
