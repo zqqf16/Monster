@@ -22,10 +22,7 @@ class Store: ObservableObject {
 
     init() {
         loadVirtualMachines()
-
-        if vms.count > 0 {
-            selectedVM = vms[0]
-        }
+        selectedVM = vms.first
     }
 
     private func loadVirtualMachines() {

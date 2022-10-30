@@ -20,7 +20,7 @@ struct BannerView<Content>: View where Content: View {
                 .cornerRadius(8)
                 .background {
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(.white)
+                        .fill(.background)
                         .shadow(color: .white, radius: 2)
                 }
             Spacer(minLength: 40)
