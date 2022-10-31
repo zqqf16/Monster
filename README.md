@@ -20,10 +20,6 @@ macOS 13.0 or higher
 
 ![](snapshots/home.png)
 
-![init](snapshots/init.png)
-
-![player](snapshots/player.png)
-
 ## Development Environment
 
 - macOS 13.0
