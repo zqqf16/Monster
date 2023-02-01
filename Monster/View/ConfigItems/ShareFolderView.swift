@@ -1,5 +1,5 @@
 //
-//  ShareFolderView.swift
+//  ShareDirectoryView.swift
 //  Monster
 //
 //  Created by zqqf16 on 2022/9/14.
@@ -8,27 +8,27 @@
 
 import SwiftUI
 
-struct ShareFolderView: View {
+struct ShareDirectoryView: View {
     @ObservedObject var vm: VirtualMachine
     @State var selected: String?
 
     var body: some View {
         VStack(spacing: 0) {
-            Table($vm.config.shareFolders, selection: $selected) {
-                TableColumn("#") { folder in
-                    Toggle("", isOn: enableWrapper(folder))
+            Table($vm.config.shareDirectories, selection: $selected) {
+                TableColumn("#") { directory in
+                    Toggle("", isOn: enableWrapper(directory))
                         .labelsHidden()
                 }.width(18)
-                TableColumn("Name") { folder in
-                    Text(folder.wrappedValue.name)
+                TableColumn("Name") { directory in
+                    Text(directory.wrappedValue.name)
                         .font(.subheadline)
                 }
-                TableColumn("Path") { folder in
-                    Text(folder.wrappedValue.url.path)
+                TableColumn("Path") { directory in
+                    Text(directory.wrappedValue.url.path)
                         .font(.subheadline)
                 }
-                TableColumn("Read Only") { folder in
-                    Toggle("", isOn: folder.readOnly)
+                TableColumn("Read Only") { directory in
+                    Toggle("", isOn: directory.readOnly)
                         .labelsHidden()
                 }
                 .width(80)
@@ -68,8 +68,8 @@ struct ShareFolderView: View {
         }
 
         panel.urls.forEach { url in
-            let folder = VMShareFolder(enable: true, url: url, readOnly: false)
-            self.vm.config.shareFolders.append(folder)
+            let directory = VMShareDirectory(enable: true, url: url, readOnly: false)
+            self.vm.config.shareDirectories.append(directory)
         }
     }
 
@@ -91,31 +91,31 @@ struct ShareFolderView: View {
             return
         }
 
-        vm.config.shareFolders.removeAll { folder in
-            folder.id == id
+        vm.config.shareDirectories.removeAll { directory in
+            directory.id == id
         }
     }
 
-    private func enableWrapper(_ folder: Binding<VMShareFolder>) -> Binding<Bool> {
+    private func enableWrapper(_ directory: Binding<VMShareDirectory>) -> Binding<Bool> {
         Binding {
-            folder.enable.wrappedValue
+            directory.enable.wrappedValue
         } set: { value in
             if !value {
-                folder.enable.wrappedValue = false
+                directory.enable.wrappedValue = false
                 return
             }
 
-            if folder.wrappedValue.restoreFileAccess() {
-                folder.enable.wrappedValue = true
+            if directory.wrappedValue.restoreFileAccess() {
+                directory.enable.wrappedValue = true
             } else {
-                folder.enable.wrappedValue = askPermission(for: folder.url.wrappedValue)
+                directory.enable.wrappedValue = askPermission(for: directory.url.wrappedValue)
             }
         }
     }
 }
 
-struct ShareFolderView_Previews: PreviewProvider {
+struct ShareDirectoryView_Previews: PreviewProvider {
     static var previews: some View {
-        ShareFolderView(vm: VirtualMachine(config: .defaultLinux))
+        ShareDirectoryView(vm: VirtualMachine(config: .defaultLinux))
     }
 }

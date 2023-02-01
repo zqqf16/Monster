@@ -22,7 +22,7 @@ struct VMConfig: Codable, Hashable {
 
     var restoreImageURL: URL? = nil
     var bundleURL: URL? = nil
-    var shareFolders: [VMShareFolder] = []
+    var shareDirectories: [VMShareDirectory] = []
 
     var installed: Bool = false
 
@@ -42,7 +42,7 @@ struct VMConfig: Codable, Hashable {
         case display
         case restoreImageURL
         case bundleURL
-        case shareFolders
+        case shareDirectories
         case installed
     }
 
@@ -71,14 +71,14 @@ struct VMConfig: Codable, Hashable {
             self.installed = installed
         }
 
-        if let shareFolders = try? container.decodeIfPresent([VMShareFolder].self, forKey: .shareFolders) {
-            self.shareFolders = shareFolders.map {
-                var folder = $0
-                folder.enable = folder.enable && folder.restoreFileAccess()
-                return folder
+        if let shareDirectories = try? container.decodeIfPresent([VMShareDirectory].self, forKey: .shareDirectories) {
+            self.shareDirectories = shareDirectories.map {
+                var directory = $0
+                directory.enable = directory.enable && directory.restoreFileAccess()
+                return directory
             }
         } else {
-            shareFolders = []
+            shareDirectories = []
         }
     }
 
@@ -93,7 +93,7 @@ struct VMConfig: Codable, Hashable {
         try container.encode(display, forKey: .display)
         try container.encodeIfPresent(restoreImageURL, forKey: .restoreImageURL)
         try container.encodeIfPresent(bundleURL, forKey: .bundleURL)
-        try container.encode(shareFolders, forKey: .shareFolders)
+        try container.encode(shareDirectories, forKey: .shareDirectories)
         try container.encode(installed, forKey: .installed)
     }
 }

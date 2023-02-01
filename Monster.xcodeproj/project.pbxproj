@@ -33,7 +33,7 @@
 		F4DFF5E028C991E800246E1F /* GenericConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */; };
 		F4E11D0228C4DF6200649826 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E11D0128C4DF6200649826 /* Settings.swift */; };
 		F4EE4CF628D1941600A0003E /* ShareFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF528D1941600A0003E /* ShareFolderView.swift */; };
-		F4EE4CF828D1950100A0003E /* VMShareFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF728D1950100A0003E /* VMShareFolder.swift */; };
+		F4EE4CF828D1950100A0003E /* VMShareDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */; };
 		F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */; };
 		F4F2AF9128C3943200C3A5A3 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */; };
 		F4F577AA28CAE7D00040E394 /* VirtualMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F577A928CAE7D00040E394 /* VirtualMachine.swift */; };
@@ -98,7 +98,7 @@
 		F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericConfigHelper.swift; sourceTree = "<group>"; };
 		F4E11D0128C4DF6200649826 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F4EE4CF528D1941600A0003E /* ShareFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareFolderView.swift; sourceTree = "<group>"; };
-		F4EE4CF728D1950100A0003E /* VMShareFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMShareFolder.swift; sourceTree = "<group>"; };
+		F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMShareDirectory.swift; sourceTree = "<group>"; };
 		F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMBundle.swift; sourceTree = "<group>"; };
 		F4F2AF9028C3943200C3A5A3 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
 		F4F577A928CAE7D00040E394 /* VirtualMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMachine.swift; sourceTree = "<group>"; };
@@ -180,7 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				F4DE9EB528D074A300E8ED74 /* VMDisplay.swift */,
-				F4EE4CF728D1950100A0003E /* VMShareFolder.swift */,
+				F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */,
 				F4FFF2B128A39B4F003B75F9 /* VMConfig.swift */,
 				F4D6880E28C59FFE003544A6 /* VMConfigHelper.swift */,
 				F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */,
@@ -355,7 +355,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = zqqf16;
 				TargetAttributes = {
 					F4FFF28128A38360003B75F9 = {
@@ -430,7 +430,7 @@
 				F4F577B028CB6F0A0040E394 /* NSImage.swift in Sources */,
 				F483FD3328C639E0004A997E /* ConfigUtils.swift in Sources */,
 				F435FFA328C1F909006D5671 /* Unit.swift in Sources */,
-				F4EE4CF828D1950100A0003E /* VMShareFolder.swift in Sources */,
+				F4EE4CF828D1950100A0003E /* VMShareDirectory.swift in Sources */,
 				F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */,
 				F4D6880F28C59FFE003544A6 /* VMConfigHelper.swift in Sources */,
 				F4F577AA28CAE7D00040E394 /* VirtualMachine.swift in Sources */,
@@ -529,6 +529,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -589,6 +590,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -615,10 +617,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Monster/Preview Content\"";
 				DEVELOPMENT_TEAM = BPL95996PK;
 				ENABLE_PREVIEWS = YES;
@@ -644,10 +648,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Monster/Monster.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Monster/Preview Content\"";
 				DEVELOPMENT_TEAM = BPL95996PK;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -675,6 +681,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = BPL95996PK;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -694,6 +701,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = BPL95996PK;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -712,6 +720,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = BPL95996PK;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -729,6 +738,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = BPL95996PK;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;

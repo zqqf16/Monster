@@ -130,7 +130,7 @@ struct ConfigView: View {
         }
     }
 
-    private var shareFolderTips: String {
+    private var ShareDirectoryTips: String {
         "Run `mount -t virtiofs MonsterShared ~/Monster` in vm"
     }
 
@@ -142,14 +142,14 @@ struct ConfigView: View {
                     Image(systemName: "folder")
                         .frame(width: 18, height: 18)
                         .foregroundColor(.accentColor)
-                    Text("Shared Folder")
+                    Text("Shared Directory")
                     Spacer()
                 }
                 HStack {
                     Spacer()
-                    ShareFolderView(vm: vm)
+                    ShareDirectoryView(vm: vm)
                 }
-                Text(shareFolderTips)
+                Text(ShareDirectoryTips)
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .italic()

@@ -1,5 +1,5 @@
 //
-//  VMShareFolder.swift
+//  VMShareDirectory.swift
 //  Monster
 //
 //  Created by zqqf16 on 2022/9/14.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VMShareFolder: Codable, Identifiable, Equatable, Hashable {
+struct VMShareDirectory: Codable, Identifiable, Equatable, Hashable {
     var id: String {
         url.path
     }

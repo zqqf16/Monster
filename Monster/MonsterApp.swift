@@ -86,6 +86,6 @@ struct MonsterApp: App {
             return
         }
 
-        try? store.importVirtualMachine(from: url)
+        let _ = try? store.importVirtualMachine(from: url)
     }
 }
