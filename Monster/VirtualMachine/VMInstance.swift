@@ -102,7 +102,7 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
 
         observeToken?.invalidate()
         observeToken = virtualMachine.observe(\.state, options: [.initial, .new]) { [weak self] vm, _ in
-            print("Virtual machine state: \(vm.state)")
+            print("Virtual machine state: \(vm.state.rawValue)")
             if let state = VirtualMachine.State(rawValue: vm.state.rawValue) {
                 self?.state = state
             }
