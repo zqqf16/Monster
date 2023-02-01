@@ -48,7 +48,7 @@ import Virtualization
             }
         }
 
-        private func retriveHardwareModel() throws -> VZMacHardwareModel {
+        private func retrieveHardwareModel() throws -> VZMacHardwareModel {
             guard let hardwareModelData = try? Data(contentsOf: bundle.hardwareModelURL),
                   let hardwareModel = VZMacHardwareModel(dataRepresentation: hardwareModelData)
             else {
@@ -65,7 +65,7 @@ import Virtualization
         private func createPlatform() throws -> VZMacPlatformConfiguration {
             let macPlatform = VZMacPlatformConfiguration()
             macPlatform.auxiliaryStorage = VZMacAuxiliaryStorage(contentsOf: bundle.auxiliaryStorageURL)
-            macPlatform.hardwareModel = try retriveHardwareModel()
+            macPlatform.hardwareModel = try retrieveHardwareModel()
             macPlatform.machineIdentifier = try retrieveOrCreateMachineIdentifier()
             return macPlatform
         }

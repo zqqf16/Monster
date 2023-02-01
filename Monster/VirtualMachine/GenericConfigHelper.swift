@@ -74,8 +74,8 @@ struct GenericConfigHelper: VMConfigHelper {
             return nil
         }
         do {
-            let intallerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
-            return VZUSBMassStorageDeviceConfiguration(attachment: intallerDiskAttachment)
+            let installerDiskAttachment = try VZDiskImageStorageDeviceAttachment(url: restoreImageURL, readOnly: true)
+            return VZUSBMassStorageDeviceConfiguration(attachment: installerDiskAttachment)
         } catch {
             throw Failure("Failed to create USB mass storage device: \(error.localizedDescription)")
         }
