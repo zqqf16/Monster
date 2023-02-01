@@ -7,24 +7,33 @@
 
 import SwiftUI
 
+struct SidebarItem: View {
+    @ObservedObject var vm: VirtualMachine
+
+    var body: some View {
+        Image(vm.config.icon)
+        VStack(alignment: .leading, spacing: 2) {
+            Text(vm.name)
+                .fontWeight(.semibold)
+            HStack(alignment: .firstTextBaseline, spacing: 2) {
+                Circle()
+                    .fill(Color(nsColor: vm.state.color))
+                    .frame(width: 8)
+
+                Text("\(vm.config.os.name)")
+                    .font(.subheadline)
+            }
+        }
+    }
+}
+
 struct Sidebar: View {
     @EnvironmentObject private var store: Store
 
     var body: some View {
         List(store.vms, selection: selection) { vm in
             NavigationLink(value: vm) {
-                Image(vm.config.icon)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(vm.name)
-                        .fontWeight(.semibold)
-                    HStack(alignment: .firstTextBaseline, spacing: 2) {
-                        Circle()
-                            .fill(Color(nsColor: vm.state.color))
-                            .frame(width: 8)
-                        Text("\(vm.config.os.name)")
-                            .font(.subheadline)
-                    }
-                }
+                SidebarItem(vm: vm)
             }
         }
         .listStyle(.sidebar)

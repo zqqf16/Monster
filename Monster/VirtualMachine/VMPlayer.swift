@@ -21,7 +21,7 @@ struct VMPlayer: NSViewRepresentable {
     }
 
     func updateNSView(_: VZVirtualMachineView, context _: Context) {}
-    
+
     func updateWindowSize() {
         guard let window = vm.virtualMachineView.window else {
             return
