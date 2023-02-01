@@ -72,7 +72,11 @@ struct VMConfig: Codable, Hashable {
         }
 
         if let shareFolders = try? container.decodeIfPresent([VMShareFolder].self, forKey: .shareFolders) {
-            self.shareFolders = shareFolders
+            self.shareFolders = shareFolders.map {
+                var folder = $0
+                folder.enable = folder.enable && folder.restoreFileAccess()
+                return folder
+            }
         } else {
             shareFolders = []
         }

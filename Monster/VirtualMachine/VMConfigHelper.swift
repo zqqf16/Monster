@@ -107,7 +107,7 @@ extension VMConfigHelper {
             guard folder.enable else {
                 return
             }
-            let name = folder.url.lastPathComponent
+            let name = folder.name
             directories[name] = VZSharedDirectory(url: folder.url, readOnly: folder.readOnly)
         }
 

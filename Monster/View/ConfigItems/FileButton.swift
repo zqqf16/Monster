@@ -95,18 +95,18 @@ struct FileButton: View {
 
     @ViewBuilder
     private var text: some View {
-        let aligment: TextAlignment = (layoutDirection == .leftToRight ? .leading : .trailing)
+        let alignment: TextAlignment = (layoutDirection == .leftToRight ? .leading : .trailing)
         if url == nil {
             if let tips = self.tips {
                 Text(tips)
-                    .multilineTextAlignment(aligment)
+                    .multilineTextAlignment(alignment)
                     .lineLimit(1)
                     .font(tipsFont)
                     .italic()
             }
         } else if showResult {
             Text(url!.lastPathComponent)
-                .multilineTextAlignment(aligment)
+                .multilineTextAlignment(alignment)
                 .lineLimit(1)
                 .font(textFont)
         }

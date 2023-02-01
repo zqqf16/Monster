@@ -140,6 +140,6 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
     }
 
     func virtualMachine(_: VZVirtualMachine, networkDevice _: VZNetworkDevice, attachmentWasDisconnectedWithError error: Error) {
-        print("Netowrk attachment was disconnected with error: \(error.localizedDescription)")
+        print("Network attachment was disconnected with error: \(error.localizedDescription)")
     }
 }

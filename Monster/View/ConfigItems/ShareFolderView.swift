@@ -16,7 +16,7 @@ struct ShareFolderView: View {
         VStack(spacing: 0) {
             Table($vm.config.shareFolders, selection: $selected) {
                 TableColumn("#") { folder in
-                    Toggle("", isOn: folder.enable)
+                    Toggle("", isOn: enableWrapper(folder))
                         .labelsHidden()
                 }.width(18)
                 TableColumn("Name") { folder in
@@ -73,6 +73,19 @@ struct ShareFolderView: View {
         }
     }
 
+    private func askPermission(for url: URL) -> Bool {
+        let openPanel = NSOpenPanel()
+        openPanel.message = "Monster needs to access this path to continue. Click Allow to continue."
+        openPanel.prompt = "Allow"
+        openPanel.allowsOtherFileTypes = false
+        openPanel.canChooseFiles = false
+        openPanel.canChooseDirectories = true
+        openPanel.directoryURL = url
+
+        let response = openPanel.runModal()
+        return response == .OK
+    }
+
     private func removeSelection() {
         guard let id = selected else {
             return
@@ -80,6 +93,23 @@ struct ShareFolderView: View {
 
         vm.config.shareFolders.removeAll { folder in
             folder.id == id
+        }
+    }
+
+    private func enableWrapper(_ folder: Binding<VMShareFolder>) -> Binding<Bool> {
+        Binding {
+            folder.enable.wrappedValue
+        } set: { value in
+            if !value {
+                folder.enable.wrappedValue = false
+                return
+            }
+
+            if folder.wrappedValue.restoreFileAccess() {
+                folder.enable.wrappedValue = true
+            } else {
+                folder.enable.wrappedValue = askPermission(for: folder.url.wrappedValue)
+            }
         }
     }
 }
