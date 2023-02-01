@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func createStatusItem() {
-        // waitting for MenuBarExtra ...
+        // waiting for MenuBarExtra ...
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         let statusButton = statusItem?.button
         statusButton?.image = NSImage(systemSymbolName: "m.square.fill", accessibilityDescription: nil)
