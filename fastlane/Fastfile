@@ -1,0 +1,25 @@
+lane :build do
+  update_build_number
+  build_app(
+    project: "Monster.xcodeproj",
+    scheme: "Monster",
+    output_directory: "./build",
+    export_method: "developer-id",
+    skip_package_pkg: true,
+    clean: true
+  )
+end
+
+lane :update_build_number do
+  timestamp = Time.now.utc
+  new_build_identifier = "%d%02d%02d%02d%02d" % [
+      timestamp.year,
+      timestamp.month,
+      timestamp.day,
+      timestamp.hour,
+      timestamp.min,
+  ]
+  increment_build_number(
+      build_number: new_build_identifier
+  )
+end
