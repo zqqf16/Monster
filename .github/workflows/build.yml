@@ -1,13 +1,12 @@
 # This workflow will build a Swift project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
-name: Swift
+name: Build
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - "*"
 
 jobs:
   build:
@@ -17,18 +16,43 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Prepare Certificate
-        env:
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          CERTIFICATE_PWD: ${{ secrets.CERTIFICATE_PWD }}
-          KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
-        run: |
-          echo $CERTIFICATE | base64 --decode > cert.p12
-          security create-keychain -p "$KEYCHAIN_PWD" build.keychain 
-          security default-keychain -s build.keychain
-          security unlock-keychain -p "$KEYCHAIN_PWD" build.keychain
-          security import cert.p12 -k build.keychain -P "$CERTIFICATE_PWD" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PWD" build.keychain
+      env:
+        CERTIFICATE: ${{ secrets.CERTIFICATE }}
+        CERTIFICATE_PWD: ${{ secrets.CERTIFICATE_PWD }}
+        KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
+      run: |
+        echo $CERTIFICATE | base64 --decode > cert.p12
+        security create-keychain -p "$KEYCHAIN_PWD" build.keychain 
+        security default-keychain -s build.keychain
+        security unlock-keychain -p "$KEYCHAIN_PWD" build.keychain
+        security import cert.p12 -k build.keychain -P "$CERTIFICATE_PWD" -T /usr/bin/codesign
+        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PWD" build.keychain
     
     - name: Build
-        run: |
-          bundle exec fastlane build
+      run: |
+        fastlane build
+
+    - name: Create DMG
+      run: |
+        npm install --global create-dmg
+        create-dmg ./build/Monster.app ./build
+        mv ./build/Monster*.dmg ./build/Monster.dmg
+
+    - name: Notarization
+      env: 
+        APPLE_ID: ${{ secrets.APPLE_ID }}
+        TEAM_ID: ${{ secrets.TEAM_ID }}
+        APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+      run: |
+        xcrun notarytool store-credentials "Notarization" --apple-id "$APPLE_ID" --team-id "$TEAM_ID" --password "$APPLE_PASSWORD"
+        xcrun notarytool submit ./build/Monster.dmg --keychain-profile "Notarization" --wait
+        xcrun stapler staple ./build/Monster.dmg
+        
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./build/Monster.dmg
+          ./build/Monster.app.dSYM.zip
+        draft: true
+        prerelease: true
