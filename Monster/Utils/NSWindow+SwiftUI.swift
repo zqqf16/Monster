@@ -11,6 +11,10 @@ extension NSWindow {
     var isSwiftUIWindow: Bool {
         return String(describing: type(of: self)) == "AppKitWindow"
     }
+    
+    var isMenuBarExtraWindow: Bool {
+        return String(describing: type(of: self)).contains("MenuBarExtraWindow")
+    }
 }
 
 extension Array where Element == NSWindow {

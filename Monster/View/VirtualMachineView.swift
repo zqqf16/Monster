@@ -20,11 +20,6 @@ struct VirtualMachineView: View {
             .toolbar {
                 toolbar
             }
-            .onAppear {
-                if vm.state == .stopped {
-                    execute(vm.run)
-                }
-            }
             .onReceive(vm.$state, perform: { state in
                 withAnimation {
                     showBanner = state != .running
@@ -143,7 +138,7 @@ struct VirtualMachineView: View {
                 if let error = error as? Failure {
                     self.currentError = error
                 } else {
-                    self.currentError = Failure("Unknow error", reason: error)
+                    self.currentError = Failure("Unknown error", reason: error)
                 }
                 withAnimation {
                     self.showBanner = true

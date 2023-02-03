@@ -29,8 +29,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // disable tabbing
         NSWindow.allowsAutomaticWindowTabbing = false
 
-        createStatusItem()
-
         let preview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"]
         if preview != "1" {
             // Do not active app during xcode previewing
@@ -50,25 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
             NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon)
         })
-    }
-
-    private func createStatusItem() {
-        // waiting for MenuBarExtra ...
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        let statusButton = statusItem?.button
-        statusButton?.image = NSImage(systemSymbolName: "m.square.fill", accessibilityDescription: nil)
-        statusButton?.image = NSImage(named: "StatusBarIcon")
-        statusButton?.action = #selector(AppDelegate.showWindow)
-    }
-
-    @objc func showWindow() {
-        debugPrint("show window")
-        if !NSApp.windows.hasSwiftUIWindow {
-            debugPrint("Create a new window")
-            NSWorkspace.shared.open(URL(string: "monster://main")!)
-        }
-
-        NSApp.activate(ignoringOtherApps: true)
     }
 }
 
@@ -111,6 +90,13 @@ struct MonsterApp: App {
         Settings {
             SettingsView()
         }
+        
+        // Menu bar item
+        MenuBarExtra("Monster", image: "StatusBarIcon") {
+            MenuBar()
+                .environmentObject(store)
+        }
+        .menuBarExtraStyle(.window)
     }
 
     private func open(url: URL) {

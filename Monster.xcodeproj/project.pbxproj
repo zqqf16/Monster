@@ -33,6 +33,8 @@
 		F4DFF5E028C991E800246E1F /* GenericConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */; };
 		F4E11D0228C4DF6200649826 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E11D0128C4DF6200649826 /* Settings.swift */; };
 		F4EA69F8298CBC1400FA2E96 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EA69F7298CBC1400FA2E96 /* SettingsView.swift */; };
+		F4EA6A01298CE40200FA2E96 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EA6A00298CE40200FA2E96 /* MenuBar.swift */; };
+		F4EA6A03298CFB5400FA2E96 /* NSApplication+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EA6A02298CFB5400FA2E96 /* NSApplication+Window.swift */; };
 		F4EE4CF628D1941600A0003E /* ShareFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF528D1941600A0003E /* ShareFolderView.swift */; };
 		F4EE4CF828D1950100A0003E /* VMShareDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */; };
 		F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */; };
@@ -99,6 +101,8 @@
 		F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericConfigHelper.swift; sourceTree = "<group>"; };
 		F4E11D0128C4DF6200649826 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F4EA69F7298CBC1400FA2E96 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F4EA6A00298CE40200FA2E96 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
+		F4EA6A02298CFB5400FA2E96 /* NSApplication+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSApplication+Window.swift"; sourceTree = "<group>"; };
 		F4EE4CF528D1941600A0003E /* ShareFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareFolderView.swift; sourceTree = "<group>"; };
 		F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMShareDirectory.swift; sourceTree = "<group>"; };
 		F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMBundle.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 		F4D5984028A9EDD100F9958B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4EA69FD298CE3D100FA2E96 /* MenuBarExtra */,
 				F4EA69F6298CBC0400FA2E96 /* Settings */,
 				F435FFA428C20759006D5671 /* ConfigItems */,
 				F4FFF28728A38360003B75F9 /* ContentView.swift */,
@@ -214,6 +219,7 @@
 				F435FF9E28C1DC90006D5671 /* Measurement.swift */,
 				F435FFA228C1F909006D5671 /* Unit.swift */,
 				F4F577AF28CB6F0A0040E394 /* NSImage.swift */,
+				F4EA6A02298CFB5400FA2E96 /* NSApplication+Window.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -224,6 +230,14 @@
 				F4EA69F7298CBC1400FA2E96 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		F4EA69FD298CE3D100FA2E96 /* MenuBarExtra */ = {
+			isa = PBXGroup;
+			children = (
+				F4EA6A00298CE40200FA2E96 /* MenuBar.swift */,
+			);
+			path = MenuBarExtra;
 			sourceTree = "<group>";
 		};
 		F4FFF27928A38360003B75F9 = {
@@ -445,11 +459,13 @@
 				F4EE4CF828D1950100A0003E /* VMShareDirectory.swift in Sources */,
 				F4376BD228C0A33400E7B65A /* EntranceItem.swift in Sources */,
 				F4D6880F28C59FFE003544A6 /* VMConfigHelper.swift in Sources */,
+				F4EA6A01298CE40200FA2E96 /* MenuBar.swift in Sources */,
 				F4F577AA28CAE7D00040E394 /* VirtualMachine.swift in Sources */,
 				F435FF9B28C1ABEA006D5671 /* OperatingSystem.swift in Sources */,
 				F4D6881128C62F06003544A6 /* FileButton.swift in Sources */,
 				F4BE60A628A67CBC007340AD /* VirtualMachineView.swift in Sources */,
 				F4FFF2B228A39B4F003B75F9 /* VMConfig.swift in Sources */,
+				F4EA6A03298CFB5400FA2E96 /* NSApplication+Window.swift in Sources */,
 				F4FFF28628A38360003B75F9 /* MonsterApp.swift in Sources */,
 				F4D90FC628AE282200E11588 /* VMInstance.swift in Sources */,
 				F4FFF2B828A3F3C6003B75F9 /* Sidebar.swift in Sources */,

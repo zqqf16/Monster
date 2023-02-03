@@ -20,15 +20,18 @@ struct SnapshotView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 } else {
-                    Rectangle()
-                        .fill(.secondary.opacity(0.1))
+                    ZStack(alignment: .center) {
+                        Rectangle()
+                            .fill(.secondary.opacity(0.1))
+                        Image(vm.config.icon)
+                    }
                 }
             }
+            .cornerRadius(8)
 
             buttons
                 .offset(y: -4)
         }
-        .cornerRadius(8)
         .aspectRatio(16 / 9, contentMode: .fit)
         .frame(height: 120)
     }
@@ -50,7 +53,6 @@ struct SnapshotView: View {
             previewButton
         }
         .padding(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
-        // .background(.gray.opacity(0.5))
         .cornerRadius(4)
     }
 
@@ -89,6 +91,7 @@ struct SnapshotView: View {
     private var previewButton: some View {
         createButton("display") {
             openWindow(value: vm.id)
+            NSApp.activate(ignoringOtherApps: true)
         }
     }
 }

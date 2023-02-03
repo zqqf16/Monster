@@ -13,7 +13,7 @@ struct SetupView: View {
     @EnvironmentObject private var store: Store
     @Environment(\.dismiss) private var dismiss
 
-    @State var linuxDictribution: OperatingSystem?
+    @State var linuxDistribution: OperatingSystem?
 
     @State var error: Error? = nil
 
@@ -64,10 +64,10 @@ struct SetupView: View {
                 withAnimation {
                     switch value {
                     case .macOS:
-                        linuxDictribution = config.os
+                        linuxDistribution = config.os
                         os.wrappedValue = .macOS
                     case .linux:
-                        os.wrappedValue = linuxDictribution ?? .linux
+                        os.wrappedValue = linuxDistribution ?? .linux
                     case .import:
                         openPanel()
                     case .none:

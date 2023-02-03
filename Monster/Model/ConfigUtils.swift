@@ -36,4 +36,17 @@ extension VirtualMachine.State {
         case .stopped, .stopping: return .systemGray
         }
     }
+    var name: String {
+        switch self {
+        case .error: return "Error"
+        case .stopped: return "Stopped"
+        case .running: return "Running"
+        case .paused: return "Paused"
+        case .starting: return "Starting"
+        case .pausing: return "Pausing"
+        case .resuming: return "Resuming"
+        case .stopping: return "Stopping"
+        case .installing: return "Installing"
+        }
+    }
 }
