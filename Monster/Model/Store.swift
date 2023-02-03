@@ -27,7 +27,7 @@ class Store: ObservableObject {
 
     private func loadVirtualMachines() {
         let fileManager = FileManager.default
-        let directory = AppSettings.vmDirectory
+        let directory = AppSettings.standard.vmDirectory
         let files = (try? fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
         let bundles = files.filter { $0.pathExtension == "vm" }
 

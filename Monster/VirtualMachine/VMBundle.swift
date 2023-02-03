@@ -33,7 +33,7 @@ struct VMBundle {
     }
 
     private static func directoryURL(with name: String) -> URL {
-        AppSettings.vmDirectory.appendingPathComponent(name).appendingPathExtension("vm")
+        AppSettings.standard.vmDirectory.appendingPathComponent(name).appendingPathExtension("vm")
     }
 
     static func generateBundleURL(for config: VMConfig) -> URL {

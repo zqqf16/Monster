@@ -7,9 +7,23 @@
 
 import AppKit
 import SwiftUI
+import Combine
+
+extension NSApplication: NSWindowDelegate {
+    func setDockIconHidden(_ isHidden: Bool) {
+        if !isHidden {
+            self.setActivationPolicy(.regular)
+            return
+        }
+
+        self.setActivationPolicy(.accessory)
+    }
+}
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem?
+    private var subscriptions = Set<AnyCancellable>()
+    private var timer: Timer?
 
     func applicationDidFinishLaunching(_: Notification) {
         // disable tabbing
@@ -22,6 +36,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // Do not active app during xcode previewing
             NSApp.activate(ignoringOtherApps: true)
         }
+        
+        NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon)
+        AppSettings.standard.settingsChangedSubject.filter {
+            $0 == \AppSettings.showDockIcon
+        }.sink {_ in
+            self.updateDockIconVisible()
+        }.store(in: &subscriptions)
+    }
+    
+    private func updateDockIconVisible() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
+            NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon)
+        })
     }
 
     private func createStatusItem() {
@@ -78,6 +106,11 @@ struct MonsterApp: App {
             CommandGroup(replacing: CommandGroupPlacement.newItem) {}
         }
         .windowToolbarStyle(.unifiedCompact)
+        
+        // Preference
+        Settings {
+            SettingsView()
+        }
     }
 
     private func open(url: URL) {

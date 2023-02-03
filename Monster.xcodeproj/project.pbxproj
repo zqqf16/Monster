@@ -32,6 +32,7 @@
 		F4DFF5DE28C98EAF00246E1F /* MacOSConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DFF5DD28C98EAF00246E1F /* MacOSConfigHelper.swift */; };
 		F4DFF5E028C991E800246E1F /* GenericConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */; };
 		F4E11D0228C4DF6200649826 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E11D0128C4DF6200649826 /* Settings.swift */; };
+		F4EA69F8298CBC1400FA2E96 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EA69F7298CBC1400FA2E96 /* SettingsView.swift */; };
 		F4EE4CF628D1941600A0003E /* ShareFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF528D1941600A0003E /* ShareFolderView.swift */; };
 		F4EE4CF828D1950100A0003E /* VMShareDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */; };
 		F4F2AF8F28C38DD500C3A5A3 /* VMBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */; };
@@ -97,6 +98,7 @@
 		F4DFF5DD28C98EAF00246E1F /* MacOSConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacOSConfigHelper.swift; sourceTree = "<group>"; };
 		F4DFF5DF28C991E800246E1F /* GenericConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericConfigHelper.swift; sourceTree = "<group>"; };
 		F4E11D0128C4DF6200649826 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		F4EA69F7298CBC1400FA2E96 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F4EE4CF528D1941600A0003E /* ShareFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareFolderView.swift; sourceTree = "<group>"; };
 		F4EE4CF728D1950100A0003E /* VMShareDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMShareDirectory.swift; sourceTree = "<group>"; };
 		F4F2AF8E28C38DD500C3A5A3 /* VMBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMBundle.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 		F4D5984028A9EDD100F9958B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F4EA69F6298CBC0400FA2E96 /* Settings */,
 				F435FFA428C20759006D5671 /* ConfigItems */,
 				F4FFF28728A38360003B75F9 /* ContentView.swift */,
 				F4FFF2B728A3F3C6003B75F9 /* Sidebar.swift */,
@@ -213,6 +216,14 @@
 				F4F577AF28CB6F0A0040E394 /* NSImage.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F4EA69F6298CBC0400FA2E96 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F4EA69F7298CBC1400FA2E96 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		F4FFF27928A38360003B75F9 = {
@@ -428,6 +439,7 @@
 				F4DE9EB628D074A300E8ED74 /* VMDisplay.swift in Sources */,
 				F4FFF28828A38360003B75F9 /* ContentView.swift in Sources */,
 				F4F577B028CB6F0A0040E394 /* NSImage.swift in Sources */,
+				F4EA69F8298CBC1400FA2E96 /* SettingsView.swift in Sources */,
 				F483FD3328C639E0004A997E /* ConfigUtils.swift in Sources */,
 				F435FFA328C1F909006D5671 /* Unit.swift in Sources */,
 				F4EE4CF828D1950100A0003E /* VMShareDirectory.swift in Sources */,

@@ -40,7 +40,7 @@ struct ContentView: View {
     @ViewBuilder var alert: some View {
         Button("Delete", role: .destructive) {
             if let selectedVM = store.selectedVM {
-                store.remove(virtualMachine: selectedVM, deleteFiles: AppSettings.deleteVMFiles)
+                store.remove(virtualMachine: selectedVM, deleteFiles: AppSettings.standard.deleteVMFiles)
             }
         }
         Button("Cancel", role: .cancel) {
