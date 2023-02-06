@@ -11,14 +11,14 @@ import Cocoa
 extension NSApplication {
     func closeMenuBarExtraWindow() {
         windows.forEach { window in
-            if window.isExcludedFromWindowsMenu {
+            if window.isMenuBarExtraWindow {
                 window.close()
             }
         }
     }
     
     func showMainWindow() {
-        self.closeMenuBarExtraWindow()
         NSWorkspace.shared.open(URL(string: "monster://main")!)
+        self.activate(ignoringOtherApps: true)
     }
 }
