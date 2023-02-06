@@ -27,7 +27,10 @@ struct VMPlayer: NSViewRepresentable {
             return
         }
         let origin = window.frame.origin
-        let size = CGSize(width: vm.config.display.width, height: vm.config.display.height)
+        var size = CGSize(width: vm.config.display.width, height: vm.config.display.height)
+        if let topMargin = window.contentView?.safeAreaInsets.top {
+            size.height += topMargin
+        }
         window.setFrame(CGRect(origin: origin, size: size), display: true, animate: false)
     }
 }
