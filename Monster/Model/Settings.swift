@@ -66,6 +66,8 @@ final class AppSettings {
 
     @UserDefault("showDockIcon")
     var showDockIcon = true
+    
+    var headlessMode = false
 }
 
 final class PublisherObservableObject: ObservableObject {

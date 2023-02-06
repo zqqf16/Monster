@@ -37,10 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if ProcessInfo.processInfo.arguments.contains(where: { param in
             param == "--headless"
         }) {
-            AppSettings.standard.showDockIcon = false
+            AppSettings.standard.headlessMode = true
         }
 
-        NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon)
+        NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon || AppSettings.standard.headlessMode)
         AppSettings.standard.settingsChangedSubject.filter {
             $0 == \AppSettings.showDockIcon
         }.sink { _ in
