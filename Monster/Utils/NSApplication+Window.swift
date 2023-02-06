@@ -16,9 +16,9 @@ extension NSApplication {
             }
         }
     }
-    
+
     func showMainWindow() {
         NSWorkspace.shared.open(URL(string: "monster://main")!)
-        self.activate(ignoringOtherApps: true)
+        activate(ignoringOtherApps: true)
     }
 }

@@ -6,17 +6,17 @@
 //
 
 import AppKit
-import SwiftUI
 import Combine
+import SwiftUI
 
 extension NSApplication: NSWindowDelegate {
     func setDockIconHidden(_ isHidden: Bool) {
         if !isHidden {
-            self.setActivationPolicy(.regular)
+            setActivationPolicy(.regular)
             return
         }
 
-        self.setActivationPolicy(.accessory)
+        setActivationPolicy(.accessory)
     }
 }
 
@@ -33,21 +33,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // Do not active app during Xcode previewing
             NSApp.activate(ignoringOtherApps: true)
         }
-        
+
         if ProcessInfo.processInfo.arguments.contains(where: { param in
             param == "--headless"
         }) {
             AppSettings.standard.showDockIcon = false
         }
-        
+
         NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon)
         AppSettings.standard.settingsChangedSubject.filter {
             $0 == \AppSettings.showDockIcon
-        }.sink {_ in
+        }.sink { _ in
             self.updateDockIconVisible()
         }.store(in: &subscriptions)
     }
-    
+
     private func updateDockIconVisible() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
@@ -90,12 +90,12 @@ struct MonsterApp: App {
             CommandGroup(replacing: CommandGroupPlacement.newItem) {}
         }
         .windowToolbarStyle(.unifiedCompact)
-        
+
         // Preference
         Settings {
             SettingsView()
         }
-        
+
         // Menu bar item
         MenuBarExtra("Monster", image: "StatusBarIcon") {
             MenuBar()

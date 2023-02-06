@@ -6,9 +6,9 @@
 //  Copyright © 2022 zqqf16. All rights reserved.
 //
 
+import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 /// https://www.avanderlee.com/swift/appstorage-explained/
 
@@ -21,12 +21,12 @@ struct UserDefault<Value> {
         get { fatalError("Wrapped value should not be used.") }
         set { fatalError("Wrapped value should not be used.") }
     }
-    
+
     init(wrappedValue: Value, _ key: String) {
-        self.defaultValue = wrappedValue
+        defaultValue = wrappedValue
         self.key = key
     }
-    
+
     public static subscript(
         _enclosingInstance instance: AppSettings,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<AppSettings, Value>,
@@ -48,23 +48,22 @@ struct UserDefault<Value> {
 }
 
 final class AppSettings {
-    
     static let standard = AppSettings(userDefaults: .standard)
     fileprivate let userDefaults: UserDefaults
-    
+
     /// Sends through the changed key path whenever a change occurs.
     var settingsChangedSubject = PassthroughSubject<AnyKeyPath, Never>()
-    
+
     init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
     }
-    
+
     @UserDefault("vmDirectory")
     var vmDirectory = FileManager.appSupportDirectory
 
     @UserDefault("deleteVMFiles")
     var deleteVMFiles = true
-    
+
     @UserDefault("showDockIcon")
     var showDockIcon = true
 }
@@ -80,11 +79,10 @@ final class PublisherObservableObject: ObservableObject {
 
 @propertyWrapper
 struct AppSetting<Value>: DynamicProperty {
-    
     @ObservedObject private var settingsObserver: PublisherObservableObject
     private let keyPath: ReferenceWritableKeyPath<AppSettings, Value>
     private let settings: AppSettings
-    
+
     init(_ keyPath: ReferenceWritableKeyPath<AppSettings, Value>, settings: AppSettings = .standard) {
         self.keyPath = keyPath
         self.settings = settings
@@ -94,7 +92,7 @@ struct AppSetting<Value>: DynamicProperty {
                 changedKeyPath == keyPath
             }.map { _ in () }
             .eraseToAnyPublisher()
-        self.settingsObserver = .init(publisher: publisher)
+        settingsObserver = .init(publisher: publisher)
     }
 
     var wrappedValue: Value {

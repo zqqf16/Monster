@@ -16,7 +16,7 @@ struct ConfigInfoView: View {
             Circle()
                 .fill(Color(nsColor: vm.state.color))
                 .frame(width: 8)
-            
+
             Spacer(minLength: 6)
 
             Text("\(vm.config.diskSize.gb)")
@@ -24,17 +24,17 @@ struct ConfigInfoView: View {
             Text("G DISK")
                 .foregroundColor(.primary.opacity(0.7))
                 .font(.subheadline)
-            
+
             Spacer(minLength: 4)
-            
+
             Text("\(vm.config.memorySize.mb)")
                 .font(.system(.body, design: .monospaced))
             Text("M MEM")
                 .foregroundColor(.primary.opacity(0.7))
                 .font(.subheadline)
-            
+
             Spacer(minLength: 4)
-            
+
             Text("\(vm.config.cpuCount.count)")
                 .font(.system(.body, design: .monospaced))
             Text("CPU")
@@ -45,11 +45,12 @@ struct ConfigInfoView: View {
 }
 
 struct MenuItem: View {
+    @EnvironmentObject private var store: Store
     @ObservedObject var vm: VirtualMachine
     @Environment(\.openWindow) private var openWindow
-    
+
     @State var isHovering = false
-    
+
     var body: some View {
         GroupBox {
             HStack(spacing: 8) {
@@ -57,7 +58,7 @@ struct MenuItem: View {
                     .frame(width: 48, height: 48)
                 descriptionView
                     .frame(maxWidth: .infinity, alignment: .leading)
-                previewButton
+                configButton
                     .frame(width: 36)
             }
         }
@@ -68,7 +69,7 @@ struct MenuItem: View {
         }
         .scaleEffect(isHovering ? 1.02 : 1.0)
     }
-    
+
     @ViewBuilder
     private var iconView: some View {
         ZStack(alignment: .center) {
@@ -83,7 +84,7 @@ struct MenuItem: View {
             }
         }.cornerRadius(4)
     }
-    
+
     @ViewBuilder
     private var descriptionView: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -92,15 +93,15 @@ struct MenuItem: View {
             ConfigInfoView(vm: vm)
         }
     }
-    
+
     @ViewBuilder
-    private var previewButton: some View {
+    private var configButton: some View {
         Button {
+            store.selectedVM = vm
             NSApp.closeMenuBarExtraWindow()
-            openWindow(value: vm.id)
-            NSApp.activate(ignoringOtherApps: true)
+            NSApp.showMainWindow()
         } label: {
-            Image(systemName: "display")
+            Image(systemName: "gear")
         }
         .buttonStyle(.plain)
     }
@@ -108,20 +109,23 @@ struct MenuItem: View {
 
 struct MenuBar: View {
     @EnvironmentObject private var store: Store
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         VStack {
             ForEach(store.vms) { vm in
                 MenuItem(vm: vm)
                     .onTapGesture {
-                        store.selectedVM = vm
-                        showMainWindow()
+                        NSApp.closeMenuBarExtraWindow()
+                        openWindow(value: vm.id)
+                        NSApp.activate(ignoringOtherApps: true)
                     }
                     .frame(maxWidth: .infinity)
             }
             Divider()
             Button {
-                showMainWindow()
+                NSApp.closeMenuBarExtraWindow()
+                NSApp.showMainWindow()
             } label: {
                 Text("Show window")
             }
@@ -129,11 +133,6 @@ struct MenuBar: View {
         }
         .fixedSize(horizontal: true, vertical: false)
         .padding(12)
-    }
-    
-    func showMainWindow() {
-        NSApp.closeMenuBarExtraWindow()
-        NSApp.showMainWindow()
     }
 }
 

@@ -36,6 +36,7 @@ extension VirtualMachine.State {
         case .stopped, .stopping: return .systemGray
         }
     }
+
     var name: String {
         switch self {
         case .error: return "Error"

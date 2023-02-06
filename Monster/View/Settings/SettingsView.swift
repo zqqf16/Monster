@@ -24,6 +24,7 @@ struct SettingsView: View {
     private enum Tabs: Hashable {
         case general, advanced
     }
+
     var body: some View {
         TabView {
             GeneralSettingsView()
