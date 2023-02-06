@@ -25,14 +25,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var subscriptions = Set<AnyCancellable>()
     private var timer: Timer?
 
-    func applicationDidFinishLaunching(_: Notification) {
-        // disable tabbing
+    func applicationWillFinishLaunching(_: Notification) {
         NSWindow.allowsAutomaticWindowTabbing = false
 
         let preview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"]
         if preview != "1" {
-            // Do not active app during xcode previewing
+            // Do not active app during Xcode previewing
             NSApp.activate(ignoringOtherApps: true)
+        }
+        
+        if ProcessInfo.processInfo.arguments.contains(where: { param in
+            param == "--headless"
+        }) {
+            AppSettings.standard.showDockIcon = false
         }
         
         NSApp.setDockIconHidden(!AppSettings.standard.showDockIcon)
