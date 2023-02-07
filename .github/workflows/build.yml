@@ -3,10 +3,7 @@
 
 name: Build
 
-on:
-  push:
-    tags:
-      - "*"
+on: push
 
 jobs:
   build:
@@ -48,8 +45,21 @@ jobs:
         xcrun notarytool submit ./build/Monster.dmg --keychain-profile "Notarization" --wait
         xcrun stapler staple ./build/Monster.dmg
         
+    - name: Upload DMG
+      uses: actions/upload-artifact@v3
+      with:
+        name: Monster.dmg
+        path: ./build/Monster.dmg
+  
+    - name: Upload dSYM
+      uses: actions/upload-artifact@v3
+      with:
+        name: Monster.app.dSYM.zip
+        path: ./build/Monster.app.dSYM.zip
+
     - name: Release
       uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           ./build/Monster.dmg
